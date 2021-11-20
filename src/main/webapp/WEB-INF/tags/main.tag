@@ -26,8 +26,6 @@
     <%--    <jsp:include page="../../views/partials/footer.jsp" />--%>
 </footer>
 
-<script src="${pageContext.request.contextPath}/public/bb/a.js"></script>
-
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"

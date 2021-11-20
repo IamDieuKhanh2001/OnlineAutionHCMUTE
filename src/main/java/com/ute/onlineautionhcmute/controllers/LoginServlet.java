@@ -7,22 +7,21 @@ import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
 
-@WebServlet(name = "HomeServlet", value = "/Home/*")
-public class HomeServlet extends HttpServlet {
+@WebServlet(name = "LoginServlet", value = "/LogIn/*")
+public class LoginServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String path = request.getPathInfo();
         if(path == null || path.equals("/")){
-            path = "/Index";
+            path = "/SignIn";
         }
         switch (path){
-            case "/Index":{
-                ServletUtils.forward("/views/vwHome/Index.jsp",request,response);
+            case "/SignIn":{
+                ServletUtils.forward("/views/vwLogin/SignIn.jsp",request,response);
                 break;
             }
-            case "/About":{
-//                List<Category> list =(List<Category>) request.getAttribute("categoriesWithDetails");
-                ServletUtils.forward("/views/vwHome/About.jsp",request,response);
+            case "/SignUp":{
+                ServletUtils.forward("/views/vwLogin/SignUp.jsp",request,response);
                 break;
             }
             default:{
