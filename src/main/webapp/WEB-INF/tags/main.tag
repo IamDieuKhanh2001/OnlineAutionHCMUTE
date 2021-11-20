@@ -21,6 +21,7 @@
             <jsp:doBody/>
         </div>
     </div>
+
 </div>
 <footer>
     <%--    <jsp:include page="../../views/partials/footer.jsp" />--%>

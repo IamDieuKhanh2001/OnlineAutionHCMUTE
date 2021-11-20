@@ -1,39 +1,31 @@
-<div class="card">
-    <h4 class="card-header">Categories</h4>
-    <div class="list-group">
 
-        <a href="#" class="list-group-item list-group-item-action dropdown-toggle" id="item1ID" data-toggle="dropdown"
-           aria-haspopup="true" aria-expanded="false">
-            item
-        </a>
+    <div class="card">
+        <h4 class="card-header bg-dark text-light">Categories</h4>
+        <div class="list-group">
 
-        <div class="dropdown-menu" aria-labelledby="item1ID">
-            <a class="dropdown-item" href="#">Action</a>
-            <a class="dropdown-item" href="#">Another action</a>
-            <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="#">Something else here</a>
-        </div>
-        <a href="#" class="list-group-item list-group-item-action dropdown-toggle" id="item2ID" data-toggle="dropdown"
-           aria-haspopup="true" aria-expanded="false">
-            item
-        </a>
-
-        <div class="dropdown-menu" aria-labelledby="item2ID">
-            <a class="dropdown-item" href="#">Action</a>
-            <a class="dropdown-item" href="#">Another action</a>
-            <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="#">Something else here</a>
-        </div>
-        <a href="#" class="list-group-item list-group-item-action dropdown-toggle" id="item3ID" data-toggle="dropdown"
-           aria-haspopup="true" aria-expanded="false">
-            item
-        </a>
-
-        <div class="dropdown-menu" aria-labelledby="item3ID">
-            <a class="dropdown-item" href="#">Action</a>
-            <a class="dropdown-item" href="#">Another action</a>
-            <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="#">Something else here</a>
+            <button class="btn btn-group text-light bg-secondary rounded-0 py-3" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true">
+                Collapsible 1
+            </button>
+            <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
+                <div class="card-body">
+                    Item 1
+                </div>
+            </div>
+            <button class="btn btn-group text-light bg-secondary rounded-0 py-3" data-toggle="collapse" data-target="#collapse2" aria-expanded="true">
+                Collapsible 1
+            </button>
+            <div id="collapse2" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
+                <div class="card-body">
+                    Item 1
+                </div>
+            </div>
+            <button class="btn btn-group text-light bg-secondary rounded-0 py-3" data-toggle="collapse" data-target="#collapse3" aria-expanded="true">
+                Collapsible 1
+            </button>
+            <div id="collapse3" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
+                <div class="card-body">
+                    Item 1
+                </div>
+            </div>
         </div>
     </div>
-</div>

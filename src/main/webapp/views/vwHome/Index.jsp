@@ -4,7 +4,7 @@
 <t:main>
     <jsp:body>
         <div class="card">
-            <h4 class="card-header">
+            <h4 class="card-header bg-dark text-light">
                 Index page
             </h4>
             <div class="card-body">
