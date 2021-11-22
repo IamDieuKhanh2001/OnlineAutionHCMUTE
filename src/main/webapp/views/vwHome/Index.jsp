@@ -8,8 +8,53 @@
                 Index page
             </h4>
             <div class="card-body">
-                <h4 class="card-title">Title</h4>
-                <p class="card-text">chữ việt</p>
+                <div class="row">
+                    <div class="col-sm-4">
+                        <div class="card h-100">
+                            <img class="card-img" src="${pageContext.request.contextPath}/public/img/Home/TopFiveImg.png" />
+                            <div class="card-body">
+                                <h4 class="card-title">Top 5 sản phẩm gần kết thúc</h4>
+                                <p class="card-text">Text</p>
+                            </div>
+                            <div class="card-footer text-muted">
+                                <a class="btn btn-outline-success" href="#" role="button">
+                                    <i class="fa fa-eye" aria-hidden="true"></i>
+                                    Xem ngay
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="card h-100">
+                            <img class="card-img" src="${pageContext.request.contextPath}/public/img/Home/TopFiveImg.png" />
+                            <div class="card-body">
+                                <h4 class="card-title">Top 5 sản phẩm có lượt ra giá nhiều nhất</h4>
+                                <p class="card-text">Text</p>
+                            </div>
+                            <div class="card-footer text-muted">
+                                <a class="btn btn-outline-success" href="#" role="button">
+                                    <i class="fa fa-eye" aria-hidden="true"></i>
+                                    Xem ngay
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="card h-100">
+                            <img class="card-img" src="${pageContext.request.contextPath}/public/img/Home/TopFiveImg.png" />
+                            <div class="card-body">
+                                <h4 class="card-title">Top 5 sản phẩm có giá cao nhất</h4>
+                                <p class="card-text">Text</p>
+                            </div>
+                            <div class="card-footer text-muted">
+                                <a class="btn btn-outline-success" href="#" role="button">
+                                    <i class="fa fa-eye" aria-hidden="true"></i>
+                                    Xem ngay
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </jsp:body>

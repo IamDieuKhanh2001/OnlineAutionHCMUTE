@@ -39,7 +39,7 @@
                             <label for="exampleInputPassword2">Re enter password</label>
                             <input type="password" class="form-control" id="exampleInputPassword2" placeholder="Re enter password">
                         </div>
-                        <a class="mb-1" href="${pageContext.request.contextPath}/LogIn/SignIn">Đã có tài khoản, đăng nhập</a>
+                        <a class="mb-1" href="${pageContext.request.contextPath}/Account/Login">Đã có tài khoản? đăng nhập</a>
                         <br>
                         <button type="submit" class="btn btn-success">Đăng kí tài khoản</button>
                         <a class="btn btn-primary" href="${pageContext.request.contextPath}/Home" role="button">

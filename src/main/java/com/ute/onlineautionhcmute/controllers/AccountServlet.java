@@ -7,21 +7,25 @@ import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
 
-@WebServlet(name = "LoginServlet", value = "/LogIn/*")
-public class LoginServlet extends HttpServlet {
+@WebServlet(name = "AccountServlet", value = "/Account/*")
+public class AccountServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String path = request.getPathInfo();
         if(path == null || path.equals("/")){
-            path = "/SignIn";
+            path = "/Login";
         }
         switch (path){
-            case "/SignIn":{
-                ServletUtils.forward("/views/vwLogin/SignIn.jsp",request,response);
+            case "/Login":{
+                ServletUtils.forward("/views/vwAccount/Login.jsp",request,response);
                 break;
             }
-            case "/SignUp":{
-                ServletUtils.forward("/views/vwLogin/SignUp.jsp",request,response);
+            case "/Register":{
+                ServletUtils.forward("/views/vwAccount/Register.jsp",request,response);
+                break;
+            }
+            case "/Profile":{
+
                 break;
             }
             default:{

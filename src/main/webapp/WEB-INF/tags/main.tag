@@ -9,10 +9,15 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
     <link rel="stylesheet" href="${pageContext.request.contextPath}/public/bb/a.css">
+    <style>
+        body{
+            overflow-y: scroll;
+        }
+    </style>
 </head>
 <body>
 <jsp:include page="../../views/partials/nav.jsp"/>
-<div class="container-fluid mt-5 mb-3">
+<div class="container-fluid mt-2 mb-3">
     <div class="row">
         <div class="col-sm-2">
             <jsp:include page="../../views/partials/left.jsp"/>
@@ -21,10 +26,9 @@
             <jsp:doBody/>
         </div>
     </div>
-
 </div>
 <footer>
-    <%--    <jsp:include page="../../views/partials/footer.jsp" />--%>
+<%--        <jsp:include page="../../views/partials/footer.jsp" />--%>
 </footer>
 
 

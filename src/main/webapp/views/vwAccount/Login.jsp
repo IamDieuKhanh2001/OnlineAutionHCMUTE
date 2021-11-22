@@ -35,7 +35,7 @@
                             <label for="exampleInputPassword1">Password</label>
                             <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
                         </div>
-                        <a class="" href="${pageContext.request.contextPath}/LogIn/SignUp">Đăng kí tài khoản</a>
+                        <a class="" href="${pageContext.request.contextPath}/Account/Register">Đăng kí tài khoản</a>
                         <br>
                         <button type="submit" class="btn btn-success">
                             Đăng nhập <i class="fa fa-check" aria-hidden="true"></i>

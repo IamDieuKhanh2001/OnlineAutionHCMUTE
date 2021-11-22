@@ -46,12 +46,9 @@
                     </span>
                 </button>
             </div>
-            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
         </form>
     </div>
 </nav>
-
 
 <!-- Modal -->
 <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
@@ -73,5 +70,32 @@
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
             </div>
         </div>
+    </div>
+</div>
+<%--search--%>
+<div class="container-fluid py-2 mt-2 bg-light">
+<%--    dropdown buttton sort --%>
+    <div class="sort d-flex justify-content-between">
+        <div class="dropdown">
+            <button class="btn btn-outline-secondary dropdown-toggle mr-2" type="button" id="sortTimeEnded" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Sort by time end
+            </button>
+            <div class="dropdown-menu" aria-labelledby="sortTimeEnded">
+                <a class="dropdown-item" href="#">Lower</a>
+                <a class="dropdown-item" href="#">Higher</a>
+            </div>
+        </div>
+        <div class="dropdown">
+            <button class="btn btn-outline-secondary dropdown-toggle mr-2" type="button" id="sortPrice" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Sort by price
+            </button>
+            <div class="dropdown-menu" aria-labelledby="sortPrice">
+                <a class="dropdown-item" href="#">Lower</a>
+                <a class="dropdown-item" href="#">Higher</a>
+            </div>
+        </div>
+<%--        search bar --%>
+        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
     </div>
 </div>
