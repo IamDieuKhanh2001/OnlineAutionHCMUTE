@@ -14,6 +14,7 @@
                 About page
             </h4>
             <div class="card-body">
+<%--                đổ data vào đây--%>
                 <h4 class="card-title">Title</h4>
             </div>
         </div>
