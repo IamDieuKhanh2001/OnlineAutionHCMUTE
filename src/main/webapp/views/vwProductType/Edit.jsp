@@ -12,6 +12,11 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 <jsp:useBean id="productType" scope="request" type="com.ute.onlineautionhcmute.beans.ProductType" />
+
+<%--Su dung attribute categories de hien thi select--%>
+<jsp:useBean id="categories" scope="request"
+             type="java.util.List<com.ute.onlineautionhcmute.beans.Category>"/>
+
 <t:main>
     <jsp:body>
         <form action="" method="post">
@@ -25,21 +30,20 @@
                         <input type="text" class="form-control" id="txtProductTypeID" name="id" readonly value="${productType.id}">
                     </div>
                     <div class="form-group">
-                        <label for="txtCatID">Category ID</label>
-                        <input type="text" class="form-control" id="txtCatID" name="category_id" value="${productType.category_id}">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <label class="input-group-text" for="inputGroupSelect_Cat_id">Category ID</label>
+                            </div>
+                            <select class="custom-select" id="inputGroupSelect_Cat_id" name="category_id">
+                                <option selected value="${productType.category_id}">
+                                    Category ID: ${productType.category_id}
+                                </option>
+                                <c:forEach items="${categories}" var="c">
+                                    <option value="${c.id}">Category ID: ${c.id} - ${c.name}</option>
+                                </c:forEach>
+                            </select>
+                        </div>
                     </div>
-<%--                    <div class="input-group">--%>
-<%--                        <div class="input-group-prepend">--%>
-<%--                            <label class="input-group-text" for="inputGroupSelect01">Category ID</label>--%>
-<%--                        </div>--%>
-<%--                        <select class="custom-select" id="inputGroupSelect01" name="category_id">--%>
-<%--                            <option value="${c.id}">Category ID: ${c.id} - ${c.name}</option>--%>
-<%--                            <c:forEach items="${categories}" var="c">--%>
-<%--                                <option value="${c.id}">Category ID: ${c.id} - ${c.name}</option>--%>
-<%--                            </c:forEach>--%>
-
-<%--                        </select>--%>
-<%--                    </div>--%>
                     <div class="form-group">
                         <label for="txtCatName">Tên danh mục con</label>
                         <input type="text" class="form-control" id="txtCatName" name="name" autofocus value="${productType.name}">
@@ -53,6 +57,7 @@
                         <label for="txtCatModifyTime">Modify time</label>
                         <input type="text" class="form-control" id="txtCatModifyTime" name="modified_time" readonly value="${productType.modified_time}">
                     </div>
+<%--                    Hien thi thoi gian chinh sua--%>
                     <p class="text-warning">Tạo lúc: ${productType.create_time}</p>
                     <p class="text-danger">Lần cuối chỉnh sửa: ${productType.modified_time}</p>
                 </div>

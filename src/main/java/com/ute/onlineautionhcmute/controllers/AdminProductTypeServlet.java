@@ -48,6 +48,9 @@ public class AdminProductTypeServlet extends HttpServlet {
 
                 if (c != null) {
                     request.setAttribute("productType", c);
+                    //Gửi list category ra cho select Add cat
+                    List<Category> list = CategoryModel.findAll();
+                    request.setAttribute("categories", list);
                     ServletUtils.forward("/views/vwProductType/Edit.jsp", request, response);
                 } else {
 //                    ServletUtils.redirect("/Admin/Category",request,response);
