@@ -9,6 +9,12 @@ public class ProductType {
     private Date create_time;
     private Date modified_time;
 
+    public ProductType(int id, String name, int category_id) {
+        this.id = id;
+        this.name = name;
+        this.category_id = category_id;
+    }
+
     public int getId() {
         return id;
     }
