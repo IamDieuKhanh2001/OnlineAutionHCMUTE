@@ -3,6 +3,7 @@ package com.ute.onlineautionhcmute.controllers;
 import com.ute.onlineautionhcmute.beans.Category;
 import com.ute.onlineautionhcmute.beans.ProductType;
 import com.ute.onlineautionhcmute.models.CategoryModel;
+import com.ute.onlineautionhcmute.models.ProductTypeModel;
 import com.ute.onlineautionhcmute.utils.ServletUtils;
 
 import javax.servlet.*;
@@ -26,7 +27,7 @@ public class HomeServlet extends HttpServlet {
                 List<Category> categories = CategoryModel.findAll();
                 Hashtable<String, List<ProductType>> listProductType = new Hashtable<String, List<ProductType>>();
                 categories.forEach((category) -> {
-                    List<ProductType> productTypes = CategoryModel.findProductTypeWithCategoryID(category.getId());
+                    List<ProductType> productTypes = ProductTypeModel.findProductTypeWithCategoryID(category.getId());
                     listProductType.put(String.valueOf(category.getId()), productTypes);
                 });
 

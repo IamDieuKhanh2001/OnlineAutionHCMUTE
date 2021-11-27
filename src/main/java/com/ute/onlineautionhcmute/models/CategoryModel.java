@@ -58,17 +58,4 @@ public class CategoryModel {
                     .executeUpdate();
         }
     }
-
-    public static List<ProductType> findProductTypeWithCategoryID(int categoryID)
-    {
-        final String query = "SELECT * FROM `product_type` WHERE `category_id` = :categoryID";
-        try (Connection connection = DbUtils.getConnection())
-        {
-            List<ProductType> list = connection.createQuery(query)
-                    .addParameter("categoryID", categoryID)
-                    .executeAndFetch(ProductType.class);
-
-            return list;
-        }
-    }
 }
