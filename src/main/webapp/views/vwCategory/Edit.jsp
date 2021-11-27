@@ -29,11 +29,11 @@
                         <input type="text" class="form-control" id="txtCatName" name="name" autofocus value="${category.name}">
                     </div>
                     <div class="form-group">
-                        <label for="txtCatCreatedTime">#</label>
+                        <label for="txtCatCreatedTime">Create time</label>
                         <input type="text" class="form-control" id="txtCatCreatedTime" name="create_time" readonly value="${category.create_time}">
                     </div>
                     <div class="form-group">
-                        <label for="txtCatModifyTime">#</label>
+                        <label for="txtCatModifyTime">Modify time</label>
                         <input type="text" class="form-control" id="txtCatModifyTime" name="modified_time" readonly value="${category.modified_time}">
                     </div>
                 </div>

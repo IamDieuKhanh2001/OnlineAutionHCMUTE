@@ -34,4 +34,15 @@ public class CategoryModel {
                     .executeUpdate();
         }
     }
+    public static void update(Category c) {
+        String sql = "UPDATE categories SET  name = :name, create_time = :createTime, modified_time = :modifiedTime WHERE id = :id";
+        try (Connection con = DbUtils.getConnection()) {
+            con.createQuery(sql)
+                    .addParameter("id", c.getId())
+                    .addParameter("name", c.getName())
+                    .addParameter("createTime", c.getCreate_time())
+                    .addParameter("modifiedTime", c.getModified_time())
+                    .executeUpdate();
+        }
+    }
 }

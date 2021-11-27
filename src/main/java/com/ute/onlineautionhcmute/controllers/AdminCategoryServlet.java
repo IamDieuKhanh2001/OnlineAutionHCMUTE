@@ -8,11 +8,9 @@ import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
-import java.lang.reflect.Type;
+
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.List;
 
@@ -94,15 +92,24 @@ public class AdminCategoryServlet extends HttpServlet {
     }
 
     private void updateCategory(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        //Chua xong
+//        Update thong tin category va dieu chinh modify time thanh thoi gian hien tai
         int id = Integer.parseInt(request.getParameter("id"));
         String name = request.getParameter("name");
         String createTime = request.getParameter("create_time");
         String modifyTime = request.getParameter("modified_time");
-
-
-//        Category c = new Category(id, name,createTime,modifyTime);
-//        CategoryModel.update(c);
+        Date createTimeParsed;
+        Date modifyTimeParsed;
+        Date dateCurrent = new Date();
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        try {
+            createTimeParsed = df.parse(createTime);
+            modifyTimeParsed = dateCurrent;
+        }catch (ParseException ex){
+            createTimeParsed = dateCurrent;
+            modifyTimeParsed = dateCurrent;
+        }
+        Category c = new Category(id, name,createTimeParsed,modifyTimeParsed);
+        CategoryModel.update(c);
         ServletUtils.redirect("/Admin/Category", request, response);
     }
 
