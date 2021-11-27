@@ -1,11 +1,15 @@
 package com.ute.onlineautionhcmute.controllers;
 
+import com.ute.onlineautionhcmute.beans.Category;
+import com.ute.onlineautionhcmute.models.CategoryModel;
 import com.ute.onlineautionhcmute.utils.ServletUtils;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
+
+import java.util.List;
 
 @WebServlet(name = "HomeServlet", value = "/Home/*")
 public class HomeServlet extends HttpServlet {
@@ -17,6 +21,8 @@ public class HomeServlet extends HttpServlet {
         }
         switch (path){
             case "/Index":{
+                List<Category> categories = CategoryModel.findAll();
+                request.setAttribute("categories", categories);
                 ServletUtils.forward("/views/vwHome/Index.jsp",request,response);
                 break;
             }
@@ -36,4 +42,6 @@ public class HomeServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
     }
+
+
 }
