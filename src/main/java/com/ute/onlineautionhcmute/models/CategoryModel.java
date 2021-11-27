@@ -14,4 +14,24 @@ public class CategoryModel {
             return connection.createQuery(query).executeAndFetch(Category.class);
         }
     }
+    public static Category findById(int id) {
+        final String query = "select * from categories where id = :id";
+        try (Connection con = DbUtils.getConnection()) {
+            List<Category> list = con.createQuery(query)
+                    .addParameter("id", id)
+                    .executeAndFetch(Category.class);
+            if (list.size() == 0) {
+                return null;
+            }
+            return list.get(0);
+        }
+    }
+    public static void delete(int id) {
+        String sql = "delete from categories where id = :id";
+        try (Connection con = DbUtils.getConnection()) {
+            con.createQuery(sql)
+                    .addParameter("id", id)
+                    .executeUpdate();
+        }
+    }
 }

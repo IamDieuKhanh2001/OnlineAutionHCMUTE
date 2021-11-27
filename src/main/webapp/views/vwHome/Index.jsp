@@ -2,6 +2,7 @@
 
 <%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
 
+
 <jsp:useBean id="categories" scope="request" type="java.util.List<com.ute.onlineautionhcmute.beans.Category>" />
 
 

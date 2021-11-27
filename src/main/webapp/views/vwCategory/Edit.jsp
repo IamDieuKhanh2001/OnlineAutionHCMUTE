@@ -11,7 +11,7 @@
 <%--De su dung JSTL, can mo ta--%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
-<%--<jsp:useBean id="category" scope="request" type="com.example.day10_javawebdemo3.beans.Category" />--%>
+<jsp:useBean id="category" scope="request" type="com.ute.onlineautionhcmute.beans.Category" />
 <t:main>
     <jsp:body>
         <form action="" method="post">
@@ -22,11 +22,19 @@
                 <div class="card-body">
                     <div class="form-group">
                         <label for="txtCatID">#</label>
-                        <input type="text" class="form-control" id="txtCatID" name="CatID" readonly value="">
+                        <input type="text" class="form-control" id="txtCatID" name="id" readonly value="${category.id}">
                     </div>
                     <div class="form-group">
                         <label for="txtCatName">Category name</label>
-                        <input type="text" class="form-control" id="txtCatName" name="CatName" autofocus value="">
+                        <input type="text" class="form-control" id="txtCatName" name="name" autofocus value="${category.name}">
+                    </div>
+                    <div class="form-group">
+                        <label for="txtCatCreatedTime">#</label>
+                        <input type="text" class="form-control" id="txtCatCreatedTime" name="create_time" readonly value="${category.create_time}">
+                    </div>
+                    <div class="form-group">
+                        <label for="txtCatModifyTime">#</label>
+                        <input type="text" class="form-control" id="txtCatModifyTime" name="modified_time" readonly value="${category.modified_time}">
                     </div>
                 </div>
                 <div class="card-footer">

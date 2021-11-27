@@ -1,5 +1,6 @@
 package com.ute.onlineautionhcmute.beans;
 import java.security.Timestamp;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 public class Category {
@@ -7,6 +8,16 @@ public class Category {
     private String name;
     private Date create_time;
     private Date modified_time;
+
+    public Category() {
+    }
+
+    public Category(int id, String name, Date create_time, Date modified_time) {
+        this.id = id;
+        this.name = name;
+        this.create_time = create_time;
+        this.modified_time = modified_time;
+    }
 
     public int getId() {
         return id;
