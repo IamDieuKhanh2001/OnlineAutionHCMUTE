@@ -6,7 +6,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
+<%@taglib prefix="t" tagdir="/WEB-INF/tags/" %>
 
 <%--De su dung JSTL, can mo ta--%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
@@ -21,7 +21,7 @@
                 <div class="card-body">
                     <div class="form-group">
                         <label for="txtCatName">Category</label>
-                        <input type="text" class="form-control" id="txtCatName" name="CatName" autofocus>
+                        <input type="text" class="form-control" id="txtCatName" name="name" autofocus>
                     </div>
                 </div>
                 <div class="card-footer">
