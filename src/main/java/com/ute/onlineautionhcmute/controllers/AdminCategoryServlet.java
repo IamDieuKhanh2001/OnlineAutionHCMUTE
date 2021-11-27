@@ -81,14 +81,11 @@ public class AdminCategoryServlet extends HttpServlet {
         }
     }
     private void addCategory(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-//        String name = request.getParameter("CatName");
-//        Category c = new Category(name);
-//        CategoryModel.add(c);
-//        ServletUtils.forward("/views/vwCategory/Add.jsp", request, response);
-
-//        SimpleDateFormat formatter= new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-//        Date date1 = new Date(System.currentTimeMillis());
-//        System.out.println(date1);
+        String name = request.getParameter("name");
+        Date dateCurrent = new Date();
+        Category c = new Category(-1,name,dateCurrent,dateCurrent);
+        CategoryModel.add(c);
+        ServletUtils.forward("/views/vwCategory/Add.jsp", request, response);
     }
 
     private void updateCategory(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

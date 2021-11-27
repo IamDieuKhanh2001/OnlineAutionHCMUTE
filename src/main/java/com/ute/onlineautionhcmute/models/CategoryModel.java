@@ -26,6 +26,16 @@ public class CategoryModel {
             return list.get(0);
         }
     }
+    public static void add(Category c) {
+        String insertSql = "INSERT INTO categories (name, create_time, modified_time) VALUES (:name,:createTime,:modifiedTime)";
+        try (Connection con = DbUtils.getConnection()) {
+            con.createQuery(insertSql)
+                    .addParameter("name", c.getName())
+                    .addParameter("createTime", c.getCreate_time())
+                    .addParameter("modifiedTime", c.getModified_time())
+                    .executeUpdate();
+        }
+    }
     public static void delete(int id) {
         String sql = "delete from categories where id = :id";
         try (Connection con = DbUtils.getConnection()) {

@@ -21,7 +21,7 @@
                 <div class="card-body">
                     <div class="form-group">
                         <label for="txtCatName">Category</label>
-                        <input type="text" class="form-control" id="txtCatName" name="CatName" autofocus>
+                        <input type="text" class="form-control" id="txtCatName" name="name" autofocus>
                     </div>
                 </div>
                 <div class="card-footer">
