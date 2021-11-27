@@ -18,6 +18,7 @@ public class AccountServlet extends HttpServlet {
         switch (path){
             case "/Login":{
                 ServletUtils.forward("/views/vwAccount/Login.jsp",request,response);
+                // test github
                 break;
             }
             case "/Register":{
@@ -25,7 +26,6 @@ public class AccountServlet extends HttpServlet {
                 break;
             }
             case "/Profile":{
-
                 break;
             }
             default:{
