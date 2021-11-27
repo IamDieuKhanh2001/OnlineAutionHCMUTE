@@ -15,6 +15,14 @@ public class ProductType {
         this.category_id = category_id;
     }
 
+    public ProductType(int id, String name, int category_id, Date create_time, Date modified_time) {
+        this.id = id;
+        this.name = name;
+        this.category_id = category_id;
+        this.create_time = create_time;
+        this.modified_time = modified_time;
+    }
+
     public int getId() {
         return id;
     }

@@ -5,6 +5,7 @@ import com.ute.onlineautionhcmute.beans.ProductType;
 import com.ute.onlineautionhcmute.utils.DbUtils;
 import org.sql2o.Connection;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -22,7 +23,18 @@ public class ProductTypeModel {
             return list;
         }
     }
-
+    public static ProductType findById(int id) {
+        final String query = "SELECT id, name, category_id, create_time, modified_time FROM product_type WHERE id = :id";
+        try (Connection con = DbUtils.getConnection()) {
+            List<ProductType> list = con.createQuery(query)
+                    .addParameter("id", id)
+                    .executeAndFetch(ProductType.class);
+            if (list.size() == 0) {
+                return null;
+            }
+            return list.get(0);
+        }
+    }
     public static List<ProductType> findAll()
     {
         final String query = "SELECT * FROM `product_type`";
@@ -52,13 +64,13 @@ public class ProductTypeModel {
     }
 
     public static void update(ProductType p) {
-        String sql = "UPDATE `product_type` SET  `name` = :name, `categoryID` = :categoryID, `modified_time` = :modifiedTime WHERE id = :id";
+        String sql = "UPDATE product_type SET  name = :name, category_id = :categoryId, modified_time = :modifiedTime WHERE id = :id";
         try (Connection con = DbUtils.getConnection()) {
             con.createQuery(sql)
                     .addParameter("id", p.getId())
-                    .addParameter("categoryID", p.getCategory_id())
                     .addParameter("name", p.getName())
-                    .addParameter("modifiedTime", new Date())
+                    .addParameter("categoryId", p.getCategory_id())
+                    .addParameter("modifiedTime", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()))
                     .executeUpdate();
         }
     }
