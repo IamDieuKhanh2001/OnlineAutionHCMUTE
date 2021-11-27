@@ -28,8 +28,20 @@
                         <label for="txtCatID">Category ID</label>
                         <input type="text" class="form-control" id="txtCatID" name="category_id" value="${productType.category_id}">
                     </div>
+<%--                    <div class="input-group">--%>
+<%--                        <div class="input-group-prepend">--%>
+<%--                            <label class="input-group-text" for="inputGroupSelect01">Category ID</label>--%>
+<%--                        </div>--%>
+<%--                        <select class="custom-select" id="inputGroupSelect01" name="category_id">--%>
+<%--                            <option value="${c.id}">Category ID: ${c.id} - ${c.name}</option>--%>
+<%--                            <c:forEach items="${categories}" var="c">--%>
+<%--                                <option value="${c.id}">Category ID: ${c.id} - ${c.name}</option>--%>
+<%--                            </c:forEach>--%>
+
+<%--                        </select>--%>
+<%--                    </div>--%>
                     <div class="form-group">
-                        <label for="txtCatName">Category name</label>
+                        <label for="txtCatName">Tên danh mục con</label>
                         <input type="text" class="form-control" id="txtCatName" name="name" autofocus value="${productType.name}">
                     </div>
 <%--                    An ngay tao va thoi gian chinh sua --%>
@@ -45,11 +57,11 @@
                     <p class="text-danger">Lần cuối chỉnh sửa: ${productType.modified_time}</p>
                 </div>
                 <div class="card-footer">
-                    <a class="btn btn-outline-primary" href="${pageContext.request.contextPath}/Admin/Category/" role="button">
+                    <a class="btn btn-outline-primary" href="${pageContext.request.contextPath}/Admin/Product/Type/" role="button">
                         <i class="fa fa-backward" aria-hidden="true"></i>
                         Back
                     </a>
-                    <button type="submit" class="btn btn-danger" formaction="${pageContext.request.contextPath}/Admin/Category/Delete">
+                    <button type="submit" class="btn btn-danger" formaction="${pageContext.request.contextPath}/Admin/Product/Type/Delete">
                         Delete <i class="fa fa-trash-o" aria-hidden="true"></i>
                     </button>
                     <button type="submit" class="btn btn-success" formaction="${pageContext.request.contextPath}/Admin/Product/Type/Update">

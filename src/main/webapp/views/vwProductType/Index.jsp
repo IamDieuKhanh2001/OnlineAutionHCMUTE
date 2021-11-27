@@ -16,8 +16,12 @@
 <t:main>
     <jsp:body>
         <div class="card">
-            <h4 class="card-header bg-dark text-light">
+            <h4 class="card-header bg-dark text-light d-flex justify-content-between">
                 Product type
+                <a class="btn btn-success" href="${pageContext.request.contextPath}/Admin/Product/Type/Add" role="button">
+                    Add Product Type
+                    <i class="fa fa-plus" aria-hidden="true"></i>
+                </a>
             </h4>
             <div class="card-body">
                     <%--                đổ data vào đây--%>

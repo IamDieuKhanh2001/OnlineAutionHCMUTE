@@ -93,7 +93,7 @@ public class AdminCategoryServlet extends HttpServlet {
         int id = Integer.parseInt(request.getParameter("id"));
         String name = request.getParameter("name");
         String createTime = request.getParameter("create_time");
-        String modifyTime = request.getParameter("modified_time");
+//        String modifyTime = request.getParameter("modified_time");
         Date createTimeParsed;
         Date modifyTimeParsed;
         Date dateCurrent = new Date();

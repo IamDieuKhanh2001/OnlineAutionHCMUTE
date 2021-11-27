@@ -1,6 +1,8 @@
 package com.ute.onlineautionhcmute.controllers;
 
+import com.ute.onlineautionhcmute.beans.Category;
 import com.ute.onlineautionhcmute.beans.ProductType;
+import com.ute.onlineautionhcmute.models.CategoryModel;
 import com.ute.onlineautionhcmute.models.ProductTypeModel;
 import com.ute.onlineautionhcmute.utils.ServletUtils;
 
@@ -29,7 +31,10 @@ public class AdminProductTypeServlet extends HttpServlet {
                 break;
             }
             case "/Add": {
-//                ServletUtils.forward("/views/vwCategory/Add.jsp", request, response);
+                //Gửi list category ra cho select Add cat
+                List<Category> list = CategoryModel.findAll();
+                request.setAttribute("categories", list);
+                ServletUtils.forward("/views/vwProductType/Add.jsp", request, response);
                 break;
             }
             case "/Edit": {
@@ -62,11 +67,11 @@ public class AdminProductTypeServlet extends HttpServlet {
         String path = request.getPathInfo();
         switch (path) {
             case "/Add": {
-                addCategory(request, response);
+                addProductType(request, response);
                 break;
             }
             case "/Delete": {
-                deleteCategory(request, response);
+                deleteProductType(request, response);
                 break;
             }
             case "/Update": {
@@ -79,12 +84,14 @@ public class AdminProductTypeServlet extends HttpServlet {
             }
         }
     }
-    private void addCategory(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-//        String name = request.getParameter("name");
-//        Date dateCurrent = new Date();
-//        Category c = new Category(-1,name,dateCurrent,dateCurrent);
-//        CategoryModel.add(c);
-//        ServletUtils.forward("/views/vwCategory/Add.jsp", request, response);
+
+    private void addProductType(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String name = request.getParameter("name");
+        int cat_id = Integer.parseInt(request.getParameter("category_id"));
+        Date dateCurrent = new Date();
+        ProductType c = new ProductType(-1,name,cat_id,dateCurrent,dateCurrent);
+        ProductTypeModel.add(c);
+        ServletUtils.redirect("/Admin/Product/Type/Add", request, response);
     }
 
     private void updateProductType(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -93,7 +100,6 @@ public class AdminProductTypeServlet extends HttpServlet {
         String name = request.getParameter("name");
         int cat_id = Integer.parseInt(request.getParameter("category_id"));
         String createTime = request.getParameter("create_time");
-        String modifyTime = request.getParameter("modified_time");
         Date createTimeParsed;
         Date modifyTimeParsed;
         Date dateCurrent = new Date();
@@ -101,18 +107,18 @@ public class AdminProductTypeServlet extends HttpServlet {
         try {
             createTimeParsed = df.parse(createTime);
             modifyTimeParsed = dateCurrent;
-        }catch (ParseException ex){
+        } catch (ParseException ex) {
             createTimeParsed = dateCurrent;
             modifyTimeParsed = dateCurrent;
         }
-        ProductType c = new ProductType(id,name,cat_id,createTimeParsed,modifyTimeParsed);
+        ProductType c = new ProductType(id, name, cat_id, createTimeParsed, modifyTimeParsed);
         ProductTypeModel.update(c);
         ServletUtils.redirect("/Admin/Product/Type/", request, response);
     }
 
-    private void deleteCategory(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-//        int id = Integer.parseInt(request.getParameter("id"));
-//        CategoryModel.delete(id);
-//        ServletUtils.redirect("/Admin/Category", request, response);
+    private void deleteProductType(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        int id = Integer.parseInt(request.getParameter("id"));
+        ProductTypeModel.delete(id);
+        ServletUtils.redirect("/Admin/Product/Type/", request, response);
     }
 }
