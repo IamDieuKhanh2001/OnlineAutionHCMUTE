@@ -19,42 +19,28 @@
                         <table class="table">
                             <thead>
                             <tr>
-                                <th scope="col">#</th>
-                                <th scope="col">Tên người dùng</th>
-                                <th scope="col">Tên đăng nhập</th>
-                                <th scope="col">địa chỉ</th>
-                                <th scope="col">Email</th>
-                                <th scope="col">SĐT</th>
-                                <th scope="col">Loại người dùng</th>
+                                <th>Tên người dùng</th>
+                                <th>Tên đăng nhập</th>
+                                <th>Loại người dùng</th>
+                                <th>Đồng ý</th>
+                                <th>Hủy bỏ</th>
                             </tr>
                             </thead>
                             <tbody>
                             <tr>
-                                <th scope="row">1</th>
                                 <td>Mark</td>
                                 <td>Otto</td>
-                                <td>@mdo</td>
-                                <td>Mark</td>
-                                <td>Otto</td>
-                                <td>@mdo</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">2</th>
-                                <td>Jacob</td>
-                                <td>Thornton</td>
-                                <td>@fat</td>
-                                <td>Mark</td>
-                                <td>Otto</td>
-                                <td>@mdo</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">3</th>
-                                <td>Larry</td>
-                                <td>the Bird</td>
-                                <td>@twitter</td>
-                                <td>Mark</td>
-                                <td>Otto</td>
-                                <td>@mdo</td>
+                                <td>1</td>
+                                <td>
+                                    <a class="btn btn-outline-primary" href="#" role="button">
+                                        <i class="fa fa-check" aria-hidden="true"></i>
+                                    </a>
+                                </td>
+                                <td>
+                                    <a class="btn btn-outline-danger" href="#" role="button">
+                                        <i class="fa fa-trash" aria-hidden="true"></i>
+                                    </a>
+                                </td>
                             </tr>
                             </tbody>
                         </table>
