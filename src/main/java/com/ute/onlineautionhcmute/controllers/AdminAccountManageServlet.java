@@ -1,8 +1,10 @@
 package com.ute.onlineautionhcmute.controllers;
 
 import at.favre.lib.crypto.bcrypt.BCrypt;
+import com.ute.onlineautionhcmute.beans.Category;
 import com.ute.onlineautionhcmute.beans.User;
 import com.ute.onlineautionhcmute.beans.UserType;
+import com.ute.onlineautionhcmute.models.CategoryModel;
 import com.ute.onlineautionhcmute.models.UserModel;
 import com.ute.onlineautionhcmute.models.UserTypeModel;
 import com.ute.onlineautionhcmute.utils.ServletUtils;
@@ -40,6 +42,21 @@ public class AdminAccountManageServlet extends HttpServlet {
             }
             case "/Upgrade":{
                 ServletUtils.forward("/views/vwAccount/AccountUpgrade.jsp",request,response);
+                break;
+            }
+            case "/Delete":{ //Nhan vao id user can xoa
+                int id = 0;
+                try {
+                    id = Integer.parseInt(request.getParameter("id"));
+                } catch (NumberFormatException e) {
+                }
+                User c = UserModel.findById(id);
+                if (c != null) {
+                    UserModel.delete(id);
+                    ServletUtils.redirect("/Admin/Account/Manage", request, response);
+                } else {
+                    ServletUtils.forward("/views/204.jsp", request, response);
+                }
                 break;
             }
             case "/IsAvailable": { //Kiem tra username tồn tại không

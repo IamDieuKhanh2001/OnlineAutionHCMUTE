@@ -40,24 +40,26 @@
                                 <th>Tên người dùng</th>
                                 <th>Tên đăng nhập</th>
                                 <th>Loại người dùng</th>
+                                <th>Email</th>
                                 <th>Xem thông tin</th>
                                 <th>Xóa</th>
                             </tr>
                             </thead>
-                                <%--                            Data usser--%>
+                                <%--Data usser--%>
                             <tbody>
                             <c:forEach items="${listUser}" var="c">
                             <tr>
                                 <td>${c.firstname} ${c.lastname}</td>
                                 <td>${c.username}</td>
                                 <td>${c.user_type_id}</td>
+                                <td>${c.email}</td>
                                 <td>
                                     <a class="btn btn-outline-secondary" href="#" role="button">
                                         <i class="fa fa-eye" aria-hidden="true"></i>
                                     </a>
                                 </td>
                                 <td>
-                                    <a class="btn btn-outline-danger" href="#" role="button">
+                                    <a class="btn btn-outline-danger" href="${pageContext.request.contextPath}/Admin/Account/Delete?id=${c.id}" role="button">
                                         <i class="fa fa-trash" aria-hidden="true"></i>
                                     </a>
                                 </td>

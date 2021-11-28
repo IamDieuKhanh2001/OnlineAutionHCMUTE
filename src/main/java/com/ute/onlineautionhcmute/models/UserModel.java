@@ -1,5 +1,6 @@
 package com.ute.onlineautionhcmute.models;
 
+import com.ute.onlineautionhcmute.beans.Category;
 import com.ute.onlineautionhcmute.beans.User;
 import com.ute.onlineautionhcmute.utils.DbUtils;
 import org.sql2o.Connection;
@@ -32,14 +33,15 @@ public class UserModel {
         }
     }
 
-    public static User findUserByID(int userID)
-    {
-        final String query = "SELECT * FROM `users` WHERE `id` = :userID";
-        try (Connection connection = DbUtils.getConnection())
-        {
-            List<User> list = connection.createQuery(query).executeAndFetch(User.class);
-            if(list.size() == 0)
+    public static User findById(int id) {
+        final String query = "select * from users where id = :id";
+        try (Connection con = DbUtils.getConnection()) {
+            List<User> list = con.createQuery(query)
+                    .addParameter("id", id)
+                    .executeAndFetch(User.class);
+            if (list.size() == 0) {
                 return null;
+            }
             return list.get(0);
         }
     }
@@ -91,11 +93,11 @@ public class UserModel {
     }
     public static void delete(int userID)
     {
-        final String query = "DELETE FROM `users` WHERE `id` = :userID";
+        final String query = "DELETE FROM users WHERE id = :id";
         try (Connection connection = DbUtils.getConnection())
         {
             connection.createQuery(query)
-                    .addParameter("userID", userID)
+                    .addParameter("id", userID)
                     .executeUpdate();
         }
     }
