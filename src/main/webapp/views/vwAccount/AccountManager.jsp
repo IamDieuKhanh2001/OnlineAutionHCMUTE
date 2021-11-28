@@ -39,8 +39,8 @@
                             <tr>
                                 <th>Tên người dùng</th>
                                 <th>Tên đăng nhập</th>
-                                <th >Loại người dùng</th>
-                                <th>Sửa</th>
+                                <th>Loại người dùng</th>
+                                <th>Xem thông tin</th>
                                 <th>Xóa</th>
                             </tr>
                             </thead>
@@ -52,8 +52,8 @@
                                 <td>${c.username}</td>
                                 <td>${c.user_type_id}</td>
                                 <td>
-                                    <a class="btn btn-outline-primary" href="#" role="button">
-                                        <i class="fa fa-pencil" aria-hidden="true"></i>
+                                    <a class="btn btn-outline-secondary" href="#" role="button">
+                                        <i class="fa fa-eye" aria-hidden="true"></i>
                                     </a>
                                 </td>
                                 <td>

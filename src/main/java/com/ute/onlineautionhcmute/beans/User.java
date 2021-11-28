@@ -47,6 +47,10 @@ public class User {
         this.user_type_id = user_type_id;
     }
 
+    public String getAvatar() {
+        return avatar;
+    }
+
     public int getId() {
         return id;
     }

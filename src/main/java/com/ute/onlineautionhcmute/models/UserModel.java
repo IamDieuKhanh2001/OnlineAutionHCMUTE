@@ -19,6 +19,18 @@ public class UserModel {
             return list;
         }
     }
+    public static User findByUsername(String username) {
+        final String query = "select * from users where username = :username";
+        try (Connection con = DbUtils.getConnection()) {
+            List<User> list = con.createQuery(query)
+                    .addParameter("username", username)
+                    .executeAndFetch(User.class);
+            if (list.size() == 0) {
+                return null;
+            }
+            return  list.get(0);
+        }
+    }
 
     public static User findUserByID(int userID)
     {
@@ -60,7 +72,23 @@ public class UserModel {
                     .executeUpdate();
         }
     }
-
+    public static void add(User c) {
+        String insertSql = "INSERT INTO users (username, password, firstname, lastname, birthdate, address, email, phone, user_type_id, avatar) VALUES (:username,:password,:firstname,:lastname,:birthdate,:address,:email,:phone,:userTypeId,:avatar)";
+        try (Connection con = DbUtils.getConnection()) {
+            con.createQuery(insertSql)
+                    .addParameter("username", c.getUsername())
+                    .addParameter("password", c.getPassword())
+                    .addParameter("firstname", c.getFirstname())
+                    .addParameter("lastname", c.getLastname())
+                    .addParameter("birthdate", c.getBirthdate())
+                    .addParameter("address", c.getAddress())
+                    .addParameter("email", c.getEmail())
+                    .addParameter("phone", c.getPhone())
+                    .addParameter("userTypeId", c.getUser_type_id())
+                    .addParameter("avatar", c.getAvatar())
+                    .executeUpdate();
+        }
+    }
     public static void delete(int userID)
     {
         final String query = "DELETE FROM `users` WHERE `id` = :userID";
