@@ -12,6 +12,9 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 <t:main>
+    <jsp:attribute name="admin_left_navigation">
+        <jsp:include page="../partials/AdminLeft.jsp"/>
+    </jsp:attribute>
     <jsp:body>
         <form action="" method="post">
             <div class="card">
@@ -19,31 +22,57 @@
                     Create new Account
                 </h4>
                 <div class="card-body">
+                    <h5>Thông tin tài khoản</h5>
                     <div class="form-group">
                         <label for="txtUsername">Username</label>
                         <input type="text" class="form-control" id="txtUsername" name="name" autofocus>
                     </div>
                     <div class="form-group">
                         <label for="txtPassword">Password</label>
-                        <input type="password" class="form-control" id="txtPassword" name="rawpwd" autofocus>
+                        <input type="password" class="form-control" id="txtPassword" name="rawpwd">
                     </div>
+                    <h5>Thông tin cá nhân</h5>
                     <div class="form-group">
                         <label for="txtFirstName">First name</label>
-                        <input type="text" class="form-control" id="txtFirstName" name="firstname" autofocus>
+                        <input type="text" class="form-control" id="txtFirstName" name="firstname">
                     </div>
                     <div class="form-group">
                         <label for="txtLastName">Last name</label>
-                        <input type="text" class="form-control" id="txtLastName" name="lastname" autofocus>
+                        <input type="text" class="form-control" id="txtLastName" name="lastname">
                     </div>
-                    <div class="input-group mb-3">
-                        <div class="input-group-prepend">
-                            <label class="input-group-text" for="inputGroupSelect01">Loại user</label>
-                        </div>
-                        <select class="custom-select" id="inputGroupSelect01" name="category_id">
-                            <option value="aa">Bidder</option>
-                            <option value="aa">Seller</option>
-                        </select>
+                    <div class="form-group">
+                        <label for="txtdob">Birthdate</label>
+                        <input type="text" class="form-control" id="txtdob" name="birthdate">
                     </div>
+                    <div class="form-group">
+                        <label for="txtAddress">Address</label>
+                        <input type="text" class="form-control" id="txtAddress" name="address">
+                    </div>
+                    <div class="form-group">
+                        <label for="txtEmail">Email</label>
+                        <input type="text" class="form-control" id="txtEmail" name="email">
+                    </div>
+                    <div class="form-group">
+                        <label for="txtPhone">Phone</label>
+                        <input type="text" class="form-control" id="txtPhone" name="phone">
+                    </div>
+                    <div class="form-group">
+                        <label for="txtUserType">User type id</label>
+                        <input type="text" class="form-control" id="txtUserType" name="user_type_id">
+                    </div>
+                    <div class="form-group">
+                        <label for="txtAvatar">Avatar</label>
+                        <input type="text" class="form-control" id="txtAvatar" name="avatar" readonly value="user.png">
+                    </div>
+<%--                    <div class="input-group mb-3">--%>
+<%--                        <div class="input-group-prepend">--%>
+<%--                            <label class="input-group-text" for="inputGroupSelect01">Loại user</label>--%>
+<%--                        </div>--%>
+<%--                        <select class="custom-select" id="inputGroupSelect01" name="">--%>
+<%--                            <option value="aa">Bidder</option>--%>
+<%--                            <option value="aa">Seller</option>--%>
+<%--                        </select>--%>
+<%--                    </div>--%>
                 </div>
                 <div class="card-footer">
                     <a class="btn btn-outline-primary" href="${pageContext.request.contextPath}/Admin/Account/" role="button">

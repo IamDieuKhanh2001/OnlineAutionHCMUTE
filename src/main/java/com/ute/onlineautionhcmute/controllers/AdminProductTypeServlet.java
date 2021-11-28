@@ -102,19 +102,7 @@ public class AdminProductTypeServlet extends HttpServlet {
         int id = Integer.parseInt(request.getParameter("id"));
         String name = request.getParameter("name");
         int cat_id = Integer.parseInt(request.getParameter("category_id"));
-        String createTime = request.getParameter("create_time");
-        Date createTimeParsed;
-        Date modifyTimeParsed;
-        Date dateCurrent = new Date();
-        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        try {
-            createTimeParsed = df.parse(createTime);
-            modifyTimeParsed = dateCurrent;
-        } catch (ParseException ex) {
-            createTimeParsed = dateCurrent;
-            modifyTimeParsed = dateCurrent;
-        }
-        ProductType c = new ProductType(id, name, cat_id, createTimeParsed, modifyTimeParsed);
+        ProductType c = new ProductType(id, name, cat_id);
         ProductTypeModel.update(c);
         ServletUtils.redirect("/Admin/Product/Type/", request, response);
     }

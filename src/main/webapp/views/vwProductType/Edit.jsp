@@ -48,15 +48,6 @@
                         <label for="txtCatName">Tên danh mục con</label>
                         <input type="text" class="form-control" id="txtCatName" name="name" autofocus value="${productType.name}">
                     </div>
-<%--                    An ngay tao va thoi gian chinh sua --%>
-                    <div class="form-group d-none">
-                        <label for="txtCatCreatedTime">Create time</label>
-                        <input type="text" class="form-control" id="txtCatCreatedTime" name="create_time" readonly value="${productType.create_time}">
-                    </div>
-                    <div class="form-group d-none">
-                        <label for="txtCatModifyTime">Modify time</label>
-                        <input type="text" class="form-control" id="txtCatModifyTime" name="modified_time" readonly value="${productType.modified_time}">
-                    </div>
 <%--                    Hien thi thoi gian chinh sua--%>
                     <p class="text-warning">Tạo lúc: ${productType.create_time}</p>
                     <p class="text-danger">Lần cuối chỉnh sửa: ${productType.modified_time}</p>

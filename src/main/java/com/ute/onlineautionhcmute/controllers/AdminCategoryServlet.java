@@ -93,19 +93,7 @@ public class AdminCategoryServlet extends HttpServlet {
         int id = Integer.parseInt(request.getParameter("id"));
         String name = request.getParameter("name");
         String createTime = request.getParameter("create_time");
-//        String modifyTime = request.getParameter("modified_time");
-        Date createTimeParsed;
-        Date modifyTimeParsed;
-        Date dateCurrent = new Date();
-        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        try {
-            createTimeParsed = df.parse(createTime);
-            modifyTimeParsed = dateCurrent;
-        }catch (ParseException ex){
-            createTimeParsed = dateCurrent;
-            modifyTimeParsed = dateCurrent;
-        }
-        Category c = new Category(id, name,createTimeParsed,modifyTimeParsed);
+        Category c = new Category(id, name);
         CategoryModel.update(c);
         ServletUtils.redirect("/Admin/Category", request, response);
     }
