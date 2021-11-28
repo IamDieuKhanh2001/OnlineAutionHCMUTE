@@ -8,10 +8,17 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
 <t:main>
+    <jsp:attribute name="admin_left_navigation">
+        <jsp:include page="../partials/AdminLeft.jsp"/>
+    </jsp:attribute>
     <jsp:body>
         <div class="card">
             <h4 class="card-header">
                 Account manager
+                <a class="btn btn-success" href="${pageContext.request.contextPath}/Admin/Category/Add" role="button">
+                    Add account
+                    <i class="fa fa-plus" aria-hidden="true"></i>
+                </a>
             </h4>
             <div class="card-body">
                     <%--                đổ data vào đây--%>

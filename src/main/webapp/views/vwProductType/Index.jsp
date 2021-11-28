@@ -14,11 +14,15 @@
 <jsp:useBean id="productTypeList" scope="request"
              type="java.util.List<com.ute.onlineautionhcmute.beans.ProductType>"/>
 <t:main>
+    <jsp:attribute name="admin_left_navigation">
+        <jsp:include page="../partials/AdminLeft.jsp"/>
+    </jsp:attribute>
     <jsp:body>
         <div class="card">
             <h4 class="card-header bg-dark text-light d-flex justify-content-between">
                 Product type
-                <a class="btn btn-success" href="${pageContext.request.contextPath}/Admin/Product/Type/Add" role="button">
+                <a class="btn btn-success" href="${pageContext.request.contextPath}/Admin/Product/Type/Add"
+                   role="button">
                     Add Product Type
                     <i class="fa fa-plus" aria-hidden="true"></i>
                 </a>

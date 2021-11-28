@@ -12,6 +12,9 @@
 <%--             type="java.util.List<com.example.day10_javawebdemo3.beans.Product>"/>--%>
 
 <t:main>
+    <jsp:attribute name="admin_left_navigation">
+        <jsp:include page="../partials/AdminLeft.jsp"/>
+    </jsp:attribute>
     <jsp:body>
         <div class="card">
             <h4 class="card-header d-flex justify-content-between">

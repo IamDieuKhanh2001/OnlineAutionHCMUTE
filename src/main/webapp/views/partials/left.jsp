@@ -2,7 +2,6 @@
     <div class="card">
         <h4 class="card-header bg-dark text-light">Categories</h4>
         <div class="list-group">
-
             <a type="button" class="btn btn-group text-light bg-secondary rounded-0 border border-dark py-3" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true">
                 Cate 1
             </a>

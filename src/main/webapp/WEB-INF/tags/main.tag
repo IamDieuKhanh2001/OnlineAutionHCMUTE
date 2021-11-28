@@ -1,4 +1,9 @@
 <%@ tag pageEncoding="utf-8" %>
+<%--Ki thuật tạo fragment, tạo 2 lỗ đưa css js vào tag--%>
+<%@ attribute name="css" fragment="true" required="false" %>
+<%@ attribute name="js" fragment="true" required="false" %>
+<%--lỗ chứa giao diện của riêng admin view--%>
+<%@ attribute name="admin_left_navigation" fragment="true" required="false" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -14,12 +19,14 @@
             overflow-y: scroll;
         }
     </style>
+    <jsp:invoke fragment="css"/>
 </head>
 <body>
 <jsp:include page="../../views/partials/nav.jsp"/>
 <div class="container-fluid mt-2 mb-3">
     <div class="row">
         <div class="col-sm-2">
+            <jsp:invoke fragment="admin_left_navigation"/>
             <jsp:include page="../../views/partials/left.jsp"/>
         </div>
         <div class="col-sm-10">
@@ -39,5 +46,6 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
         integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
         crossorigin="anonymous"></script>
+<jsp:invoke fragment="js"/>
 </body>
 </html>

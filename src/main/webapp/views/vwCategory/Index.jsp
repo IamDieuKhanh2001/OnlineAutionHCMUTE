@@ -14,7 +14,12 @@
 <%--Nhan view model tu controler tra ve r ta hien thi ra view (JSP EL)--%>
 <jsp:useBean id="categories" scope="request"
              type="java.util.List<com.ute.onlineautionhcmute.beans.Category>"/>
+
 <t:main>
+    <jsp:attribute name="admin_left_navigation">
+        <jsp:include page="../partials/AdminLeft.jsp" />
+    </jsp:attribute>
+
     <jsp:body>
         <div class="card">
             <h4 class="card-header bg-dark text-light d-flex justify-content-between">
