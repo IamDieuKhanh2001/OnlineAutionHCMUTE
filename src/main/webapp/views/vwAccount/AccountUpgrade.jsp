@@ -8,6 +8,9 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
 <t:main>
+    <jsp:attribute name="admin_left_navigation">
+        <jsp:include page="../partials/AdminLeft.jsp" />
+    </jsp:attribute>
     <jsp:body>
         <div class="card">
             <h4 class="card-header">
@@ -32,7 +35,7 @@
                                 <td>Otto</td>
                                 <td>1</td>
                                 <td>
-                                    <a class="btn btn-outline-primary" href="#" role="button">
+                                    <a class="btn btn-outline-success" href="#" role="button">
                                         <i class="fa fa-check" aria-hidden="true"></i>
                                     </a>
                                 </td>

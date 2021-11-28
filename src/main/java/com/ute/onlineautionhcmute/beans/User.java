@@ -15,6 +15,7 @@ public class User {
     private int user_type_id;
     private Date create_time;
     private Date modified_time;
+    private String avatar = "avata.png";
 
     public User()
     {
