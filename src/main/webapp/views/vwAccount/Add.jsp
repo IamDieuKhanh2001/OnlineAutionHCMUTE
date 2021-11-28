@@ -15,8 +15,22 @@
     <jsp:attribute name="admin_left_navigation">
         <jsp:include page="../partials/AdminLeft.jsp"/>
     </jsp:attribute>
+    <jsp:attribute name="css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.css">
+    </jsp:attribute>
+    <jsp:attribute name="js">
+<%--        Sử dụng date time picker cho ô birthdate --%>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js"></script>
+
+        $('#txtdob').datetimepicker({
+                format: 'd/m/Y',
+                timepicker:false,
+                mask:true
+        });
+
+    </jsp:attribute>
     <jsp:body>
-        <form action="" method="post">
+        <form action="" method="post" id="frmRegister">
             <div class="card">
                 <h4 class="card-header">
                     Create new Account
@@ -80,7 +94,7 @@
                         Back
                     </a>
                     <button type="submit" class="btn btn-success">
-                        Save <i class="fa fa-check" aria-hidden="true"></i>
+                        Tạo tài khoản <i class="fa fa-check" aria-hidden="true"></i>
                     </button>
                 </div>
             </div>
