@@ -23,10 +23,18 @@
                         <label for="txtUsername">Username</label>
                         <input type="text" class="form-control" id="txtUsername" name="name" autofocus>
                     </div>
-<%--                    <div class="form-group">--%>
-<%--                        <label for="txt">Password</label>--%>
-<%--                        <input type="text" class="form-control" id="txtUsername" name="name" autofocus>--%>
-<%--                    </div>--%>
+                    <div class="form-group">
+                        <label for="txtPassword">Password</label>
+                        <input type="password" class="form-control" id="txtPassword" name="rawpwd" autofocus>
+                    </div>
+                    <div class="form-group">
+                        <label for="txtFirstName">First name</label>
+                        <input type="text" class="form-control" id="txtFirstName" name="firstname" autofocus>
+                    </div>
+                    <div class="form-group">
+                        <label for="txtLastName">Last name</label>
+                        <input type="text" class="form-control" id="txtLastName" name="lastname" autofocus>
+                    </div>
                     <div class="input-group mb-3">
                         <div class="input-group-prepend">
                             <label class="input-group-text" for="inputGroupSelect01">Loại user</label>
