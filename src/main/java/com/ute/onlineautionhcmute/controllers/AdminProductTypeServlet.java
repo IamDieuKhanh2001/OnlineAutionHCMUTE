@@ -12,6 +12,7 @@ import javax.servlet.annotation.*;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -23,14 +24,32 @@ public class AdminProductTypeServlet extends HttpServlet {
         if (path == null || path.equals("/")) {
             path = "/Index";
         }
+
+        // Phan get du lieu partials left
+        List<Category> categories = CategoryModel.findAll();
+        List<ProductType> listProductType = new ArrayList<ProductType>();
+        categories.forEach((category -> {
+            List<ProductType> list = ProductTypeModel.findProductTypeWithCategoryID(category.getId());
+            list.forEach((productType -> {
+                listProductType.add(productType);
+            }));
+            listProductType.add(null);
+        }));
+        request.setAttribute("categories", categories);
+        request.setAttribute("listProductType", listProductType);
+        // End phan get du lieu partials left
+
         switch (path) {
             case "/Index": {
+
+
                 List<ProductType> list = ProductTypeModel.findAll();          //Cach day viewModel ra view su dung set attribute
                 request.setAttribute("productTypeList", list);             //Cho phep day du lieu bat ki ra view, khi ben ngoai view nos la 1 attribute
                 ServletUtils.forward("/views/vwProductType/Index.jsp", request, response);
                 break;
             }
             case "/Add": {
+
                 //Gửi list category ra cho select Add cat
                 List<Category> list = CategoryModel.findAll();
                 request.setAttribute("categories", list);
@@ -38,6 +57,8 @@ public class AdminProductTypeServlet extends HttpServlet {
                 break;
             }
             case "/Edit": {
+
+
                 int id = 0;
                 try {
                     id = Integer.parseInt(request.getParameter("id"));
@@ -68,6 +89,21 @@ public class AdminProductTypeServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String path = request.getPathInfo();
+
+        // Phan get du lieu partials left
+        List<Category> categories = CategoryModel.findAll();
+        List<ProductType> listProductType = new ArrayList<ProductType>();
+        categories.forEach((category -> {
+            List<ProductType> list = ProductTypeModel.findProductTypeWithCategoryID(category.getId());
+            list.forEach((productType -> {
+                listProductType.add(productType);
+            }));
+            listProductType.add(null);
+        }));
+        request.setAttribute("categories", categories);
+        request.setAttribute("listProductType", listProductType);
+        // End phan get du lieu partials left
+
         switch (path) {
             case "/Add": {
                 addProductType(request, response);

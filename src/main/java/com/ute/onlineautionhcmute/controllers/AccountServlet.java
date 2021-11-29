@@ -1,5 +1,6 @@
 package com.ute.onlineautionhcmute.controllers;
 
+import com.ute.onlineautionhcmute.beans.ProductType;
 import com.ute.onlineautionhcmute.utils.ServletUtils;
 
 import javax.servlet.*;
@@ -38,5 +39,10 @@ public class AccountServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
+    }
+
+    public static  void abc ()
+    {
+        ProductType productType = new ProductType(1, "", 2);
     }
 }

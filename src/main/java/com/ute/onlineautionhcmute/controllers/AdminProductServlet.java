@@ -1,11 +1,17 @@
 package com.ute.onlineautionhcmute.controllers;
 
+import com.ute.onlineautionhcmute.beans.Category;
+import com.ute.onlineautionhcmute.beans.ProductType;
+import com.ute.onlineautionhcmute.models.CategoryModel;
+import com.ute.onlineautionhcmute.models.ProductTypeModel;
 import com.ute.onlineautionhcmute.utils.ServletUtils;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 @WebServlet(name = "AdminProductServlet", value = "/Admin/Product/*")
 public class AdminProductServlet extends HttpServlet {
@@ -15,8 +21,26 @@ public class AdminProductServlet extends HttpServlet {
         if (path == null || path.equals("/")) {
             path = "/Index";
         }
+
+        // Phan get du lieu partials left
+        List<Category> categories = CategoryModel.findAll();
+        List<ProductType> listProductType = new ArrayList<ProductType>();
+        categories.forEach((category -> {
+            List<ProductType> list = ProductTypeModel.findProductTypeWithCategoryID(category.getId());
+            list.forEach((productType -> {
+                listProductType.add(productType);
+            }));
+            listProductType.add(null);
+        }));
+        request.setAttribute("categories", categories);
+        request.setAttribute("listProductType", listProductType);
+        // End phan get du lieu partials left
+
         switch (path) {
             case "/Index": {
+
+
+
 //                List<Product> list = ProductModel.findAll();          //Cach day viewModel ra view su dung set attribute
 //                request.setAttribute("products", list);             //Cho phep day du lieu bat ki ra view, khi ben ngoai view nos la 1 attribute
                 ServletUtils.forward("/views/vwProduct/Index.jsp", request, response);

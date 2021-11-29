@@ -1,5 +1,5 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <a class="navbar-brand" href="#">
+    <a class="navbar-brand" href="${pageContext.request.contextPath}/Home/Index">
         <i class="fa fa-home" aria-hidden="true"></i>
         Home
     </a>
@@ -11,7 +11,7 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item active">
-                <a class="nav-link" href="#">About</a>
+                <a class="nav-link" href="${pageContext.request.contextPath}/Home/About">About</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="#">Link</a>

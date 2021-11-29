@@ -11,8 +11,7 @@ import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
 
-import java.util.Hashtable;
-import java.util.List;
+import java.util.*;
 
 @WebServlet(name = "HomeServlet", value = "/Home/*")
 public class HomeServlet extends HttpServlet {
@@ -22,23 +21,27 @@ public class HomeServlet extends HttpServlet {
         if(path == null || path.equals("/")){
             path = "/Index";
         }
+
+        // Phan get du lieu partials left
+        List<Category> categories = CategoryModel.findAll();
+        List<ProductType> listProductType = new ArrayList<ProductType>();
+        categories.forEach((category -> {
+            List<ProductType> list = ProductTypeModel.findProductTypeWithCategoryID(category.getId());
+            list.forEach((productType -> {
+                listProductType.add(productType);
+            }));
+            listProductType.add(null);
+        }));
+        request.setAttribute("categories", categories);
+        request.setAttribute("listProductType", listProductType);
+        // End phan get du lieu partials left
+
         switch (path){
             case "/Index":{
-                List<Category> categories = CategoryModel.findAll();
-                Hashtable<String, List<ProductType>> listProductType = new Hashtable<String, List<ProductType>>();
-                categories.forEach((category) -> {
-                    List<ProductType> productTypes = ProductTypeModel.findProductTypeWithCategoryID(category.getId());
-                    listProductType.put(String.valueOf(category.getId()), productTypes);
-                });
-
-                request.setAttribute("categories", categories);
-                request.setAttribute("listProductType", listProductType);
-
                 ServletUtils.forward("/views/vwHome/Index.jsp",request,response);
                 break;
             }
             case "/About":{
-//                List<Category> list =(List<Category>) request.getAttribute("categoriesWithDetails");
                 ServletUtils.forward("/views/vwHome/About.jsp",request,response);
                 break;
             }
@@ -51,7 +54,6 @@ public class HomeServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
     }
 
 

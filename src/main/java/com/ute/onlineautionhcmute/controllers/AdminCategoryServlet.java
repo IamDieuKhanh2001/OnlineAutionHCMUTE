@@ -1,7 +1,9 @@
 package com.ute.onlineautionhcmute.controllers;
 
 import com.ute.onlineautionhcmute.beans.Category;
+import com.ute.onlineautionhcmute.beans.ProductType;
 import com.ute.onlineautionhcmute.models.CategoryModel;
+import com.ute.onlineautionhcmute.models.ProductTypeModel;
 import com.ute.onlineautionhcmute.utils.ServletUtils;
 
 import javax.servlet.*;
@@ -11,6 +13,7 @@ import java.io.IOException;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -22,14 +25,31 @@ public class AdminCategoryServlet extends HttpServlet {
         if (path == null || path.equals("/")) {
             path = "/Index";
         }
+
+        // Phan get du lieu partials left
+        List<Category> categories = CategoryModel.findAll();
+        List<ProductType> listProductType = new ArrayList<ProductType>();
+        categories.forEach((category -> {
+            List<ProductType> list = ProductTypeModel.findProductTypeWithCategoryID(category.getId());
+            list.forEach((productType -> {
+                listProductType.add(productType);
+            }));
+            listProductType.add(null);
+        }));
+        request.setAttribute("categories", categories);
+        request.setAttribute("listProductType", listProductType);
+        // End phan get du lieu partials left
+
         switch (path) {
             case "/Index": {
+
                 List<Category> list = CategoryModel.findAll();          //Cach day viewModel ra view su dung set attribute
                 request.setAttribute("categories", list);             //Cho phep day du lieu bat ki ra view, khi ben ngoai view nos la 1 attribute
                 ServletUtils.forward("/views/vwCategory/Index.jsp", request, response);
                 break;
             }
             case "/Add": {
+
                 ServletUtils.forward("/views/vwCategory/Add.jsp", request, response);
                 break;
             }
@@ -61,6 +81,22 @@ public class AdminCategoryServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String path = request.getPathInfo();
+
+
+        // Phan get du lieu partials left
+        List<Category> categories = CategoryModel.findAll();
+        List<ProductType> listProductType = new ArrayList<ProductType>();
+        categories.forEach((category -> {
+            List<ProductType> list = ProductTypeModel.findProductTypeWithCategoryID(category.getId());
+            list.forEach((productType -> {
+                listProductType.add(productType);
+            }));
+            listProductType.add(null);
+        }));
+        request.setAttribute("categories", categories);
+        request.setAttribute("listProductType", listProductType);
+        // End phan get du lieu partials left
+
         switch (path) {
             case "/Add": {
                 addCategory(request, response);
