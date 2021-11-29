@@ -34,7 +34,7 @@
         </ul>
         <form class="form-inline my-2 my-lg-0">
             <div class="d-flex justify-content-between">
-                <a class="btn btn-outline-success mr-3" href="#" role="button">
+                <a class="btn btn-outline-success mr-3" href="${pageContext.request.contextPath}/Account/Login" role="button">
                     <i class="fa fa-sign-in" aria-hidden="true"></i>
                     Sign in
                 </a>

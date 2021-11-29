@@ -18,7 +18,7 @@ public class AccountServlet extends HttpServlet {
         }
         switch (path){
             case "/Login":{
-                ServletUtils.forward("/views/vwAccount/Login.jsp",request,response);
+                ServletUtils.forward("/views/vwAccount/Login2.jsp",request,response);
                 // test github
                 break;
             }

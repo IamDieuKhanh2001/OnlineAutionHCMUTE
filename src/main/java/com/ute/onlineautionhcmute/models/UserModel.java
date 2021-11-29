@@ -5,6 +5,7 @@ import com.ute.onlineautionhcmute.beans.User;
 import com.ute.onlineautionhcmute.utils.DbUtils;
 import org.sql2o.Connection;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -58,7 +59,7 @@ public class UserModel {
                     .addParameter("address", user.getAddress())
                     .addParameter("email", user.getEmail())
                     .addParameter("phone", user.getPhone())
-                    .addParameter("modifiedTime", new Date())
+                    .addParameter("modifiedTime", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()))
                     .executeUpdate();
         }
     }
