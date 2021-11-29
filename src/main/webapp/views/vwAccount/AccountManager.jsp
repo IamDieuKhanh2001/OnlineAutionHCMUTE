@@ -54,7 +54,7 @@
                                 <td>${c.user_type_id}</td>
                                 <td>${c.email}</td>
                                 <td>
-                                    <a class="btn btn-outline-secondary" href="#" role="button">
+                                    <a class="btn btn-outline-secondary" href="${pageContext.request.contextPath}/Admin/Account/Profile?id=${c.id}" role="button">
                                         <i class="fa fa-eye" aria-hidden="true"></i>
                                     </a>
                                 </td>

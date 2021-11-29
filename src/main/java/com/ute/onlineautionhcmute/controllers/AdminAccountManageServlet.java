@@ -58,6 +58,22 @@ public class AdminAccountManageServlet extends HttpServlet {
                 ServletUtils.forward("/views/vwAccount/Add.jsp",request,response);
                 break;
             }
+            case "/Profile":{
+                int id = 0;
+                try {
+                    id = Integer.parseInt(request.getParameter("id"));
+                } catch (NumberFormatException e) {
+                }
+                User c = UserModel.findById(id);
+                if (c != null) {
+                    User userFinded = UserModel.findById(id);
+                    request.setAttribute("user", userFinded);
+                    ServletUtils.forward("/views/vwAccount/AccountProfileReadOnly.jsp",request,response);
+                } else {
+                    ServletUtils.forward("/views/204.jsp", request, response);
+                }
+                break;
+            }
             case "/Upgrade":{
                 ServletUtils.forward("/views/vwAccount/AccountUpgrade.jsp",request,response);
                 break;
