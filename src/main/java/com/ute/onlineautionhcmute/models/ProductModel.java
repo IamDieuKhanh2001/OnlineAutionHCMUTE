@@ -12,7 +12,7 @@ import java.util.List;
 public class ProductModel {
     public static List<Product> findAll()
     {
-        final String query = "SELECT * FROM `products`";
+        final String query = "select * from products";
         try (Connection connection = DbUtils.getConnection())
         {
             List<Product> list = connection.createQuery(query)

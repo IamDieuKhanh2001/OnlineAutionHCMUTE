@@ -1,9 +1,13 @@
 package com.ute.onlineautionhcmute.controllers;
 
 import com.ute.onlineautionhcmute.beans.Category;
+import com.ute.onlineautionhcmute.beans.Product;
 import com.ute.onlineautionhcmute.beans.ProductType;
+import com.ute.onlineautionhcmute.beans.User;
 import com.ute.onlineautionhcmute.models.CategoryModel;
+import com.ute.onlineautionhcmute.models.ProductModel;
 import com.ute.onlineautionhcmute.models.ProductTypeModel;
+import com.ute.onlineautionhcmute.models.UserModel;
 import com.ute.onlineautionhcmute.utils.ServletUtils;
 
 import javax.servlet.*;
@@ -38,33 +42,15 @@ public class AdminProductServlet extends HttpServlet {
 
         switch (path) {
             case "/Index": {
-
-
-
-//                List<Product> list = ProductModel.findAll();          //Cach day viewModel ra view su dung set attribute
-//                request.setAttribute("products", list);             //Cho phep day du lieu bat ki ra view, khi ben ngoai view nos la 1 attribute
+                List<Product> list = ProductModel.findAll();
+                List<User> userList = UserModel.findAll();
+               request.setAttribute("products", list);
+                request.setAttribute("userList", userList);
                 ServletUtils.forward("/views/vwProduct/Index.jsp", request, response);
                 break;
             }
             case "/Add": {
 //                ServletUtils.forward("/views/vwProduct/Add.jsp", request, response);
-                break;
-            }
-            case "/Edit": {
-//                int id = 0;
-//                try {
-//                    id = Integer.parseInt(request.getParameter("id"));
-//                } catch (NumberFormatException e) {
-//
-//                }
-//                Product c = ProductModel.findById(id);
-//                if (c != null) {
-//                    request.setAttribute("product", c);
-//                    ServletUtils.forward("/views/vwProduct/Edit.jsp", request, response);
-//                } else {
-////                    ServletUtils.redirect("/Admin/Category",request,response);
-//                    ServletUtils.forward("/views/204.jsp", request, response);
-//                }
                 break;
             }
             default: {
@@ -76,7 +62,22 @@ public class AdminProductServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-//        String path = request.getPathInfo();
+        String path = request.getPathInfo();
+
+        // Phan get du lieu partials left
+        List<Category> categories = CategoryModel.findAll();
+        List<ProductType> listProductType = new ArrayList<ProductType>();
+        categories.forEach((category -> {
+            List<ProductType> list = ProductTypeModel.findProductTypeWithCategoryID(category.getId());
+            list.forEach((productType -> {
+                listProductType.add(productType);
+            }));
+            listProductType.add(null);
+        }));
+        request.setAttribute("categories", categories);
+        request.setAttribute("listProductType", listProductType);
+        // End phan get du lieu partials left
+
 //        switch (path) {
 //            case "/Add": {
 //                addProduct(request, response);

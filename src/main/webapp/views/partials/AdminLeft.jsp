@@ -22,12 +22,12 @@
                 User Account
             </a>
             <%--       account user upgrade adjust--%>
-            <a href="${pageContext.request.contextPath}/Admin/Account/Upgrade" type="button" class="btn btn-outline-secondary rounded-0 py-3">
+            <a href="${pageContext.request.contextPath}/Admin/Account/Upgrade" type="button" class="text-danger btn btn-outline-secondary rounded-0 py-3">
                 <i class="fa fa-pencil" aria-hidden="true"></i>
                 Account Upgrade Request
             </a>
             <%--       product adjust--%>
-            <a href="#" type="button" class="btn btn-outline-secondary rounded-0 py-3">
+            <a href="${pageContext.request.contextPath}/Admin/Product/Index" type="button" class="btn btn-outline-secondary rounded-0 py-3">
                 <i class="fa fa-pencil" aria-hidden="true"></i>
                 Product remove
             </a>
