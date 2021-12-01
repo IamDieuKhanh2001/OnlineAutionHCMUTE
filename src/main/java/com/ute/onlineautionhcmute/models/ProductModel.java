@@ -1,5 +1,6 @@
 package com.ute.onlineautionhcmute.models;
 
+import com.ute.onlineautionhcmute.beans.Category;
 import com.ute.onlineautionhcmute.beans.Product;
 import com.ute.onlineautionhcmute.utils.DbUtils;
 import org.sql2o.Connection;
@@ -18,6 +19,18 @@ public class ProductModel {
             List<Product> list = connection.createQuery(query)
                     .executeAndFetch(Product.class);
             return list;
+        }
+    }
+    public static Product findById(int id) {
+        final String query = "select * from products where id = :id";
+        try (Connection con = DbUtils.getConnection()) {
+            List<Product> list = con.createQuery(query)
+                    .addParameter("id", id)
+                    .executeAndFetch(Product.class);
+            if (list.size() == 0) {
+                return null;
+            }
+            return list.get(0);
         }
     }
     public static List<Product> findAllProductByProductTypeID(int productTypeID)

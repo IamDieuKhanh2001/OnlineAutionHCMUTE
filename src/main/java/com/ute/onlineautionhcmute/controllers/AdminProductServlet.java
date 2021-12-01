@@ -49,8 +49,19 @@ public class AdminProductServlet extends HttpServlet {
                 ServletUtils.forward("/views/vwProduct/Index.jsp", request, response);
                 break;
             }
-            case "/Add": {
-//                ServletUtils.forward("/views/vwProduct/Add.jsp", request, response);
+            case "/Delete":{ //Nhan vao id product can xoa
+                int id = 0;
+                try {
+                    id = Integer.parseInt(request.getParameter("id"));
+                } catch (NumberFormatException e) {
+                }
+                Product c = ProductModel.findById(id);
+                if (c != null) {
+                    ProductModel.delete(id);
+                    ServletUtils.redirect("/Admin/Product/Index", request, response);
+                } else {
+                    ServletUtils.forward("/views/204.jsp", request, response);
+                }
                 break;
             }
             default: {
