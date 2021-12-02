@@ -1,5 +1,6 @@
 package com.ute.onlineautionhcmute.models;
 
+import com.ute.onlineautionhcmute.beans.Product;
 import com.ute.onlineautionhcmute.beans.UserType;
 import com.ute.onlineautionhcmute.utils.DbUtils;
 import org.sql2o.Connection;

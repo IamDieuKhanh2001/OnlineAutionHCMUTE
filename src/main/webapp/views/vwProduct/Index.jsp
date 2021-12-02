@@ -17,8 +17,8 @@
     </jsp:attribute>
     <jsp:body>
         <div class="card">
-            <h4 class="card-header d-flex justify-content-between">
-                Product (Admin)
+            <h4 class="card-header d-flex justify-content-between bg-dark text-light">
+                Product remove
             </h4>
             <div class="card-body">
                 <c:choose>

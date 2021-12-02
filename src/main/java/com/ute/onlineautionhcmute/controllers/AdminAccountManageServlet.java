@@ -27,7 +27,7 @@ public class AdminAccountManageServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String path = request.getPathInfo();
-        if(path == null || path.equals("/")){
+        if (path == null || path.equals("/")) {
             path = "/Manage";
         }
 
@@ -45,20 +45,43 @@ public class AdminAccountManageServlet extends HttpServlet {
         request.setAttribute("listProductType", listProductType);
         // End phan get du lieu partials left
 
-        switch (path){
-            case "/Manage":{
+        switch (path) {
+            case "/Manage": {
                 List<User> list = UserModel.findAll();          //Cach day viewModel ra view su dung set attribute
                 request.setAttribute("listUser", list);
-                ServletUtils.forward("/views/vwAccount/AccountManager.jsp",request,response);
+                List<UserType> userType = UserTypeModel.findAll();        //dua list user type ra cho select su dung
+                request.setAttribute("userType", userType);
+                ServletUtils.forward("/views/vwAccount/AccountManager.jsp", request, response);
                 break;
             }
-            case "/Add":{
+            case "/Add": {
                 List<UserType> list = UserTypeModel.findAll();        //dua list user type ra cho select su dung
                 request.setAttribute("listUserType", list);
-                ServletUtils.forward("/views/vwAccount/Add.jsp",request,response);
+                ServletUtils.forward("/views/vwAccount/Add.jsp", request, response);
                 break;
             }
-            case "/Profile":{
+//            servlet sort user
+            case "/Find": { //Nhan vao perrmission id để sort, nếu truyền 0 xuất tất cả
+                int permissionID = 0;
+                try {
+                    permissionID = Integer.parseInt(request.getParameter("permissionID"));
+                } catch (NumberFormatException e) {
+                }
+//                Tìm theo permissionID
+                if(permissionID <= 3 && permissionID >= 1){                                 //ID perrmission từ 1 đến 3 xuất list đã tìm đc từ model
+                    List<User> listUserFinded = UserModel.findByPermissionID(permissionID);// list user da tim dc tu perrmission id
+                    request.setAttribute("listUser", listUserFinded);
+                    List<UserType> userType = UserTypeModel.findAll();                    //dua list user type ra cho select su dung
+                    request.setAttribute("userType", userType);
+                    ServletUtils.forward("/views/vwAccount/AccountManager.jsp", request, response);
+                }else if(permissionID == 0){                                            //id per = 0: ng dùng chọn Tất cả hoặc tự chỉnh trên url
+                    ServletUtils.redirect("/Admin/Account/Manage", request, response);
+                } else {                                                               //Các TH khác ng dùng chỉnh trên url parram
+                    ServletUtils.forward("/views/204.jsp", request, response);
+                }
+                break;
+            }
+            case "/Profile": {
                 int id = 0;
                 try {
                     id = Integer.parseInt(request.getParameter("id"));
@@ -68,17 +91,17 @@ public class AdminAccountManageServlet extends HttpServlet {
                 if (c != null) {
                     User userFinded = UserModel.findById(id);
                     request.setAttribute("user", userFinded);
-                    ServletUtils.forward("/views/vwAccount/AccountProfileReadOnly.jsp",request,response);
+                    ServletUtils.forward("/views/vwAccount/AccountProfileReadOnly.jsp", request, response);
                 } else {
                     ServletUtils.forward("/views/204.jsp", request, response);
                 }
                 break;
             }
-            case "/Upgrade":{
-                ServletUtils.forward("/views/vwAccount/AccountUpgrade.jsp",request,response);
+            case "/Upgrade": {
+                ServletUtils.forward("/views/vwAccount/AccountUpgrade.jsp", request, response);
                 break;
             }
-            case "/Delete":{ //Nhan vao id user can xoa
+            case "/Delete": { //Nhan vao id user can xoa
                 int id = 0;
                 try {
                     id = Integer.parseInt(request.getParameter("id"));
@@ -109,8 +132,8 @@ public class AdminAccountManageServlet extends HttpServlet {
                 break;
             }
 
-            default:{
-                ServletUtils.forward("/views/404.jsp",request,response);
+            default: {
+                ServletUtils.forward("/views/404.jsp", request, response);
                 break;
             }
         }
@@ -146,6 +169,7 @@ public class AdminAccountManageServlet extends HttpServlet {
             }
         }
     }
+
     private void addUser(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String username = request.getParameter("username");
 
@@ -160,14 +184,14 @@ public class AdminAccountManageServlet extends HttpServlet {
         int user_type_id = Integer.parseInt(request.getParameter("user_type_id"));
         Date birthDateParsed;
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-        try{
+        try {
             birthDateParsed = df.parse(birthDate);
-        }catch (ParseException ex){
+        } catch (ParseException ex) {
             birthDateParsed = new Date();
         }
 
         User c = new User(-1, username, bcryptHashPassword, firstname, lastname
-        , birthDateParsed, address, email,phone, user_type_id);
+                , birthDateParsed, address, email, phone, user_type_id);
         UserModel.add(c);
         ServletUtils.redirect("/Admin/Account/Manage", request, response);
 

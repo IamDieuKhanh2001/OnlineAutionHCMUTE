@@ -21,6 +21,17 @@ public class UserModel {
             return list;
         }
     }
+    public static List<User> findByPermissionID(int perrmissionID)
+    {
+        final String query = "SELECT * FROM `users` where user_type_id = :perrmissionID";
+        try (Connection connection = DbUtils.getConnection())
+        {
+            List<User> list = connection.createQuery(query)
+                    .addParameter("perrmissionID", perrmissionID)
+                    .executeAndFetch(User.class);
+            return list;
+        }
+    }
     public static User findByUsername(String username) {
         final String query = "select * from users where username = :username";
         try (Connection con = DbUtils.getConnection()) {
