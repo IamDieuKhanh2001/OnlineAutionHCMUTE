@@ -64,6 +64,25 @@ public class AdminProductServlet extends HttpServlet {
                 }
                 break;
             }
+            case "/Detail":{ //Nhan vao id product can xoa
+                int id = 0;
+                try {
+                    id = Integer.parseInt(request.getParameter("id"));
+                } catch (NumberFormatException e) {
+                }
+                Product c = ProductModel.findById(id);
+                if (c != null) {
+                    request.setAttribute("product", c);//San pham id can tim
+                    User sellerInfo = UserModel.findById(c.getUser_id()); //Attribute hien thi ten username ng ban ra view
+                    request.setAttribute("sellerInfo", sellerInfo);
+                    ProductType proType = ProductTypeModel.findById(c.getProduct_type_id()); //Attribute hien thi ten product type ra view
+                    request.setAttribute("proType", proType);
+                    ServletUtils.forward("/views/vwProduct/ProductDetailReadOnly.jsp", request, response);
+                } else {
+                    ServletUtils.forward("/views/204.jsp", request, response);
+                }
+                break;
+            }
             default: {
                 ServletUtils.forward("/views/404.jsp", request, response);
                 break;

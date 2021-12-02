@@ -37,6 +37,8 @@
                                     <th class="text-right">Price start</th>
                                     <th class="text-right">Price current</th>
                                     <th class="text-right">Seller</th>
+                                    <th class="text-right">Chi tiết</th>
+                                    <th class="text-right">Gỡ bỏ</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -62,10 +64,15 @@
                                                     </c:when>
                                                 </c:choose>
                                             </c:forEach>
-<%--                                                ${c.user_id}--%>
+                                        <td class="text-right">
+                                            <a class="btn btn-outline-success"
+                                               href="${pageContext.request.contextPath}/Admin/Product/Detail?id=${c.id}"
+                                               role="button">
+                                                <i class="fa fa-eye" aria-hidden="true"></i>
+                                            </a>
+                                        </td>
                                         <td class="text-right">
                                             <a class="btn btn-danger"
-                                               Delete
                                                href="${pageContext.request.contextPath}/Admin/Product/Delete?id=${c.id}"
                                                role="button">
                                                 <i class="fa fa-trash" aria-hidden="true"></i>
