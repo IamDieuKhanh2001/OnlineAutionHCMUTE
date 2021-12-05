@@ -13,6 +13,7 @@ public class User {
     private String email;
     private String phone;
     private int user_type_id;
+    private String status;
     private Date create_time;
     private Date modified_time;
     private String avatar = "avata.png";
@@ -79,6 +80,10 @@ public class User {
         return address;
     }
 
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
     public String getEmail() {
         return email;
     }
@@ -89,6 +94,10 @@ public class User {
 
     public int getUser_type_id() {
         return user_type_id;
+    }
+
+    public String getStatus() {
+        return status;
     }
 
     public void setId(int id) {
