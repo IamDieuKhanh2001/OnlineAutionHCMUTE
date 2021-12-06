@@ -20,6 +20,7 @@
     </style>
 </head>
 <body>
+
 <div class="container-fluid h-100">
     <div class="row h-100 align-items-center">
         <div class="col-sm-12">
@@ -27,18 +28,18 @@
                 <h4 class="card-header">Đăng kí</h4>
                 <div class="card-body">
                     <%--                đổ data vào đây--%>
-                    <form>
+                    <form action="" method="post" id="frmRegister">
                         <div class="form-group">
-                            <label for="exampleInputEmail1">Email address</label>
-                            <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
+                            <label for="txtUsername">Username</label>
+                            <input type="text" class="form-control" id="txtUsername" name="username" placeholder="Enter username" autofocus>
                         </div>
                         <div class="form-group">
-                            <label for="exampleInputPassword1">Password</label>
-                            <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+                            <label for="txtPassword">Password</label>
+                            <input type="password" class="form-control" id="txtPassword" name="rawpwd" placeholder="Password">
                         </div>
                         <div class="form-group">
-                            <label for="exampleInputPassword2">Re enter password</label>
-                            <input type="password" class="form-control" id="exampleInputPassword2" placeholder="Re enter password">
+                            <label for="txtPassword2">Re enter password</label>
+                            <input type="password" class="form-control" id="txtPassword2" placeholder="Re enter password">
                         </div>
                         <a class="mb-1" href="${pageContext.request.contextPath}/Account/Login">Đã có tài khoản? đăng nhập</a>
                         <br>
@@ -54,6 +55,17 @@
     </div>
 </div>
 
+<script>
+    $('#frmRegister').on('submit',function(e){
+        e.preventDefault();
+        const username = $('#txtUsername').val();
+        if (username.length === 0){
+            alert('Tên tài khoản không hợp lệ');
+            return;
+        }
+        $('#frmRegister').off('submit').submit()
+        });
+</script>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
