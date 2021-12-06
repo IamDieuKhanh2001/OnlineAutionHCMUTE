@@ -30,11 +30,12 @@
                 toolbar: [
                     'undo redo | bold italic underline strikethrough | numlist bullist | alignleft aligncenter alignright | forecolor backcolor'
                 ],
+                entity_encoding: 'raw',
             });
         </script>
     </jsp:attribute>
     <jsp:body>
-        <form action="" method="post" id="frmAddProduct">
+        <form action="" method="post" id="frmAddProduct" accept-charset="UTF-8">
             <div class="card">
                 <h4 class="card-header">
                     <i class="fa fa-list" aria-hidden="true"></i>
@@ -44,10 +45,11 @@
                     <h5>Thông tin sản phẩm</h5>
                     <div class="form-group">
                         <label for="txtname">Tên sản phẩm</label>
-                        <input type="text" class="form-control" id="txtname" placeholder="Tên sản phẩm" name="name" autofocus>
+                        <input type="text" class="form-control" id="txtname" name="name" autofocus>
                     </div>
                     <div class="form-group">
-                            <textarea id="description" placeholder="Mô tả sản phẩm" name="description"></textarea>
+                            <label for="description">Mô tả</label>
+                            <textarea id="description" name="description"></textarea>
                     </div>
                     <div class="form-group">
                         <label for="txtProductTypeID">Loại sản phẩm</label>
