@@ -34,10 +34,6 @@
         </ul>
         <form class="form-inline my-2 my-lg-0">
             <div class="d-flex justify-content-between">
-                <a class="btn btn-outline-success mr-3" href="${pageContext.request.contextPath}/Account/Login" role="button">
-                    <i class="fa fa-sign-in" aria-hidden="true"></i>
-                    Sign in
-                </a>
                 <button type="button" class="btn btn-outline-warning mr-3" data-toggle="modal" data-target="#exampleModalCenter">
                     <i class="fa fa-bell" aria-hidden="true"></i>
                     Notifications
@@ -45,6 +41,14 @@
                     99+
                     </span>
                 </button>
+                <a class="btn btn-outline-success mr-3" href="${pageContext.request.contextPath}/Account/Login" role="button">
+                    <i class="fa fa-sign-in" aria-hidden="true"></i>
+                    Sign in
+                </a>
+                <a class="btn btn-outline-success mr-3" href="${pageContext.request.contextPath}/Account/Login" role="button">
+                    <i class="fa fa-registered" aria-hidden="true"></i>
+                    Register
+                </a>
             </div>
         </form>
     </div>

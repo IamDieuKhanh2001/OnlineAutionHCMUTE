@@ -2,6 +2,7 @@ package com.ute.onlineautionhcmute.models;
 
 import com.ute.onlineautionhcmute.beans.Category;
 import com.ute.onlineautionhcmute.beans.Product;
+import com.ute.onlineautionhcmute.beans.User;
 import com.ute.onlineautionhcmute.utils.DbUtils;
 import org.sql2o.Connection;
 
@@ -33,9 +34,10 @@ public class ProductModel {
             return list.get(0);
         }
     }
+
     public static List<Product> findAllProductByProductTypeID(int productTypeID)
     {
-        final String query = "SELECT * FROM `products` WHERE `product_type_id` = productTypeID";
+        final String query = "SELECT * FROM `products` WHERE `product_type_id` = :productTypeID";
         try (Connection connection = DbUtils.getConnection())
         {
             List<Product> list = connection.createQuery(query)

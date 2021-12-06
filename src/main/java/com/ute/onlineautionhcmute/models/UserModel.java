@@ -87,7 +87,7 @@ public class UserModel {
         }
     }
     public static void add(User c) {
-        String insertSql = "INSERT INTO users (username, password, firstname, lastname, birthdate, address, email, phone, user_type_id, avatar) VALUES (:username,:password,:firstname,:lastname,:birthdate,:address,:email,:phone,:userTypeId,:avatar)";
+        String insertSql = "INSERT INTO users (username, password, firstname, lastname, birthdate, address, email, phone, user_type_id) VALUES (:username,:password,:firstname,:lastname,:birthdate,:address,:email,:phone,:userTypeId)";
         try (Connection con = DbUtils.getConnection()) {
             con.createQuery(insertSql)
                     .addParameter("username", c.getUsername())
@@ -99,7 +99,6 @@ public class UserModel {
                     .addParameter("email", c.getEmail())
                     .addParameter("phone", c.getPhone())
                     .addParameter("userTypeId", c.getUser_type_id())
-                    .addParameter("avatar", c.getAvatar())
                     .executeUpdate();
         }
     }
