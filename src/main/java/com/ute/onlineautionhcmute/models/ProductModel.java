@@ -46,7 +46,17 @@ public class ProductModel {
             return list;
         }
     }
-
+    public static List<Product> findByUserID(int userID)
+    {
+        final String query = "SELECT * FROM `products` WHERE `user_id` = :userID";
+        try (Connection connection = DbUtils.getConnection())
+        {
+            List<Product> list = connection.createQuery(query)
+                    .addParameter("userID", userID)
+                    .executeAndFetch(Product.class);
+            return list;
+        }
+    }
     public static Product findProductByID(int productID)
     {
         final String query = "SELECT * FROM `products` WHERE `id` = :productID";

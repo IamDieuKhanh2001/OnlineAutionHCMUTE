@@ -61,12 +61,27 @@ public class ProductFEServlet extends HttpServlet {
                         WatchListModel.add(c,u);
                         ServletUtils.redirect("/Home",request,response);
                     }else{
-                        System.out.println("da co");
                         ServletUtils.redirect("/Home",request,response);
                     }
                 } else {
                     ServletUtils.forward("/views/204.jsp", request, response);
                 }
+                break;
+            }
+            case "/MyWatchList": {
+                List<WatchList> userWatchList =WatchListModel.findByUserID(6);  // User id lay tu session
+                request.setAttribute("userWatchList", userWatchList);
+                List<Product> userProduct = new ArrayList<>();         //Tim san pham tu watchlist ra product
+                for (WatchList item : userWatchList){
+                    Product p = ProductModel.findProductByID(item.getProduct_id());
+                    if(p != null){
+                        userProduct.add(p);
+                    }
+                }
+                request.setAttribute("products", userProduct);
+                List<User> sellerList = UserModel.findAll();
+                request.setAttribute("sellerList", sellerList);
+                ServletUtils.forward("/views/vwProduct/watchList.jsp", request, response);
                 break;
             }
 //            case "/Detail": {

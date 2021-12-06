@@ -1,6 +1,7 @@
 package com.ute.onlineautionhcmute.models;
 
 import com.ute.onlineautionhcmute.beans.Product;
+import com.ute.onlineautionhcmute.beans.ProductType;
 import com.ute.onlineautionhcmute.beans.User;
 import com.ute.onlineautionhcmute.beans.WatchList;
 import com.ute.onlineautionhcmute.utils.DbUtils;
@@ -28,6 +29,19 @@ public class WatchListModel {
                 return null;
             }
             return  list.get(0);
+        }
+    }
+
+    public static List<WatchList> findByUserID(int id)
+    {
+        final String query = "select * from watch_list where user_id = :id";
+        try (Connection connection = DbUtils.getConnection())
+        {
+            List<WatchList> list = connection.createQuery(query)
+                    .addParameter("id", id)
+                    .executeAndFetch(WatchList.class);
+
+            return list;
         }
     }
     public static void add(Product product, User bidder)

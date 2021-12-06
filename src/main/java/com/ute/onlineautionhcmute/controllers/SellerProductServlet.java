@@ -3,9 +3,11 @@ package com.ute.onlineautionhcmute.controllers;
 import com.ute.onlineautionhcmute.beans.Category;
 import com.ute.onlineautionhcmute.beans.Product;
 import com.ute.onlineautionhcmute.beans.ProductType;
+import com.ute.onlineautionhcmute.beans.WatchList;
 import com.ute.onlineautionhcmute.models.CategoryModel;
 import com.ute.onlineautionhcmute.models.ProductModel;
 import com.ute.onlineautionhcmute.models.ProductTypeModel;
+import com.ute.onlineautionhcmute.models.WatchListModel;
 import com.ute.onlineautionhcmute.utils.ServletUtils;
 
 import javax.servlet.*;
@@ -52,6 +54,8 @@ public class SellerProductServlet extends HttpServlet {
             //Xem tat ca san pham cua seller da dang
             case "/All":{
 
+                List<Product> sellerProduct = ProductModel.findByUserID(5);     //Lay id user tu session AuthUser
+                request.setAttribute("products", sellerProduct);
                 ServletUtils.forward("/views/vwProduct/SellerProducts.jsp",request,response);
                 break;
             }

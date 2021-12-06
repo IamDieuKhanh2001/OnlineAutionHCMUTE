@@ -45,43 +45,43 @@
                     <h5>Thông tin sản phẩm</h5>
                     <div class="form-group">
                         <label for="txtname">Tên sản phẩm</label>
-                        <input type="text" class="form-control" id="txtname" name="name" autofocus>
+                        <input type="text" class="form-control" id="txtname" placeholder="Tên sản phẩm" name="name" autofocus>
                     </div>
                     <div class="form-group">
                             <label for="description">Mô tả</label>
-                            <textarea id="description" name="description"></textarea>
+                            <textarea id="description" name="description" placeholder="Mô tả sản phẩm"></textarea>
                     </div>
                     <div class="form-group">
                         <label for="txtProductTypeID">Loại sản phẩm</label>
-                        <input type="text" class="form-control" id="txtProductTypeID" placeholder="Tên sản phẩm" name="Product_type_id" autofocus>
+                        <input type="text" class="form-control" id="txtProductTypeID" placeholder="Loại sản phẩm" name="Product_type_id" autofocus>
                     </div>
                     <div class="form-group">
                         <label for="txtUserID">User ID</label>
-                        <input type="text" class="form-control" id="txtUserID" placeholder="Tên sản phẩm" name="user_id" autofocus>
+                        <input type="text" class="form-control" id="txtUserID" placeholder="User id sản phẩm" name="user_id" autofocus>
                     </div>
                     <div class="form-group">
                         <label for="txtPriceStart">Giá khởi đầu</label>
                         <input type="text" class="form-control" id="txtPriceStart"
-                               value="20000" name="priceStart">
+                               value="" name="priceStart">
                     </div>
                     <div class="form-group">
                         <label for="txtPriceCurrent">Giá hiện tại</label>
                         <input type="text" class="form-control" id="txtPriceCurrent"
-                               value="15" name="priceCurrent">
+                               value="" name="priceCurrent">
                     </div>
                     <div class="form-group">
                         <label for="txtPriceStep">Bước giá</label>
                         <input type="text" class="form-control" id="txtPriceStep"
-                               value="16" name="PriceStep">
+                               value="" name="PriceStep">
                     </div>
                     <div class="form-group">
                         <label for="txtPriceBuyNow">Giá mua ngay:</label>
                         <input type="text" class="form-control" id="txtPriceBuyNow"
-                               value="16" name="PriceBuyNow">
+                               value="" name="PriceBuyNow">
                     </div>
                 </div>
                 <div class="card-footer">
-                    <a class="btn btn-outline-primary" href="${pageContext.request.contextPath}/Admin/Account/"
+                    <a class="btn btn-outline-primary" href="${pageContext.request.contextPath}/Seller/Product/"
                        role="button">
                         <i class="fa fa-backward" aria-hidden="true"></i>
                         Back
