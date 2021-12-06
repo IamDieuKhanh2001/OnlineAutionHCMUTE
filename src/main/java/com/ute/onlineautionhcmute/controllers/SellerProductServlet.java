@@ -1,8 +1,10 @@
 package com.ute.onlineautionhcmute.controllers;
 
 import com.ute.onlineautionhcmute.beans.Category;
+import com.ute.onlineautionhcmute.beans.Product;
 import com.ute.onlineautionhcmute.beans.ProductType;
 import com.ute.onlineautionhcmute.models.CategoryModel;
+import com.ute.onlineautionhcmute.models.ProductModel;
 import com.ute.onlineautionhcmute.models.ProductTypeModel;
 import com.ute.onlineautionhcmute.utils.ServletUtils;
 
@@ -43,8 +45,14 @@ public class SellerProductServlet extends HttpServlet {
                 break;
             }
             case "/Add":{
-
+                //Them attribute Protypeid vao o select
                 ServletUtils.forward("/views/vwProduct/Add.jsp",request,response);
+                break;
+            }
+            //Xem tat ca san pham cua seller da dang
+            case "/All":{
+
+                ServletUtils.forward("/views/vwProduct/SellerProducts.jsp",request,response);
                 break;
             }
 
@@ -89,14 +97,15 @@ public class SellerProductServlet extends HttpServlet {
         String name = request.getParameter("name");
         String description = request.getParameter("description");
         int product_type_id = Integer.parseInt(request.getParameter("Product_type_id"));
-        int user_id = Integer.parseInt(request.getParameter("user_id"));
+        int user_id = Integer.parseInt(request.getParameter("user_id"));              //Xem usser id cua usser tu session (chua xong)
         double priceStart = Double.parseDouble(request.getParameter("priceStart"));
         double priceCurrent = Double.parseDouble(request.getParameter("priceCurrent"));
-        double PriceStep = Double.parseDouble(request.getParameter("PriceStep"));
-        double PriceBuyNow = Double.parseDouble(request.getParameter("PriceBuyNow"));
-        System.out.println(name);
-        System.out.println(description);
-        ServletUtils.redirect("/Seller/Product/Dashboard",request,response);
+        double priceStep = Double.parseDouble(request.getParameter("PriceStep"));
+        double priceBuyNow = Double.parseDouble(request.getParameter("PriceBuyNow"));
+
+        Product p = new Product(-1,name,description,product_type_id,user_id,priceStart,priceStep,priceCurrent,priceBuyNow);
+        ProductModel.add(p);
+        ServletUtils.redirect("/Seller/Product/Dashboard",request,response);    //Sua lai duong dan view
     }
 
 }

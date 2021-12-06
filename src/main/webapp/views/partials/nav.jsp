@@ -41,6 +41,10 @@
                     99+
                     </span>
                 </button>
+                <a class="btn btn-outline-danger mr-3" href="#" role="button">
+                    <i class="fa fa-heart" aria-hidden="true"></i>
+                    My watch list
+                </a>
                 <a class="btn btn-outline-success mr-3" href="${pageContext.request.contextPath}/Account/Login" role="button">
                     <i class="fa fa-sign-in" aria-hidden="true"></i>
                     Sign in

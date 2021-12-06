@@ -51,7 +51,7 @@
                         else
                         {
                 %>
-                        <a type="button" class="btn btn-outline-success w-100 mb-1" href="${pageContext.request.contextPath}/Test/<%= productType.getId() %>" role="button"><%= productType.getName() %></a>
+                        <a type="button" class="btn btn-outline-success w-100 mb-1" href="${pageContext.request.contextPath}/Product/ByProID?id=<%= productType.getId() %>" role="button"><%= productType.getName() %></a>
                 <%
                         }
                     }
