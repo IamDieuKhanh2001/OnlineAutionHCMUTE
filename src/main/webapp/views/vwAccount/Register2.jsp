@@ -13,9 +13,6 @@
 
 
 <t:main>
-    <jsp:attribute name="admin_left_navigation">
-        <jsp:include page="../partials/AdminLeft.jsp"/>
-    </jsp:attribute>
     <jsp:attribute name="css">
         <link rel="stylesheet"
               href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.css">
@@ -59,7 +56,7 @@
                 return;
             }
             const email = $('#txtEmail').val();
-            if(email.length === 0 || !isEmail(email)){
+            if(email.length === 0){                 //Chua xac minh email
                 alert("Invalid email");
                 return;
             }
@@ -87,7 +84,7 @@
 
     </jsp:attribute>
     <jsp:body>
-        <form action="" method="post" id="frmAddAcount">
+        <form action="" method="post" id="frmAddAccount">
             <div class="card">
                 <h4 class="card-header">
                     Create new Account
@@ -134,7 +131,7 @@
 
                 </div>
                 <div class="card-footer">
-                    <a class="btn btn-outline-primary" href="${pageContext.request.contextPath}/Admin/Account/"
+                    <a class="btn btn-outline-primary" href="${pageContext.request.contextPath}/Home"
                        role="button">
                         <i class="fa fa-backward" aria-hidden="true"></i>
                         Back
