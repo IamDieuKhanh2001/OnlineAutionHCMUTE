@@ -32,6 +32,7 @@ public class ProductFEServlet extends HttpServlet {
         // End phan get du lieu partials left
 
         switch (path) {
+            //Bidder xem sp theo mục Product type id
             case "/ByProID": {
                 int proID = 0;
                 try {
@@ -39,8 +40,10 @@ public class ProductFEServlet extends HttpServlet {
                 } catch (NumberFormatException e) {
                     ServletUtils.forward("/views/204.jsp", request, response);
                 }
-                List<Product> list = ProductModel.findAllProductByProductTypeID(proID);          //Cach day viewModel ra view su dung set attribute
-                request.setAttribute("products", list);             //Cho phep day du lieu bat ki ra view, khi ben ngoai view nos la 1 attribute
+                List<Product> list = ProductModel.findAllProductByProductTypeID(proID);
+                request.setAttribute("products", list);
+                List<User> sellerList = UserModel.findAll();
+                request.setAttribute("sellerList", sellerList);
                 ServletUtils.forward("/views/vwProduct/ByProID.jsp", request, response);
                 break;
             }

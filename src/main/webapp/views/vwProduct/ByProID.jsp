@@ -11,6 +11,8 @@
 <%--<jsp:useBean id="category" scope="request" type="com.example.day10_javawebdemo3.beans.Category"></jsp:useBean>--%>
 <jsp:useBean id="products" scope="request"
              type="java.util.List<com.ute.onlineautionhcmute.beans.Product>"/>
+<jsp:useBean id="sellerList" scope="request"
+             type="java.util.List<com.ute.onlineautionhcmute.beans.User>"/>
 
 <t:main>
     <jsp:body>
@@ -37,7 +39,15 @@
                                                 Giá hiện tại:
                                                 <fmt:formatNumber value="${c.price_current}" type="number"/>
                                             </h5>
-                                            <p class="card-text">Người bán: ${c.user_id}</p>
+
+
+                                            <c:forEach items="${sellerList}" var="s">
+                                                <c:choose>
+                                                    <c:when test="${s.id == c.user_id}">
+                                                        <p class="card-text">Người bán: ${s.username} #${s.id}</p>
+                                                    </c:when>
+                                                </c:choose>
+                                            </c:forEach>
                                             <p class="card-text">Giá mua ngay:
                                                 <fmt:formatNumber value="${c.price_buy_now}" type="number"/>
                                             </p>
