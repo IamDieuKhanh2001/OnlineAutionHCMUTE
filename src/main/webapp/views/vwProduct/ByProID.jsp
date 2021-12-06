@@ -13,7 +13,8 @@
              type="java.util.List<com.ute.onlineautionhcmute.beans.Product>"/>
 <jsp:useBean id="sellerList" scope="request"
              type="java.util.List<com.ute.onlineautionhcmute.beans.User>"/>
-
+<jsp:useBean id="userWatchList" scope="request"
+             type="java.util.List<com.ute.onlineautionhcmute.beans.WatchList>"/>
 <t:main>
     <jsp:body>
         <div class="card">
@@ -32,15 +33,15 @@
                             <c:forEach items="${products}" var="c">
                                 <div class="col-sm-4 mb-3">
                                     <div class="card h-100">
-                                        <img class="card-img-top" src="${pageContext.request.contextPath}/public/img/product/${c.id}/main.jpg" alt="${c.name}" title="${c.name}">
+                                        <img class="card-img-top"
+                                             src="${pageContext.request.contextPath}/public/img/product/${c.id}/main.jpg"
+                                             alt="${c.name}" title="${c.name}">
                                         <div class="card-body">
                                             <h4 class="card-title text-success">${c.name}</h4>
                                             <h5 class="card-title text-danger">
                                                 Giá hiện tại:
                                                 <fmt:formatNumber value="${c.price_current}" type="number"/>
                                             </h5>
-
-
                                             <c:forEach items="${sellerList}" var="s">
                                                 <c:choose>
                                                     <c:when test="${s.id == c.user_id}">
@@ -58,10 +59,14 @@
                                                 <i class="fa fa-eye" aria-hidden="true"></i>
                                                 Details
                                             </a>
-                                            <a class="btn btn-outline-danger" href="${pageContext.request.contextPath}/Product/AddWatchList?id=${c.id}" role="button">
+
+                                            <a class="btn btn-outline-danger watchListNoticePopover"
+                                               href="${pageContext.request.contextPath}/Product/AddWatchList?id=${c.id}"
+                                               role="button">
                                                 <i class="fa fa-heart" aria-hidden="true"></i>
                                                 Add to watch list
                                             </a>
+
                                         </div>
                                     </div>
                                 </div>
