@@ -7,6 +7,7 @@ import com.ute.onlineautionhcmute.utils.ServletUtils;
 import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
+import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -75,17 +76,26 @@ public class ProductFEServlet extends HttpServlet {
                 ServletUtils.forward("/views/vwProduct/watchList.jsp", request, response);
                 break;
             }
-//            case "/Detail": {
-//                int proId = Integer.parseInt(request.getParameter("id"));
-//                Product product = ProductModel.findById(proId);
-//                if(product == null){
-//                    ServletUtils.redirect("/Home",request,response);
-//                }else{
-//                    request.setAttribute("product",product);
-//                    ServletUtils.forward("/views/vwProduct/Detail.jsp", request, response);
-//                }
-//                break;
-//            }
+            case "/Detail":{
+                int productID = -1;
+                try
+                {
+                    productID = Integer.parseInt(request.getParameter("id"));
+                } catch (Exception ex)
+                {
+                    ServletUtils.forward("/views/404.jsp", request, response);
+                }
+
+                Product product = ProductModel.findById(productID);
+                if(product == null)
+                    ServletUtils.forward("/views/404.jsp", request, response);
+
+
+
+                request.setAttribute("product", product);
+                ServletUtils.forward("/views/vwProduct/Detail.jsp", request, response);
+                break;
+            }
             default: {
                 ServletUtils.forward("/views/404.jsp", request, response);
                 break;
