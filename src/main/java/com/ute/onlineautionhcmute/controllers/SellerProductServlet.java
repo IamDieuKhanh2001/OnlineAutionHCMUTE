@@ -22,19 +22,6 @@ import java.util.List;
 public class SellerProductServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // Phan get du lieu partials left
-        List<Category> categories = CategoryModel.findAll();
-        List<ProductType> listProductType = new ArrayList<ProductType>();
-        categories.forEach((category -> {
-            List<ProductType> list = ProductTypeModel.findProductTypeWithCategoryID(category.getId());
-            list.forEach((productType -> {
-                listProductType.add(productType);
-            }));
-            listProductType.add(null);
-        }));
-        request.setAttribute("categories", categories);
-        request.setAttribute("listProductType", listProductType);
-        // End phan get du lieu partials left
 
         String path = request.getPathInfo();
         if(path == null || path.equals("/")){
@@ -70,20 +57,6 @@ public class SellerProductServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
-
-        // Phan get du lieu partials left
-        List<Category> categories = CategoryModel.findAll();
-        List<ProductType> listProductType = new ArrayList<ProductType>();
-        categories.forEach((category -> {
-            List<ProductType> list = ProductTypeModel.findProductTypeWithCategoryID(category.getId());
-            list.forEach((productType -> {
-                listProductType.add(productType);
-            }));
-            listProductType.add(null);
-        }));
-        request.setAttribute("categories", categories);
-        request.setAttribute("listProductType", listProductType);
-        // End phan get du lieu partials left
 
         String path = request.getPathInfo();
         switch (path) {

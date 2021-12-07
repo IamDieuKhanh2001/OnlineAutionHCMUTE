@@ -25,20 +25,6 @@ public class AdminProductTypeServlet extends HttpServlet {
             path = "/Index";
         }
 
-        // Phan get du lieu partials left
-        List<Category> categories = CategoryModel.findAll();
-        List<ProductType> listProductType = new ArrayList<ProductType>();
-        categories.forEach((category -> {
-            List<ProductType> list = ProductTypeModel.findProductTypeWithCategoryID(category.getId());
-            list.forEach((productType -> {
-                listProductType.add(productType);
-            }));
-            listProductType.add(null);
-        }));
-        request.setAttribute("categories", categories);
-        request.setAttribute("listProductType", listProductType);
-        // End phan get du lieu partials left
-
         switch (path) {
             case "/Index": {
 
@@ -89,20 +75,6 @@ public class AdminProductTypeServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String path = request.getPathInfo();
-
-        // Phan get du lieu partials left
-        List<Category> categories = CategoryModel.findAll();
-        List<ProductType> listProductType = new ArrayList<ProductType>();
-        categories.forEach((category -> {
-            List<ProductType> list = ProductTypeModel.findProductTypeWithCategoryID(category.getId());
-            list.forEach((productType -> {
-                listProductType.add(productType);
-            }));
-            listProductType.add(null);
-        }));
-        request.setAttribute("categories", categories);
-        request.setAttribute("listProductType", listProductType);
-        // End phan get du lieu partials left
 
         switch (path) {
             case "/Add": {

@@ -12,8 +12,8 @@
 <%--De su dung JSTL, can mo ta--%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
-<jsp:useBean id="categories" scope="request" type="java.util.List<com.ute.onlineautionhcmute.beans.Category>" />
-<jsp:useBean id="listProductType" scope="request" type="java.util.List<com.ute.onlineautionhcmute.beans.ProductType>" />
+<jsp:useBean id="categoriesWithDetails" scope="request" type="java.util.List<com.ute.onlineautionhcmute.beans.Category>" />
+<jsp:useBean id="listProductTypeWithDetails" scope="request" type="java.util.List<com.ute.onlineautionhcmute.beans.ProductType>" />
 
 
 
@@ -31,7 +31,7 @@
         <h4 class="card-header bg-dark text-light">Categories</h4>
         <div class="list-group">
 
-            <c:forEach var="category" items="${categories}" >
+            <c:forEach var="category" items="${categoriesWithDetails}" >
                 <a type="button" class="btn btn-group text-light bg-secondary rounded-0 border border-dark py-3" data-toggle="collapse" data-target="#collapse-${category.id}" aria-expanded="true">
                         ${category.name}
                 </a>
@@ -39,10 +39,10 @@
                     <div class="card-body">
 
                 <%
-                    for(int i = nCount; i < listProductType.size(); i++)
+                    for(int i = nCount; i < listProductTypeWithDetails.size(); i++)
                     {
                         nCount = i;
-                        ProductType productType = listProductType.get(i);
+                        ProductType productType = listProductTypeWithDetails.get(i);
                         if(productType == null)
                         {
                             nCount = i + 1;
