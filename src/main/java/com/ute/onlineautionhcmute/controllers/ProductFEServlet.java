@@ -7,6 +7,7 @@ import com.ute.onlineautionhcmute.utils.ServletUtils;
 import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
+import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -31,21 +32,11 @@ public class ProductFEServlet extends HttpServlet {
                 request.setAttribute("products", list);
                 List<User> sellerList = UserModel.findAll();
                 request.setAttribute("sellerList", sellerList);
+                List<WatchList> userWatchList = WatchListModel.findByUserID(6);         //Authuser session
+                request.setAttribute("userWatchList", userWatchList);
                 ServletUtils.forward("/views/vwProduct/ByProID.jsp", request, response);
                 break;
             }
-            //
-            //            case "/Detail": {
-//                int proId = Integer.parseInt(request.getParameter("id"));
-//                Product product = ProductModel.findById(proId);
-//                if(product == null){
-//                    ServletUtils.redirect("/Home",request,response);
-//                }else{
-//                    request.setAttribute("product",product);
-//                    ServletUtils.forward("/views/vwProduct/Detail.jsp", request, response);
-//                }
-//                break;
-//            }
             case "/AddWatchList": {
                 String url = request.getHeader("referer"); //Luu dia chi trang trc do de quay ve
                 int id = 0;
@@ -85,20 +76,24 @@ public class ProductFEServlet extends HttpServlet {
                 ServletUtils.forward("/views/vwProduct/watchList.jsp", request, response);
                 break;
             }
-            case "/WatchList/IsAvailable": { //Kiem tra watchlist đã tồn tại sp id truyen vao không
-                int id = Integer.parseInt(request.getParameter("idProductAddingToWatchList"));
+            case "/Detail":{
+                int productID = -1;
+                try
+                {
+                    productID = Integer.parseInt(request.getParameter("id"));
+                } catch (Exception ex)
+                {
+                    ServletUtils.forward("/views/404.jsp", request, response);
+                }
 
-                WatchList wl = WatchListModel.findByProID(id);
-                boolean isAvailable = (wl == null); //Co sp ton tai trong watchlist false, khong co sp ton tai trong watchlist ton tai true
-//                boolean isAvailable = true;
-//                if (user != null){
-//                    isAvailable = false;
-//                }
-                PrintWriter out = response.getWriter();
-                response.setContentType("application/json");
-                response.setCharacterEncoding("utf-8");
-                out.print(isAvailable);
-                out.flush();
+                Product product = ProductModel.findById(productID);
+                if(product == null)
+                    ServletUtils.forward("/views/404.jsp", request, response);
+
+
+
+                request.setAttribute("product", product);
+                ServletUtils.forward("/views/vwProduct/Detail.jsp", request, response);
                 break;
             }
             default: {

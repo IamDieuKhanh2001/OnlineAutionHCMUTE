@@ -69,7 +69,7 @@
                                             <p class="card-text">Ngày đăng: ${c.create_time}</p>
                                         </div>
                                         <div class="card-footer text-muted">
-                                            <a class="btn btn-outline-primary" href="#" role="button">
+                                            <a class="btn btn-outline-primary" href="${pageContext.request.contextPath}/Product/Detail?id=${c.id}" role="button">
                                                 <i class="fa fa-eye" aria-hidden="true"></i>
                                                 Details
                                             </a>
