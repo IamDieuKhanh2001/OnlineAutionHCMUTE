@@ -32,6 +32,31 @@ public class AccountServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String path = request.getPathInfo();
         switch (path) {
+
+
+//            Profile
+            case "/Profile":
+            case "/Profile/":
+            case "/Profile/Overview":
+            case "/Profile/Overview/":
+                ServletUtils.forward("/views/vwAccount/ProfileOverview.jsp", request, response);
+                break;
+
+            case "/Profile/ChangePassword":
+                ServletUtils.forward("/views/vwAccount/ProfileChangePassword.jsp", request, response);
+                break;
+
+            case "/Profile/ChangeEmail":
+                ServletUtils.forward("/views/vwAccount/ProfileChangeEmail.jsp", request, response);
+                break;
+
+            case "/Profile/ChangeInformation":
+                ServletUtils.forward("/views/vwAccount/ProfileChangeInformation.jsp", request, response);
+                break;
+//            End Profile
+
+
+
             case "/Register2":
                 ServletUtils.forward("/views/vwAccount/Register2.jsp", request, response);
                 break;
@@ -70,10 +95,6 @@ public class AccountServlet extends HttpServlet {
                 ServletUtils.forward("/views/vwAccount/AccountRecovery.jsp", request, response);
                 break;
 
-            case "/Profile":
-                ServletUtils.forward("/views/vwAccount/Profile.jsp", request, response);
-                break;
-
             case "/IsAvailable":
                 String username = request.getParameter("user");
                 User user = UserModel.findByUsername(username);
@@ -97,6 +118,7 @@ public class AccountServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String path = request.getPathInfo();
         switch (path) {
+
             case "/Register2":
                 registerUser(request, response);
                 break;
