@@ -14,8 +14,12 @@
 <jsp:useBean id="product" scope="request" type="com.ute.onlineautionhcmute.beans.Product" />
 
 <t:main>
-    <jsp:body>
+    
+    <jsp:attribute name="css">
         <link rel="stylesheet" href="${pageContext.request.contextPath}/public/css/product_detail_style.css">
+    </jsp:attribute>
+    
+    <jsp:body>
         <div class="container">
             <div class="card">
                 <div class="container-fluid">

@@ -4,9 +4,13 @@ import at.favre.lib.crypto.bcrypt.BCrypt;
 import com.ute.onlineautionhcmute.beans.Category;
 import com.ute.onlineautionhcmute.beans.ProductType;
 import com.ute.onlineautionhcmute.beans.User;
+import com.ute.onlineautionhcmute.models.AccountRecoveryModel;
 import com.ute.onlineautionhcmute.models.CategoryModel;
 import com.ute.onlineautionhcmute.models.ProductTypeModel;
 import com.ute.onlineautionhcmute.models.UserModel;
+import com.ute.onlineautionhcmute.utils.Common;
+import com.ute.onlineautionhcmute.utils.EmailTemplate;
+import com.ute.onlineautionhcmute.utils.SendEmail;
 import com.ute.onlineautionhcmute.utils.ServletUtils;
 
 import javax.servlet.*;
@@ -37,6 +41,13 @@ public class AccountServlet extends HttpServlet {
 //                    ServletUtils.redirect("/Home", request, response);
 //                } else ServletUtils.forward("/views/vwAccount/Login.jsp", request, response);
                 ServletUtils.forward("/views/vwAccount/Login.jsp", request, response);
+                break;
+
+            case "/Recovery":
+                request.setAttribute("isPost", false);
+                request.setAttribute("isExist", false);
+                request.setAttribute("emailPost", "");
+                ServletUtils.forward("/views/vwAccount/AccountRecovery.jsp", request, response);
                 break;
 
             case "/Profile":
@@ -78,6 +89,28 @@ public class AccountServlet extends HttpServlet {
                 logout(request, response);
                 break;
 
+            case "/Recovery":
+                String email = request.getParameter("email");
+                User user = UserModel.findByEmail(email);
+                if(user == null)
+                {
+                    request.setAttribute("isExist", false);
+                }
+                else
+                {
+                    request.setAttribute("isExist", true);
+                    try
+                    {
+                        String code = Common.getRandomNumberString();
+                        AccountRecoveryModel.add(user, code);
+                        SendEmail.sendAsHtml(email, "Reset Password Online Aution HCMUTE", EmailTemplate.TemplateRecoverAccount(user, code));
+                    } catch (Exception ex) { System.out.println(ex.getMessage()); }
+                }
+
+                request.setAttribute("emailPost", email);
+                request.setAttribute("isPost", true);
+                ServletUtils.forward("/views/vwAccount/AccountRecovery.jsp", request, response);
+                break;
             default:
                 ServletUtils.forward("/views/404.jsp", request, response);
                 break;
@@ -117,7 +150,6 @@ public class AccountServlet extends HttpServlet {
                 , birthDateParsed, address, email, phone, user_type_id);
         UserModel.add(c);
         ServletUtils.forward("/views/vwAccount/Register2.jsp", request, response);
-
     }
 
     private void login(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

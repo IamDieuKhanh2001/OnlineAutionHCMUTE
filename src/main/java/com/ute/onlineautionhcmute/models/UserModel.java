@@ -113,4 +113,18 @@ public class UserModel {
         }
     }
 
+    public static User findByEmail(String email)
+    {
+        final String query = "SELECT * FROM `users` WHERE `email` = :email";
+        try (Connection connection = DbUtils.getConnection())
+        {
+            List<User> list = connection.createQuery(query)
+                    .addParameter("email", email)
+                    .executeAndFetch(User.class);
+            if(list.size() == 0)
+                return null;
+            return list.get(0);
+        }
+    }
+
 }
