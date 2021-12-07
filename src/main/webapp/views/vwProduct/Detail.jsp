@@ -14,40 +14,47 @@
 <jsp:useBean id="product" scope="request" type="com.ute.onlineautionhcmute.beans.Product" />
 
 <t:main>
-    
     <jsp:attribute name="css">
         <link rel="stylesheet" href="${pageContext.request.contextPath}/public/css/product_detail_style.css">
     </jsp:attribute>
-    
     <jsp:body>
-        <div class="container">
-            <div class="card">
-                <div class="container-fluid">
-                    <div class="wrapper row">
-                        <div class="preview col-md-6">
-
-                            <div class="preview-pic tab-content">
-                                <div class="tab-pane active" id="pic-1"><img src="${pageContext.request.contextPath}/public/img/product/${product.id}/thumps_1.jpg" /></div>
-                                <div class="tab-pane" id="pic-2"><img src="${pageContext.request.contextPath}/public/img/product/${product.id}/thumps_2.jpg" /></div>
+        <div class="card">
+            <h4 class="card-header bg-dark text-light">
+                ${product.name}
+            </h4>
+            <div class="card-body">
+                    <%--                đổ data vào đây--%>
+                        <div class="card-slide">
+                            <div class="container-fluid">
+                                <div class="wrapper row">
+                                    <div class="preview col-6">
+                                        <div class="preview-pic tab-content">
+                                            <div class="tab-pane active" id="pic-1"><img src="${pageContext.request.contextPath}/public/img/product/${product.id}/thumps_1.jpg" /></div>
+                                            <div class="tab-pane" id="pic-2"><img src="${pageContext.request.contextPath}/public/img/product/${product.id}/thumps_2.jpg" /></div>
+                                        </div>
+                                        <ul class="preview-thumbnail nav nav-tabs">
+                                            <li class="active"><a data-target="#pic-1" data-toggle="tab"><img src="${pageContext.request.contextPath}/public/img/product/${product.id}/thumps_1.jpg" /></a></li>
+                                            <li><a data-target="#pic-2" data-toggle="tab"><img src="${pageContext.request.contextPath}/public/img/product/${product.id}/thumps_2.jpg" /></a></li>
+                                        </ul>
+                                    </div>
+                                    <div class="details col-6">
+                                        <h3 class="product-title">${product.name}</h3>
+                                        <p class="product-description">${product.description}</p>
+                                        <h4 class="price">Giá hiện tại: <span><fmt:formatNumber value="${product.price_current}" type="number" /></span></h4>
+                                        <h4 class="price">Ngày hết hạn (Database thiếu ngày hết hạn): <span><fmt:formatDate value="${product.create_time}" type="date" /></span></h4>
+                                        <div class="action">
+                                            <button class="add-to-cart btn btn-default" type="button">Đặt giá ngay</button>
+                                            <a href="${pageContext.request.contextPath}/Product/AddWatchList?id=${product.id}" class="like btn btn-outline-danger" type="button">
+                                                <span class="fa fa-heart"></span>
+                                                Thêm vào watch list
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                            <ul class="preview-thumbnail nav nav-tabs">
-                                <li class="active"><a data-target="#pic-1" data-toggle="tab"><img src="${pageContext.request.contextPath}/public/img/product/${product.id}/thumps_1.jpg" /></a></li>
-                                <li><a data-target="#pic-2" data-toggle="tab"><img src="${pageContext.request.contextPath}/public/img/product/${product.id}/thumps_2.jpg" /></a></li>
-                            </ul>
                         </div>
-                        <div class="details col-md-6">
-                            <h3 class="product-title">${product.name}</h3>
-                            <p class="product-description">${product.description}</p>
-                            <h4 class="price">Giá hiện tại: <span><fmt:formatNumber value="${product.price_current}" type="number" /></span></h4>
-                            <h4 class="price">Ngày hết hạn: <span><fmt:formatDate value="${product.create_time}" type="date" /></span></h4>
-                            <div class="action">
-                                <button class="add-to-cart btn btn-default" type="button">Đặt giá ngay</button>
-                                <button class="like btn btn-default" type="button"><span class="fa fa-heart"></span></button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
+
     </jsp:body>
 </t:main>

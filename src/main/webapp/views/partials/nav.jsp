@@ -41,7 +41,7 @@
                     99+
                     </span>
                 </button>
-                <a class="btn btn-outline-danger mr-3" href="#" role="button">
+                <a class="btn btn-outline-danger mr-3" href="${pageContext.request.contextPath}/Product/MyWatchList" role="button">
                     <i class="fa fa-heart" aria-hidden="true"></i>
                     My watch list
                 </a>

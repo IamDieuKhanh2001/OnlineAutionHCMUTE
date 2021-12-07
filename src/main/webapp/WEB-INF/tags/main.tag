@@ -23,11 +23,11 @@
 <jsp:include page="../../views/partials/nav.jsp"/>
 <div class="container-fluid mt-2 mb-3">
     <div class="row">
-        <div class="col-sm-2">
+        <div class="col-2">
             <jsp:invoke fragment="admin_left_navigation"/>
             <jsp:include page="../../views/partials/left.jsp"/>
         </div>
-        <div class="col-sm-10">
+        <div class="col-10">
             <jsp:doBody/>
         </div>
     </div>
