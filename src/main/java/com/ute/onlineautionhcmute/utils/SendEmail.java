@@ -8,7 +8,7 @@ import java.util.Properties;
 
 public class SendEmail {
     private static final String senderEmail = "trungnt2411@gmail.com";//change with your sender email
-    private static final String senderPassword = "";//change with your sender password
+    private static final String senderPassword = "mshoschkwmrwqjqx";//change with your sender password
 
     public static void sendAsHtml(String to, String title, String html) throws MessagingException {
         System.out.println("Sending email to " + to);

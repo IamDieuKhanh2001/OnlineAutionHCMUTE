@@ -1,6 +1,7 @@
 package com.ute.onlineautionhcmute.controllers;
 
 import at.favre.lib.crypto.bcrypt.BCrypt;
+import com.ute.onlineautionhcmute.beans.AccountRecovery;
 import com.ute.onlineautionhcmute.beans.Category;
 import com.ute.onlineautionhcmute.beans.ProductType;
 import com.ute.onlineautionhcmute.beans.User;
@@ -41,6 +42,25 @@ public class AccountServlet extends HttpServlet {
 //                    ServletUtils.redirect("/Home", request, response);
 //                } else ServletUtils.forward("/views/vwAccount/Login.jsp", request, response);
                 ServletUtils.forward("/views/vwAccount/Login.jsp", request, response);
+                break;
+
+            case "/ResetPassword":
+                String userID = request.getParameter("userID");
+                String code = request.getParameter("code");
+
+                if(userID == null || code == null)
+                    ServletUtils.forward("/views/404.jsp", request, response);
+
+                User userTemp = new User();
+                userTemp.setId(Integer.parseInt(userID));
+
+                AccountRecovery accountRecovery = AccountRecoveryModel.findCodeValid(userTemp, code);
+                if(accountRecovery == null)
+                    ServletUtils.forward("/views/404.jsp", request, response);
+
+                request.setAttribute("userID", userID);
+                request.setAttribute("code", code);
+                ServletUtils.forward("/views/vwAccount/ResetPassword.jsp", request, response);
                 break;
 
             case "/Recovery":
@@ -111,6 +131,28 @@ public class AccountServlet extends HttpServlet {
                 request.setAttribute("isPost", true);
                 ServletUtils.forward("/views/vwAccount/AccountRecovery.jsp", request, response);
                 break;
+
+            case "/ResetPassword":
+                String userID = request.getParameter("userID");
+                String code = request.getParameter("code");
+
+                if(userID == null || code == null)
+                    ServletUtils.forward("/views/404.jsp", request, response);
+
+                User userTemp = new User();
+                userTemp.setId(Integer.parseInt(userID));
+
+                AccountRecovery accountRecovery = AccountRecoveryModel.findCodeValid(userTemp, code);
+                if(accountRecovery == null)
+                    ServletUtils.forward("/views/404.jsp", request, response);
+
+                String newPassword = request.getParameter("password1");
+                String bcryptHashPassword = BCrypt.withDefaults().hashToString(12, newPassword.toCharArray());
+                UserModel.updatePasswordByID(Integer.parseInt(userID), bcryptHashPassword);
+                AccountRecoveryModel.updateStatusUsed(accountRecovery);
+                ServletUtils.redirect("/Account/Login", request, response);
+                break;
+
             default:
                 ServletUtils.forward("/views/404.jsp", request, response);
                 break;

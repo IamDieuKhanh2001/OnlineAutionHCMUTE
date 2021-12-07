@@ -14,7 +14,7 @@ public class EmailTemplate {
                 "<br>Otherwise, please click this link to change your password: [link]";
 
         email = email.replace("[name]", user.getLastname());
-        email = email.replace("[link]", "http://localhost:8080/OnlineAutionHCMUTE/Account/Recovery?userID=" + user.getId() + "&code=" + code);
+        email = email.replace("[link]", "http://localhost:8080/OnlineAutionHCMUTE/Account/ResetPassword?userID=" + user.getId() + "&code=" + code);
 
         return email;
     }

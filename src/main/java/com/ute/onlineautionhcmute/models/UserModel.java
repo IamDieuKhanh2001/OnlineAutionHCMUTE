@@ -77,12 +77,13 @@ public class UserModel {
 
     public static void updatePasswordByID(int userID, String newPassword)
     {
-        final String query = "UPDATE `users` SET `password` = :newPassword WHERE `id` = :userID";
+        final String query = "UPDATE `users` SET `password` = :newPassword, `modified_time` = :modifiedTime WHERE `id` = :userID";
         try (Connection connection = DbUtils.getConnection())
         {
             connection.createQuery(query)
                     .addParameter("userID", userID)
                     .addParameter("newPassword", newPassword)
+                    .addParameter("modifiedTime", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()))
                     .executeUpdate();
         }
     }
