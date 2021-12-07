@@ -13,9 +13,23 @@
              type="java.util.List<com.ute.onlineautionhcmute.beans.Product>"/>
 <jsp:useBean id="sellerList" scope="request"
              type="java.util.List<com.ute.onlineautionhcmute.beans.User>"/>
-<jsp:useBean id="userWatchList" scope="request"
-             type="java.util.List<com.ute.onlineautionhcmute.beans.WatchList>"/>
 <t:main>
+    <jsp:attribute name="js">
+        <script>
+            //Kiem tra san pham duoc them vao watch list chua
+                    $('.js-WatchListAlert').on('click', function (e){
+                        const proID = $('#txtProID').val();
+                        $.getJSON('${pageContext.request.contextPath}/Product/WatchList/IsAvailable?idProductAddingToWatchList=' + proID,function (data){
+                            if(data === true){              //Sp khong ton tai trong watchlist
+                                alert("Đã thêm sản phẩm thành công!!")
+                            }else{
+                                alert("Sản phẩm này đã có trong watch list của bạn!")
+                            }
+                        })
+                    })
+                </script>
+    </jsp:attribute>
+
     <jsp:body>
         <div class="card">
             <h4 class="card-header bg-dark text-light">
@@ -60,13 +74,14 @@
                                                 Details
                                             </a>
 
-                                            <a class="btn btn-outline-danger watchListNoticePopover"
+                                            <a class="btn btn-outline-danger watchListNoticePopover js-WatchListAlert"
                                                href="${pageContext.request.contextPath}/Product/AddWatchList?id=${c.id}"
                                                role="button">
                                                 <i class="fa fa-heart" aria-hidden="true"></i>
                                                 Add to watch list
                                             </a>
-
+<%--                                            Input lưu id sản phẩm cho việc js lấy id sản phẩm và xử lí IsAvailable--%>
+                                        <input id="txtProID" name="proID" value="${c.id}" class="d-none"/>
                                         </div>
                                     </div>
                                 </div>

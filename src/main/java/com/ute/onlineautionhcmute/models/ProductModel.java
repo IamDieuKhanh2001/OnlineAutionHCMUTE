@@ -57,6 +57,20 @@ public class ProductModel {
             return list;
         }
     }
+
+    public static Product findInsertRecentByUserID(int userID) {
+        final String query = "SELECT * from products where id = (SELECT MAX( id ) FROM products where user_id = :userID)";
+        try (Connection con = DbUtils.getConnection()) {
+            List<Product> list = con.createQuery(query)
+                    .addParameter("userID", userID)
+                    .executeAndFetch(Product.class);
+            if (list.size() == 0) {
+                return null;
+            }
+            return list.get(0);
+        }
+    }
+
     public static Product findProductByID(int productID)
     {
         final String query = "SELECT * FROM `products` WHERE `id` = :productID";
@@ -87,7 +101,6 @@ public class ProductModel {
                     .addParameter("priceCurrent", product.getPrice_current())
                     .addParameter("priceBuyNow", product.getPrice_buy_now())
                     .executeUpdate();
-
         }
     }
 

@@ -19,8 +19,14 @@
     <jsp:attribute name="admin_left_navigation">
         <jsp:include page="../partials/SellerLeft.jsp"/>
     </jsp:attribute>
+    <jsp:attribute name="css">
+        <%--        bootstrap file input--%>
+    <link href="https://cdn.jsdelivr.net/gh/kartik-v/bootstrap-fileinput@5.2.5/css/fileinput.min.css" media="all" rel="stylesheet" type="text/css" />
+  </jsp:attribute>
     <jsp:attribute name="js">
-        <script src="https://cdn.tiny.cloud/1/zffyhqb63rpsg5zlx2nauvwr1j9nu5aut726ehrd05jh0xqs/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+<%--        Tiny MCE--%>
+        <script src="https://cdn.tiny.cloud/1/zffyhqb63rpsg5zlx2nauvwr1j9nu5aut726ehrd05jh0xqs/tinymce/5/tinymce.min.js"
+                referrerpolicy="origin"></script>
         <script>
             tinymce.init({
                 selector: '#description',
@@ -33,31 +39,59 @@
                 entity_encoding: 'raw',
             });
         </script>
+
+        <%--        bootstrap file input--%>
+        <script src="https://cdn.jsdelivr.net/gh/kartik-v/bootstrap-fileinput@5.2.5/js/fileinput.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.2.5/themes/fa/theme.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.2.5/js/locales/vi.min.js"></script>
+        <script>
+        $('#fuImg').fileinput({
+            theme: 'fa',
+            language: 'vi',
+            dropZoneEnabled: false,
+            allowedFileExtensions: ['jpg','png']
+        });
+        $('#fuImg1').fileinput({
+            theme: 'fa',
+            language: 'vi',
+            dropZoneEnabled: false,
+            allowedFileExtensions: ['jpg','png']
+        });
+        $('#fuImg2').fileinput({
+            theme: 'fa',
+            language: 'vi',
+            dropZoneEnabled: false,
+            allowedFileExtensions: ['jpg','png']
+        });
+    </script>
     </jsp:attribute>
     <jsp:body>
-        <form action="" method="post" id="frmAddProduct" accept-charset="UTF-8">
+        <form action="" method="post" id="frmAddProduct" enctype="multipart/form-data" accept-charset="UTF-8">
             <div class="card">
                 <h4 class="card-header">
                     <i class="fa fa-list" aria-hidden="true"></i>
                     Đăng đấu giá sản phẩm
                 </h4>
                 <div class="card-body">
-                    <h5>Thông tin sản phẩm</h5>
+                    <h5 class="card-title">Bước 1: Thông tin sản phẩm</h5>
                     <div class="form-group">
                         <label for="txtname">Tên sản phẩm</label>
-                        <input type="text" class="form-control" id="txtname" placeholder="Tên sản phẩm" name="name" autofocus>
+                        <input type="text" class="form-control" id="txtname" placeholder="Tên sản phẩm" name="name"
+                               autofocus>
                     </div>
                     <div class="form-group">
-                            <label for="description">Mô tả</label>
-                            <textarea id="description" name="description" placeholder="Mô tả sản phẩm"></textarea>
+                        <label for="description">Mô tả</label>
+                        <textarea id="description" name="description" placeholder="Mô tả sản phẩm"></textarea>
                     </div>
                     <div class="form-group">
-                        <label for="txtProductTypeID">Loại sản phẩm</label>
-                        <input type="text" class="form-control" id="txtProductTypeID" placeholder="Loại sản phẩm" name="Product_type_id" autofocus>
+                        <label for="txtProductTypeID">Loại sản phẩm (Sửa thành sellect chọn)</label>
+                        <input type="text" class="form-control" id="txtProductTypeID" placeholder="Loại sản phẩm"
+                               name="Product_type_id" autofocus>
                     </div>
                     <div class="form-group">
-                        <label for="txtUserID">User ID</label>
-                        <input type="text" class="form-control" id="txtUserID" placeholder="User id sản phẩm" name="user_id" autofocus>
+                        <label for="txtUserID">User ID (xoá và lấy từ authUser)</label>
+                        <input type="text" class="form-control" id="txtUserID" placeholder="User id sản phẩm"
+                               name="user_id" autofocus>
                     </div>
                     <div class="form-group">
                         <label for="txtPriceStart">Giá khởi đầu</label>
@@ -78,6 +112,18 @@
                         <label for="txtPriceBuyNow">Giá mua ngay:</label>
                         <input type="text" class="form-control" id="txtPriceBuyNow"
                                value="" name="PriceBuyNow">
+                    </div>
+                    <h5 class="card-title">Bước 2: Thêm hình ảnh</h5>
+                    <div class="form-group">
+                        <label for="fuImg">Hình ảnh chính</label>
+                        <input id="fuImg" name="mainImg" type="file"/>
+                    </div>
+                    <div class="form-group">
+                        <label for="fuImg1">Hình ảnh phụ (2 ảnh)</label>
+                        <input id="fuImg1" name="thumps_1" type="file"/>
+                    </div>
+                    <div class="form-group">
+                        <input id="fuImg2" name="thumps_2" type="file"/>
                     </div>
                 </div>
                 <div class="card-footer">

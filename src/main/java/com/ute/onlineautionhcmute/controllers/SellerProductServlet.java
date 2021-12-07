@@ -13,12 +13,18 @@ import com.ute.onlineautionhcmute.utils.ServletUtils;
 import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 @WebServlet(name = "SellerProductServlet", value = "/Seller/Product/*")
+@MultipartConfig(
+        fileSizeThreshold = 2 * 1024 * 1024,
+        maxFileSize = 50 * 1024 * 1024,
+        maxRequestSize = 50 * 1024 * 1024
+)
 public class SellerProductServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -41,7 +47,7 @@ public class SellerProductServlet extends HttpServlet {
             //Xem tat ca san pham cua seller da dang
             case "/All":{
 
-                List<Product> sellerProduct = ProductModel.findByUserID(5);     //Lay id user tu session AuthUser
+                List<Product> sellerProduct = ProductModel.findByUserID(14);     //Lay id user tu session AuthUser
                 request.setAttribute("products", sellerProduct);
                 ServletUtils.forward("/views/vwProduct/SellerProducts.jsp",request,response);
                 break;
@@ -79,10 +85,50 @@ public class SellerProductServlet extends HttpServlet {
         double priceCurrent = Double.parseDouble(request.getParameter("priceCurrent"));
         double priceStep = Double.parseDouble(request.getParameter("PriceStep"));
         double priceBuyNow = Double.parseDouble(request.getParameter("PriceBuyNow"));
-
         Product p = new Product(-1,name,description,product_type_id,user_id,priceStart,priceStep,priceCurrent,priceBuyNow);
         ProductModel.add(p);
+
+        storeImage(user_id,request,response);  //Lưu hình vào server
+
         ServletUtils.redirect("/Seller/Product/Dashboard",request,response);    //Sua lai duong dan view
     }
+    private void storeImage(int user_id,HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
+        Product p = ProductModel.findInsertRecentByUserID(user_id);
 
+        for (Part part : request.getParts()) { //Nhan hinh anh tu browse và lưu vào server
+            if (part.getName().equals("mainImg")) {
+                String contentDisposition = part.getHeader("content-disposition");
+                String filename = "main.jpg";
+                String targetDir = this.getServletContext().getRealPath("public/img/product" + "/" + p.getId());
+                File dir = new File(targetDir);
+                if (!dir.exists()) {
+                    dir.mkdir();
+                }
+                String destination = targetDir + "/" + filename;
+                part.write(destination);
+            }
+            if (part.getName().equals("thumps_1")) {
+                String contentDisposition = part.getHeader("content-disposition");
+                String filename = "thumps_1.jpg";
+                String targetDir = this.getServletContext().getRealPath("public/img/product" + "/" + p.getId());
+                File dir = new File(targetDir);
+                if (!dir.exists()) {
+                    dir.mkdir();
+                }
+                String destination = targetDir + "/" + filename;
+                part.write(destination);
+            }
+            if (part.getName().equals("thumps_2")) {
+                String contentDisposition = part.getHeader("content-disposition");
+                String filename = "thumps_2.jpg";
+                String targetDir = this.getServletContext().getRealPath("public/img/product" + "/" + p.getId());
+                File dir = new File(targetDir);
+                if (!dir.exists()) {
+                    dir.mkdir();
+                }
+                String destination = targetDir + "/" + filename;
+                part.write(destination);
+            }
+        }
+    }
 }
