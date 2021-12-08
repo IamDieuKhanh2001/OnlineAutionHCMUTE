@@ -20,7 +20,7 @@
     <jsp:attribute name="js">
 <%--        Sử dụng date time picker cho ô birthdate --%>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js"></script>
-        <script src="../../public/js/ValidateUtils.js"></script>
+        <script src="${pageContext.request.contextPath}/public/js/ValidateUtils.js"></script>
     <script>
         //Kiem tra form validation
         $('#frmAddAccount').on('submit', function (e){
@@ -56,7 +56,7 @@
                 return;
             }
             const email = $('#txtEmail').val();
-            if(email.length === 0){                 //Chua xac minh email
+            if(email.length === 0 || !isEmail(email)){                 //Chua xac minh email
                 alert("Invalid email");
                 return;
             }

@@ -35,7 +35,7 @@
                 <a class="nav-link disabled" href="#">Disabled</a>
             </li>
         </ul>
-        <form class="form-inline my-2 my-lg-0">
+        <div class=" my-2 my-lg-0">
             <div class="d-flex justify-content-between">
                 <button type="button" class="btn btn-outline-warning mr-3" data-toggle="modal"
                         data-target="#exampleModalCenter">
@@ -53,8 +53,7 @@
                 <ul class="navbar-nav">
                     <c:choose>
                     <c:when test="${auth}">
-                    <form id="frmLogout" method="post"
-                          action="${pageContext.request.contextPath}/Account/Logout"></form>
+                    <form id="frmLogout" method="post" action="${pageContext.request.contextPath}/Account/Logout"></form>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownR" role="button"
                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -88,7 +87,7 @@
                     </c:choose>
                     <ul/>
             </div>
-        </form>
+        </div>
     </div>
 </nav>
 

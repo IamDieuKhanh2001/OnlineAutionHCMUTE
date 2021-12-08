@@ -103,7 +103,7 @@ public class SellerProductServlet extends HttpServlet {
         String old_description = request.getParameter("old_description");
         String descriptionAppend = request.getParameter("description");
         Date dateNow = new Date();
-        String appendDateModified = "<br>" + String.valueOf(dateNow) + "<br>";
+        String appendDateModified = "<br>"+ "Bổ sung vào lúc: " + String.valueOf(dateNow) + "<br>";
         String descriptionEdited = old_description + appendDateModified + descriptionAppend;
         Product p = ProductModel.findById(id);
         p.setDescription(descriptionEdited);

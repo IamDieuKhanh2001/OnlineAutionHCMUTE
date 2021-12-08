@@ -80,14 +80,14 @@ public class AccountServlet extends HttpServlet {
                 String userID = request.getParameter("userID");
                 String code = request.getParameter("code");
 
-                if(userID == null || code == null)
+                if (userID == null || code == null)
                     ServletUtils.forward("/views/404.jsp", request, response);
 
                 User userTemp = new User();
                 userTemp.setId(Integer.parseInt(userID));
 
                 AccountRecovery accountRecovery = AccountRecoveryModel.findCodeValid(userTemp, code);
-                if(accountRecovery == null)
+                if (accountRecovery == null)
                     ServletUtils.forward("/views/404.jsp", request, response);
 
                 request.setAttribute("userID", userID);
@@ -145,19 +145,17 @@ public class AccountServlet extends HttpServlet {
             case "/Recovery":
                 String email = request.getParameter("email");
                 User user = UserModel.findByEmail(email);
-                if(user == null)
-                {
+                if (user == null) {
                     request.setAttribute("isExist", false);
-                }
-                else
-                {
+                } else {
                     request.setAttribute("isExist", true);
-                    try
-                    {
+                    try {
                         String code = Common.getRandomNumberString();
                         AccountRecoveryModel.add(user, code);
                         SendEmail.sendAsHtml(email, "Reset Password Online Aution HCMUTE", EmailTemplate.TemplateRecoverAccount(user, code));
-                    } catch (Exception ex) { System.out.println(ex.getMessage()); }
+                    } catch (Exception ex) {
+                        System.out.println(ex.getMessage());
+                    }
                 }
 
                 request.setAttribute("emailPost", email);
@@ -169,14 +167,14 @@ public class AccountServlet extends HttpServlet {
                 String userID = request.getParameter("userID");
                 String code = request.getParameter("code");
 
-                if(userID == null || code == null)
+                if (userID == null || code == null)
                     ServletUtils.forward("/views/404.jsp", request, response);
 
                 User userTemp = new User();
                 userTemp.setId(Integer.parseInt(userID));
 
                 AccountRecovery accountRecovery = AccountRecoveryModel.findCodeValid(userTemp, code);
-                if(accountRecovery == null)
+                if (accountRecovery == null)
                     ServletUtils.forward("/views/404.jsp", request, response);
 
                 String newPassword = request.getParameter("password1");
@@ -289,6 +287,7 @@ public class AccountServlet extends HttpServlet {
     }
 
     private void logout(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        System.out.println("aaaa");
         HttpSession session = request.getSession();
         session.setAttribute("auth", false);
         session.setAttribute("authUser", new User());
@@ -299,8 +298,8 @@ public class AccountServlet extends HttpServlet {
         ServletUtils.redirect(url, request, response);
     }
 
-    public static  void abc ()
-    {
-        ProductType productType = new ProductType(1, "", 2);
-    }
+//    public static  void abc ()
+//    {
+//        ProductType productType = new ProductType(1, "", 2);
+//    }
 }
