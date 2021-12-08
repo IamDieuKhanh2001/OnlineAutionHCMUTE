@@ -106,29 +106,20 @@ public class ProductModel {
 
     public static void update(Product product)
     {
-        final String query = "UPDATE `products` SET " +
-                "`name` = :newName, " +
-                "`description` = :newDesc " +
-                "`product_type_id` = :newProductTypeID " +
-                "`user_id` = :newUserID " +
-                "`price_start` = :newPriceStart " +
-                "`price_step` = :newPriceStep " +
-                "`price_current` = :newPriceCurrent " +
-                "`price_buy_now` = :newPriceBuyNow " +
-                "`modified_time` = :newUpdateTime " +
-                "WHERE `id` = :productID";
+        final String query = "UPDATE products SET  name = :name, price_buy_now = :priceBuyNow, modified_time = :modifiedTime, description = :description, product_type_id = :productTypeId, user_id = :userId, price_start = :priceStart, price_step = :priceStep, price_current = :priceCurrent WHERE id = :id";
         try (Connection connection = DbUtils.getConnection())
         {
             connection.createQuery(query)
-                    .addParameter("newName", product.getName())
-                    .addParameter("newDesc", product.getDescription())
-                    .addParameter("newProductTypeID", product.getProduct_type_id())
-                    .addParameter("newUserID", product.getUser_id())
-                    .addParameter("newPriceStart", product.getPrice_start())
-                    .addParameter("newPriceStep", product.getPrice_step())
-                    .addParameter("newPriceCurrent", product.getPrice_current())
-                    .addParameter("newPriceBuyNow", product.getPrice_buy_now())
-                    .addParameter("newUpdateTime", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()))
+                    .addParameter("id", product.getId())
+                    .addParameter("name", product.getName())
+                    .addParameter("description", product.getDescription())
+                    .addParameter("productTypeId", product.getProduct_type_id())
+                    .addParameter("userId", product.getUser_id())
+                    .addParameter("priceStart", product.getPrice_start())
+                    .addParameter("priceStep", product.getPrice_step())
+                    .addParameter("priceCurrent", product.getPrice_current())
+                    .addParameter("priceBuyNow", product.getPrice_buy_now())
+                    .addParameter("modifiedTime", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()))
                     .executeUpdate();
         }
     }
@@ -157,9 +148,7 @@ public class ProductModel {
 
     public static void updateAllProductTypeID(int oldProductTypeID, int newProductTypeID)
     {
-        final String query = "UPDATE `products` SET " +
-                "`product_type_id` = :newProductTypeID " +
-                "WHERE `product_type_id` = :oldProductTypeID";
+        final String query = "UPDATE `products` SET `product_type_id` = :newProductTypeID WHERE `product_type_id` = :oldProductTypeID";
         try (Connection connection = DbUtils.getConnection())
         {
             connection.createQuery(query)

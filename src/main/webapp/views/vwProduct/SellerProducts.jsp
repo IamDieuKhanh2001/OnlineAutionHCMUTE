@@ -7,7 +7,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
 <%--Nhan view model tu controler tra ve r ta hien thi ra view (JSP EL)--%>
-<%--<jsp:useBean id="category" scope="request" type="com.example.day10_javawebdemo3.beans.Category"></jsp:useBean>--%>
 <jsp:useBean id="products" scope="request"
              type="java.util.List<com.ute.onlineautionhcmute.beans.Product>"/>
 <t:main>
@@ -48,9 +47,9 @@
                                                 <p class="card-text">Lần cuối chỉnh sửa: ${c.modified_time}</p>
                                             </div>
                                             <div class="card-footer text-muted">
-                                                <a class="btn btn-outline-primary" href="#" role="button">
+                                                <a class="btn btn-outline-primary" href="${pageContext.request.contextPath}/Seller/Product/Edit?id=${c.id}" role="button">
                                                     <i class="fa fa-pencil" aria-hidden="true"></i>
-                                                    Chỉnh sửa
+                                                    Bổ sung mô tả sản phẩm
                                                 </a>
                                             </div>
                                         </div>

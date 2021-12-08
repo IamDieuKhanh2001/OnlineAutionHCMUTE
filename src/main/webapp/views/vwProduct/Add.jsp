@@ -33,6 +33,8 @@
                 height: 450,
                 plugins: 'paste image link autolink lists table media',
                 menubar: false,
+                branding: false,
+                elementpath: false,
                 toolbar: [
                     'undo redo | bold italic underline strikethrough | numlist bullist | alignleft aligncenter alignright | forecolor backcolor'
                 ],

@@ -36,14 +36,14 @@
     </jsp:attribute>
     <jsp:body>
         <div class="card">
-            <h4 class="card-header">
+            <h4 class="card-header bg-dark text-light">
                 <i class="fa fa-info-circle" aria-hidden="true"></i>
                 Thông tin sản phẩm ${product.name}
             </h4>
             <div class="card-body">
                     <%--        thong tin ng seller--%>
                 <h4 class="card-title">
-                    <i class="fa fa-headphones" aria-hidden="true"></i>
+                    <i class="fa fa-user" aria-hidden="true"></i>
                     Nguời bán: ${sellerInfo.username}
                 </h4>
                 <p class="card-text">
@@ -91,35 +91,59 @@
                     <%--        end hinh anh--%>
                     <%--        thong tin--%>
                 <div class="form-group">
-                    <label for="txtPriceBuyNow">Giá mua ngay</label>
+                    <label for="txtPriceBuyNow">
+                        <i class="fa fa-money" aria-hidden="true"></i>
+                        Giá mua ngay
+                    </label>
                     <input type="text" class="form-control" id="txtPriceBuyNow"
                            value="<fmt:formatNumber value="${product.price_buy_now}" type="number"/>" readonly>
                 </div>
                 <div class="form-group">
-                    <label for="txtPriceStart">Giá khởi đầu</label>
+                    <label for="txtPriceStart">
+                        <i class="fa fa-money" aria-hidden="true"></i>
+                        Giá khởi đầu
+                    </label>
                     <input type="text" class="form-control" id="txtPriceStart"
                            value="<fmt:formatNumber value="${product.price_start}" type="number"/>" readonly>
                 </div>
                 <div class="form-group">
-                    <label for="txtPriceCurrent">Giá hiện tại</label>
+                    <label for="txtPriceCurrent">
+                        <i class="fa fa-money" aria-hidden="true"></i>
+                        Giá hiện tại
+                    </label>
                     <input type="text" class="form-control" id="txtPriceCurrent"
                            value="<fmt:formatNumber value="${product.price_current}" type="number"/>" readonly>
                 </div>
                 <div class="form-group">
-                    <label for="txtPriceStep">Bước giá</label>
+                    <label for="txtPriceStep">
+                        <i class="fa fa-money" aria-hidden="true"></i>
+                        Bước giá
+                    </label>
                     <input type="text" class="form-control" id="txtPriceStep"
                            value="<fmt:formatNumber value="${product.price_step}" type="number"/>" readonly>
                 </div>
                 <div class="form-group">
-                    <label for="txtDes">Mô tả</label>
+                    <label for="txtDes">
+                        <i class="fa fa-audio-description" aria-hidden="true"></i>
+                        Mô tả
+                    </label>
                     <input type="text" class="form-control" id="txtDes" value="${product.description}" readonly>
                 </div>
                 <div class="form-group">
-                    <label for="txtProductType">Sản phẩm thuộc loại</label>
+                    <label for="txtProductType">
+                        <i class="fa fa-th-large" aria-hidden="true"></i>
+                        Sản phẩm thuộc loại
+                    </label>
                     <input type="text" class="form-control" id="txtProductType" value="${proType.name}" readonly>
                 </div>
-                <p class="text-secondary">Tạo lúc: ${product.create_time}</p>
-                <p class="text-secondary">Lần cuối chỉnh sửa: ${product.modified_time}</p>
+                <p class="text-secondary">
+                    <i class="fa fa-clock-o" aria-hidden="true"></i>
+                    Tạo lúc: ${product.create_time}
+                </p>
+                <p class="text-secondary">
+                    <i class="fa fa-clock-o" aria-hidden="true"></i>
+                    Lần cuối chỉnh sửa: ${product.modified_time}
+                </p>
             </div>
             <div class="card-footer">
                 <a class="btn btn-outline-primary" href="${pageContext.request.contextPath}/Admin/Product/Index"

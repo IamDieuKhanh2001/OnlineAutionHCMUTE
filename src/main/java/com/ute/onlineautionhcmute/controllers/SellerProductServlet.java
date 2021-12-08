@@ -1,13 +1,7 @@
 package com.ute.onlineautionhcmute.controllers;
 
-import com.ute.onlineautionhcmute.beans.Category;
-import com.ute.onlineautionhcmute.beans.Product;
-import com.ute.onlineautionhcmute.beans.ProductType;
-import com.ute.onlineautionhcmute.beans.WatchList;
-import com.ute.onlineautionhcmute.models.CategoryModel;
-import com.ute.onlineautionhcmute.models.ProductModel;
-import com.ute.onlineautionhcmute.models.ProductTypeModel;
-import com.ute.onlineautionhcmute.models.WatchListModel;
+import com.ute.onlineautionhcmute.beans.*;
+import com.ute.onlineautionhcmute.models.*;
 import com.ute.onlineautionhcmute.utils.ServletUtils;
 
 import javax.servlet.*;
@@ -44,10 +38,34 @@ public class SellerProductServlet extends HttpServlet {
                 ServletUtils.forward("/views/vwProduct/Add.jsp",request,response);
                 break;
             }
+            case "/Edit":{
+                HttpSession session = request.getSession();
+                User userLogin = (User) session.getAttribute("authUser1");
+
+                int id = 0;
+                try {
+                    id = Integer.parseInt(request.getParameter("id"));
+                } catch (NumberFormatException e) {
+                }
+                Product c = ProductModel.findById(id);
+                if (c != null && c.getUser_id() == userLogin.getId()) {              //Kiểm tra sản phẩm tồn tại và có thuộc sở hữu người login k
+                    request.setAttribute("product", c);                                  //San pham id can tim
+                    User sellerInfo = UserModel.findById(c.getUser_id());                   //Attribute hien thi ten username ng ban ra view
+                    request.setAttribute("sellerInfo", sellerInfo);
+                    ProductType proType = ProductTypeModel.findById(c.getProduct_type_id()); //Attribute hien thi ten product type ra view
+                    request.setAttribute("proType", proType);
+                    ServletUtils.forward("/views/vwProduct/Edit.jsp",request,response);
+                } else {
+                    ServletUtils.forward("/views/204.jsp", request, response);
+                }
+                break;
+            }
             //Xem tat ca san pham cua seller da dang
             case "/All":{
+                HttpSession session = request.getSession();
+                User userLogin = (User) session.getAttribute("authUser1");
 
-                List<Product> sellerProduct = ProductModel.findByUserID(14);     //Lay id user tu session AuthUser
+                List<Product> sellerProduct = ProductModel.findByUserID(userLogin.getId());     //Lay id user tu session AuthUser
                 request.setAttribute("products", sellerProduct);
                 ServletUtils.forward("/views/vwProduct/SellerProducts.jsp",request,response);
                 break;
@@ -70,17 +88,38 @@ public class SellerProductServlet extends HttpServlet {
                 addProduct(request, response);
                 break;
             }
+            case "/Edit": {
+                editProduct(request, response);
+                break;
+            }
             default: {
                 ServletUtils.forward("/views/404.jsp", request, response);
                 break;
             }
         }
     }
+    private void editProduct(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        int id = Integer.parseInt(request.getParameter("productID"));
+        String old_description = request.getParameter("old_description");
+        String descriptionAppend = request.getParameter("description");
+        Date dateNow = new Date();
+        String appendDateModified = "<br>" + String.valueOf(dateNow) + "<br>";
+        String descriptionEdited = old_description + appendDateModified + descriptionAppend;
+        Product p = ProductModel.findById(id);
+        p.setDescription(descriptionEdited);
+        p.setModified_time(dateNow);
+        ProductModel.update(p);
+        ServletUtils.redirect("/Seller/Product/All", request, response);
+    }
+
     private void addProduct(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        HttpSession session = request.getSession();
+        User userLogin = (User) session.getAttribute("authUser1");
+
         String name = request.getParameter("name");
         String description = request.getParameter("description");
         int product_type_id = Integer.parseInt(request.getParameter("Product_type_id"));
-        int user_id = Integer.parseInt(request.getParameter("user_id"));              //Xem usser id cua usser tu session (chua xong)
+        int user_id = userLogin.getId();              //Xem usser id cua usser tu session (chua xong)
         double priceStart = Double.parseDouble(request.getParameter("priceStart"));
         double priceCurrent = Double.parseDouble(request.getParameter("priceCurrent"));
         double priceStep = Double.parseDouble(request.getParameter("PriceStep"));
@@ -88,16 +127,18 @@ public class SellerProductServlet extends HttpServlet {
         Product p = new Product(-1,name,description,product_type_id,user_id,priceStart,priceStep,priceCurrent,priceBuyNow);
         ProductModel.add(p);
 
-        storeImage(user_id,request,response);  //Lưu hình vào server
+        storeImage(request,response);  //Lưu hình vào server
 
         ServletUtils.redirect("/Seller/Product/Dashboard",request,response);    //Sua lai duong dan view
     }
-    private void storeImage(int user_id,HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
-        Product p = ProductModel.findInsertRecentByUserID(user_id);
+    private void storeImage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
+        HttpSession session = request.getSession();
+        User userLogin = (User) session.getAttribute("authUser1");
+
+        Product p = ProductModel.findInsertRecentByUserID(userLogin.getId());
 
         for (Part part : request.getParts()) { //Nhan hinh anh tu browse và lưu vào server
             if (part.getName().equals("mainImg")) {
-                String contentDisposition = part.getHeader("content-disposition");
                 String filename = "main.jpg";
                 String targetDir = this.getServletContext().getRealPath("public/img/product" + "/" + p.getId());
                 File dir = new File(targetDir);
@@ -108,7 +149,6 @@ public class SellerProductServlet extends HttpServlet {
                 part.write(destination);
             }
             if (part.getName().equals("thumps_1")) {
-                String contentDisposition = part.getHeader("content-disposition");
                 String filename = "thumps_1.jpg";
                 String targetDir = this.getServletContext().getRealPath("public/img/product" + "/" + p.getId());
                 File dir = new File(targetDir);
@@ -119,7 +159,6 @@ public class SellerProductServlet extends HttpServlet {
                 part.write(destination);
             }
             if (part.getName().equals("thumps_2")) {
-                String contentDisposition = part.getHeader("content-disposition");
                 String filename = "thumps_2.jpg";
                 String targetDir = this.getServletContext().getRealPath("public/img/product" + "/" + p.getId());
                 File dir = new File(targetDir);
