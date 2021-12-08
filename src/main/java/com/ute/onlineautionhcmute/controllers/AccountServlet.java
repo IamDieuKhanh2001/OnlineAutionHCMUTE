@@ -30,6 +30,9 @@ import java.util.List;
 public class AccountServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+        HttpSession session = request.getSession();
+
         String path = request.getPathInfo();
         switch (path) {
 
@@ -51,7 +54,6 @@ public class AccountServlet extends HttpServlet {
                 break;
 
             case "/Profile/ChangeInformation":
-                HttpSession session = request.getSession();
                 boolean isLogin = (boolean)session.getAttribute("auth1");
                 User userLogin = null;
                 if(isLogin)
@@ -68,7 +70,6 @@ public class AccountServlet extends HttpServlet {
                 break;
 
             case "/Login":
-                HttpSession session = request.getSession();
                 if ((boolean) session.getAttribute("auth")) {
                     ServletUtils.redirect("/Home", request, response);
                 } else ServletUtils.forward("/views/vwAccount/Login.jsp", request, response);
