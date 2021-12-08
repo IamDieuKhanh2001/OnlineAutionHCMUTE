@@ -54,10 +54,10 @@ public class AccountServlet extends HttpServlet {
                 break;
 
             case "/Profile/ChangeInformation":
-                boolean isLogin = (boolean)session.getAttribute("auth1");
+                boolean isLogin = (boolean)session.getAttribute("auth");
                 User userLogin = null;
                 if(isLogin)
-                    userLogin = (User)session.getAttribute("authUser1");
+                    userLogin = (User)session.getAttribute("authUser");
                 if(userLogin == null)
                     ServletUtils.forward("/views/404.jsp", request, response);
 
@@ -143,51 +143,61 @@ public class AccountServlet extends HttpServlet {
                 break;
 
             case "/Recovery":
-                String email = request.getParameter("email");
-                User user = UserModel.findByEmail(email);
-                if (user == null) {
-                    request.setAttribute("isExist", false);
-                } else {
-                    request.setAttribute("isExist", true);
-                    try {
-                        String code = Common.getRandomNumberString();
-                        AccountRecoveryModel.add(user, code);
-                        SendEmail.sendAsHtml(email, "Reset Password Online Aution HCMUTE", EmailTemplate.TemplateRecoverAccount(user, code));
-                    } catch (Exception ex) {
-                        System.out.println(ex.getMessage());
-                    }
-                }
-
-                request.setAttribute("emailPost", email);
-                request.setAttribute("isPost", true);
-                ServletUtils.forward("/views/vwAccount/AccountRecovery.jsp", request, response);
+                recovery(request, response);
                 break;
 
             case "/ResetPassword":
-                String userID = request.getParameter("userID");
-                String code = request.getParameter("code");
-
-                if (userID == null || code == null)
-                    ServletUtils.forward("/views/404.jsp", request, response);
-
-                User userTemp = new User();
-                userTemp.setId(Integer.parseInt(userID));
-
-                AccountRecovery accountRecovery = AccountRecoveryModel.findCodeValid(userTemp, code);
-                if (accountRecovery == null)
-                    ServletUtils.forward("/views/404.jsp", request, response);
-
-                String newPassword = request.getParameter("password1");
-                String bcryptHashPassword = BCrypt.withDefaults().hashToString(12, newPassword.toCharArray());
-                UserModel.updatePasswordByID(Integer.parseInt(userID), bcryptHashPassword);
-                AccountRecoveryModel.updateStatusUsed(accountRecovery);
-                ServletUtils.redirect("/Account/Login", request, response);
+                resetPassword(request, response);
                 break;
 
             default:
                 ServletUtils.forward("/views/404.jsp", request, response);
                 break;
         }
+    }
+
+    private void recovery(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
+    {
+        String email = request.getParameter("email");
+        User user = UserModel.findByEmail(email);
+        if (user == null) {
+            request.setAttribute("isExist", false);
+        } else {
+            request.setAttribute("isExist", true);
+            try {
+                String code = Common.getRandomNumberString();
+                AccountRecoveryModel.add(user, code);
+                SendEmail.sendAsHtml(email, "Reset Password Online Aution HCMUTE", EmailTemplate.TemplateRecoverAccount(user, code));
+            } catch (Exception ex) {
+                System.out.println(ex.getMessage());
+            }
+        }
+
+        request.setAttribute("emailPost", email);
+        request.setAttribute("isPost", true);
+        ServletUtils.forward("/views/vwAccount/AccountRecovery.jsp", request, response);
+    }
+
+    private void resetPassword(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
+    {
+        String userID = request.getParameter("userID");
+        String code = request.getParameter("code");
+
+        if (userID == null || code == null)
+            ServletUtils.forward("/views/404.jsp", request, response);
+
+        User userTemp = new User();
+        userTemp.setId(Integer.parseInt(userID));
+
+        AccountRecovery accountRecovery = AccountRecoveryModel.findCodeValid(userTemp, code);
+        if (accountRecovery == null)
+            ServletUtils.forward("/views/404.jsp", request, response);
+
+        String newPassword = request.getParameter("password1");
+        String bcryptHashPassword = BCrypt.withDefaults().hashToString(12, newPassword.toCharArray());
+        UserModel.updatePasswordByID(Integer.parseInt(userID), bcryptHashPassword);
+        AccountRecoveryModel.updateStatusUsed(accountRecovery);
+        ServletUtils.redirect("/Account/Login", request, response);
     }
 
     private void changePassword(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
@@ -197,8 +207,8 @@ public class AccountServlet extends HttpServlet {
         request.setAttribute("message", "");
 
         HttpSession session = request.getSession();
-        User user = (User)session.getAttribute("authUser1");
-        boolean isLogin = (boolean)session.getAttribute("auth1");
+        User user = (User)session.getAttribute("authUser");
+        boolean isLogin = (boolean)session.getAttribute("auth");
         if(isLogin && user != null)
         {
             String passwordCurrent = request.getParameter("password_current");

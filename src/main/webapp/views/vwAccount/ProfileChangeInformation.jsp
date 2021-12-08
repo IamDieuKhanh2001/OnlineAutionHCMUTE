@@ -9,7 +9,7 @@
 <%@ taglib prefix="t" tagdir="/WEB-INF/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<jsp:useBean id="authUser1" scope="session" type="com.ute.onlineautionhcmute.beans.User" />
+<jsp:useBean id="authUser" scope="session" type="com.ute.onlineautionhcmute.beans.User" />
 
 <t:profile>
     <jsp:attribute name="css">
@@ -32,25 +32,25 @@
                                 <div class="form-group row">
                                     <label for="username" class="col-4 col-form-label">User Name*</label>
                                     <div class="col-8">
-                                        <input value="${authUser1.username}" id="username" name="username" placeholder="Username" class="form-control here" required="required" type="text">
+                                        <input value="${authUser.username}" id="username" name="username" placeholder="Username" class="form-control here" required="required" type="text">
                                     </div>
                                 </div>
                                 <div class="form-group row">
                                     <label for="name" class="col-4 col-form-label">First Name</label>
                                     <div class="col-8">
-                                        <input value="${authUser1.firstname}" id="name" name="name" placeholder="First Name" class="form-control here" type="text">
+                                        <input value="${authUser.firstname}" id="name" name="name" placeholder="First Name" class="form-control here" type="text">
                                     </div>
                                 </div>
                                 <div class="form-group row">
                                     <label for="lastname" class="col-4 col-form-label">Last Name</label>
                                     <div class="col-8">
-                                        <input value="${authUser1.lastname}" id="lastname" name="lastname" placeholder="Last Name" class="form-control here" type="text">
+                                        <input value="${authUser.lastname}" id="lastname" name="lastname" placeholder="Last Name" class="form-control here" type="text">
                                     </div>
                                 </div>
                                 <div class="form-group row">
                                     <label for="text" class="col-4 col-form-label">Nick Name*</label>
                                     <div class="col-8">
-                                        <input value="${authUser1.username}" id="text" name="text" placeholder="Nick Name" class="form-control here" required="required" type="text">
+                                        <input value="${authUser.username}" id="text" name="text" placeholder="Nick Name" class="form-control here" required="required" type="text">
                                     </div>
                                 </div>
 <%--                                <div class="form-group row">--%>
@@ -64,7 +64,7 @@
                                 <div class="form-group row">
                                     <label for="email" class="col-4 col-form-label">Email*</label>
                                     <div class="col-8">
-                                        <input value="${authUser1.email}" readonly id="email" name="email" placeholder="Email" class="form-control here" required="required" type="text">
+                                        <input value="${authUser.email}" readonly id="email" name="email" placeholder="Email" class="form-control here" required="required" type="text">
                                     </div>
                                 </div>
 <%--                                <div class="form-group row">--%>

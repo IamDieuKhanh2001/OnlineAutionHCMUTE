@@ -9,7 +9,7 @@
 <%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<jsp:useBean id="authUser1" scope="session" type="com.ute.onlineautionhcmute.beans.User" />
+<jsp:useBean id="authUser" scope="session" type="com.ute.onlineautionhcmute.beans.User" />
 
 <t:profile>
     <jsp:attribute name="css">
@@ -84,9 +84,9 @@
                                 <div class="d-flex flex-column align-items-center text-center">
                                     <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="Admin" class="rounded-circle" width="150">
                                     <div class="mt-3">
-                                        <h4>${authUser1.firstname} ${authUser1.lastname}</h4>
+                                        <h4>${authUser.firstname} ${authUser.lastname}</h4>
                                         <p class="text-secondary mb-1">Dep trai Pro</p>
-                                        <p class="text-muted font-size-sm">${authUser1.address}</p>
+                                        <p class="text-muted font-size-sm">${authUser.address}</p>
                                         <button class="btn btn-primary">Follow</button>
                                         <button class="btn btn-outline-primary">Message</button>
                                     </div>
@@ -126,7 +126,7 @@
                                         <h6 class="mb-0">Full Name</h6>
                                     </div>
                                     <div class="col-sm-9 text-secondary">
-                                        ${authUser1.firstname} ${authUser1.lastname}
+                                        ${authUser.firstname} ${authUser.lastname}
                                     </div>
                                 </div>
                                 <hr>
@@ -135,7 +135,7 @@
                                         <h6 class="mb-0">Email</h6>
                                     </div>
                                     <div class="col-sm-9 text-secondary">
-                                        ${authUser1.email}
+                                        ${authUser.email}
                                     </div>
                                 </div>
                                 <hr>
@@ -144,7 +144,7 @@
                                         <h6 class="mb-0">Phone</h6>
                                     </div>
                                     <div class="col-sm-9 text-secondary">
-                                        ${authUser1.phone}
+                                        ${authUser.phone}
                                     </div>
                                 </div>
                                 <hr>
@@ -153,7 +153,7 @@
                                         <h6 class="mb-0">Mobile</h6>
                                     </div>
                                     <div class="col-sm-9 text-secondary">
-                                        ${authUser1.phone}
+                                        ${authUser.phone}
                                     </div>
                                 </div>
                                 <hr>
@@ -162,7 +162,7 @@
                                         <h6 class="mb-0">Address</h6>
                                     </div>
                                     <div class="col-sm-9 text-secondary">
-                                        ${authUser1.address}
+                                        ${authUser.address}
                                     </div>
                                 </div>
                                 <hr>
