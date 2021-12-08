@@ -76,6 +76,24 @@ public class ProductFEServlet extends HttpServlet {
                 ServletUtils.forward("/views/vwProduct/watchList.jsp", request, response);
                 break;
             }
+
+            case "/RemoveFromWatchList": {
+                String url = request.getHeader("referer"); //Luu dia chi trang trc do de quay ve
+
+                int id = 0;
+                try {
+                    id = Integer.parseInt(request.getParameter("id"));
+                } catch (NumberFormatException e) {
+                }
+                WatchList wl = WatchListModel.findByProID(id);
+                if (wl != null) {
+                    WatchListModel.delete(id);
+                    ServletUtils.redirect(url, request, response);
+                } else {
+                    ServletUtils.forward("/views/204.jsp", request, response);
+                }
+                break;
+            }
             case "/Detail":{
                 int productID = -1;
                 try

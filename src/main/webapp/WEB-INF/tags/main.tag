@@ -33,7 +33,7 @@
     </div>
 </div>
 <footer>
-<%--        <jsp:include page="../../views/partials/footer.jsp" />--%>
+        <jsp:include page="../../views/partials/footer.jsp" />
 </footer>
 
 

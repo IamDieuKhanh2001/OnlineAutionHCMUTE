@@ -56,5 +56,14 @@ public class WatchListModel {
 
         }
     }
-
+    public static void delete(int productID)
+    {
+        final String query = "DELETE FROM watch_list WHERE watch_list.product_id = :productID";
+        try (Connection connection = DbUtils.getConnection())
+        {
+            connection.createQuery(query)
+                    .addParameter("productID", productID)
+                    .executeUpdate();
+        }
+    }
 }
