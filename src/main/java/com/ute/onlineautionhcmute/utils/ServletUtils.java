@@ -19,6 +19,5 @@ public class ServletUtils {
         }else{
             response.sendRedirect(url);
         }
-
     }
 }
