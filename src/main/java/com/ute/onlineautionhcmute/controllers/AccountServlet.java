@@ -51,11 +51,17 @@ public class AccountServlet extends HttpServlet {
                 break;
 
             case "/Profile/ChangeInformation":
+                HttpSession session = request.getSession();
+                boolean isLogin = (boolean)session.getAttribute("auth1");
+                User userLogin = null;
+                if(isLogin)
+                    userLogin = (User)session.getAttribute("authUser1");
+                if(userLogin == null)
+                    ServletUtils.forward("/views/404.jsp", request, response);
+
                 ServletUtils.forward("/views/vwAccount/ProfileChangeInformation.jsp", request, response);
                 break;
 //            End Profile
-
-
 
             case "/Register2":
                 ServletUtils.forward("/views/vwAccount/Register2.jsp", request, response);
