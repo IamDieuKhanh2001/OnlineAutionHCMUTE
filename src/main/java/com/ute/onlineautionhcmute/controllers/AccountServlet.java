@@ -62,10 +62,10 @@ public class AccountServlet extends HttpServlet {
                 break;
 
             case "/Login":
-//                HttpSession session = request.getSession();
-//                if ((boolean) session.getAttribute("auth")) {
-//                    ServletUtils.redirect("/Home", request, response);
-//                } else ServletUtils.forward("/views/vwAccount/Login.jsp", request, response);
+                HttpSession session = request.getSession();
+                if ((boolean) session.getAttribute("auth")) {
+                    ServletUtils.redirect("/Home", request, response);
+                } else ServletUtils.forward("/views/vwAccount/Login.jsp", request, response);
                 ServletUtils.forward("/views/vwAccount/Login.jsp", request, response);
                 break;
 

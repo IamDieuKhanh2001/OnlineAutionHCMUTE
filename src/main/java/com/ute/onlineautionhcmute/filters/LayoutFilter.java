@@ -11,7 +11,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-@WebFilter(filterName = "LayoutFilter", value = "/*")
+@WebFilter(filterName = "LayoutFilter")
 public class LayoutFilter implements Filter {
     public void init(FilterConfig config) throws ServletException {
     }

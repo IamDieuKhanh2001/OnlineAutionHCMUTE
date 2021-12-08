@@ -1,9 +1,10 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<jsp:useBean id="authUser" scope="session" type="com.ute.onlineautionhcmute.beans.User"/>
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <a class="navbar-brand" href="${pageContext.request.contextPath}/Home/Index">
         <i class="fa fa-home" aria-hidden="true"></i>
-        Nhà
+        Home
     </a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -36,32 +37,64 @@
         </ul>
         <form class="form-inline my-2 my-lg-0">
             <div class="d-flex justify-content-between">
-                <button type="button" class="btn btn-outline-warning mr-3" data-toggle="modal" data-target="#exampleModalCenter">
+                <button type="button" class="btn btn-outline-warning mr-3" data-toggle="modal"
+                        data-target="#exampleModalCenter">
                     <i class="fa fa-bell" aria-hidden="true"></i>
                     Notifications
                     <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
                     99+
                     </span>
                 </button>
-                <a class="btn btn-outline-danger mr-3" href="${pageContext.request.contextPath}/Product/MyWatchList" role="button">
+                <a class="btn btn-outline-danger mr-3" href="${pageContext.request.contextPath}/Product/MyWatchList"
+                   role="button">
                     <i class="fa fa-heart" aria-hidden="true"></i>
                     My watch list
                 </a>
-                <a class="btn btn-outline-success mr-3" href="${pageContext.request.contextPath}/Account/Login" role="button">
-                    <i class="fa fa-sign-in" aria-hidden="true"></i>
-                    Sign in
-                </a>
-                <a class="btn btn-outline-success mr-3" href="${pageContext.request.contextPath}/Account/Login" role="button">
-                    <i class="fa fa-registered" aria-hidden="true"></i>
-                    Register
-                </a>
+                <ul class="navbar-nav">
+                    <c:choose>
+                    <c:when test="${auth}">
+                    <form id="frmLogout" method="post"
+                          action="${pageContext.request.contextPath}/Account/Logout"></form>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownR" role="button"
+                           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Hi, <b>${authUser.username}!</b>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="${pageContext.request.contextPath}/Account/Profile">
+                                <i class="fa fa-user" aria-hidden="true"></i>
+                                Profile
+                            </a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="javascript: $('#frmLogout').submit()">
+                                <i class="fa fa-sign-out" aria-hidden="true"></i>
+                                Sign Out
+                            </a>
+                        </div>
+                    </li>
+                    </c:when>
+                    <c:otherwise>
+                    <a class="btn btn-outline-success mr-3" href="${pageContext.request.contextPath}/Account/Login"
+                       role="button">
+                        <i class="fa fa-sign-in" aria-hidden="true"></i>
+                        Sign in
+                    </a>
+                    <a class="btn btn-outline-success mr-3" href="${pageContext.request.contextPath}/Account/Register2"
+                       role="button">
+                        <i class="fa fa-registered" aria-hidden="true"></i>
+                        Register
+                    </a>
+                    </c:otherwise>
+                    </c:choose>
+                    <ul/>
             </div>
         </form>
     </div>
 </nav>
 
 <!-- Modal -->
-<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+     aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -84,10 +117,11 @@
 </div>
 <%--search--%>
 <div class="container-fluid py-2 mt-2 bg-light">
-<%--    dropdown buttton sort --%>
+    <%--    dropdown buttton sort --%>
     <div class="sort d-flex justify-content-between">
         <div class="dropdown">
-            <button class="btn btn-outline-secondary dropdown-toggle mr-2" type="button" id="sortTimeEnded" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <button class="btn btn-outline-secondary dropdown-toggle mr-2" type="button" id="sortTimeEnded"
+                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 Sort by time end
             </button>
             <div class="dropdown-menu" aria-labelledby="sortTimeEnded">
@@ -96,7 +130,8 @@
             </div>
         </div>
         <div class="dropdown">
-            <button class="btn btn-outline-secondary dropdown-toggle mr-2" type="button" id="sortPrice" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <button class="btn btn-outline-secondary dropdown-toggle mr-2" type="button" id="sortPrice"
+                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 Sort by price
             </button>
             <div class="dropdown-menu" aria-labelledby="sortPrice">
@@ -104,7 +139,7 @@
                 <a class="dropdown-item" href="#">Higher</a>
             </div>
         </div>
-<%--        search bar --%>
+        <%--        search bar --%>
         <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
         <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
     </div>
