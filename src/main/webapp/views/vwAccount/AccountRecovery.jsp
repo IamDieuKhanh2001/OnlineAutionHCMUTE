@@ -69,8 +69,12 @@
 
                                 <input type="hidden" class="hide" name="token" id="token" value="">
                             </form>
-
                         </div>
+
+                        <a class="btn btn-primary" href="${pageContext.request.contextPath}/Home" role="button">
+                            <i class="fa fa-home" aria-hidden="true"></i>
+                            Home
+                        </a>
                     </div>
                 </div>
             </div>
