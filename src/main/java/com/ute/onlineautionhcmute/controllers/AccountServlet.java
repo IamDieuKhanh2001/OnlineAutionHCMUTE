@@ -138,6 +138,10 @@ public class AccountServlet extends HttpServlet {
                 logout(request, response);
                 break;
 
+            case "/Profile/ChangePassword":
+                changePassword(request, response);
+                break;
+
             case "/Recovery":
                 String email = request.getParameter("email");
                 User user = UserModel.findByEmail(email);
@@ -185,6 +189,38 @@ public class AccountServlet extends HttpServlet {
             default:
                 ServletUtils.forward("/views/404.jsp", request, response);
                 break;
+        }
+    }
+
+    private void changePassword(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
+    {
+        request.setAttribute("isError", false);
+        request.setAttribute("errorMessage", "");
+        request.setAttribute("message", "");
+
+        HttpSession session = request.getSession();
+        User user = (User)session.getAttribute("authUser1");
+        boolean isLogin = (boolean)session.getAttribute("auth1");
+        if(isLogin && user != null)
+        {
+            String passwordCurrent = request.getParameter("password_current");
+            String passwordNew = request.getParameter("password_new");
+
+            BCrypt.Result isPasswordCorrect = BCrypt.verifyer().verify(passwordCurrent.toCharArray(), user.getPassword().toCharArray());
+            if(isPasswordCorrect.verified)
+            {
+                String newPasswordCrypt = BCrypt.withDefaults().hashToString(12, passwordNew.toCharArray());
+                UserModel.updatePasswordByID(user.getId(), newPasswordCrypt);
+
+                request.setAttribute("message", "Đổi mật khẩu thành công!");
+                ServletUtils.forward("/views/Account/Profile/ChangePassword", request, response);
+            }
+            else // Sai mật khẩu hiện tại
+            {
+                request.setAttribute("isError", true);
+                request.setAttribute("errorMessage", "Sai mật khẩu hiện tại");
+                ServletUtils.forward("/views/Account/Profile/ChangePassword", request, response);
+            }
         }
     }
 

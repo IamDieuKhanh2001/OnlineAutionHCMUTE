@@ -10,8 +10,6 @@
 <%@ taglib prefix="t" tagdir="/WEB-INF/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<jsp:useBean id="authUser1" scope="session" type="com.ute.onlineautionhcmute.beans.User" />
-
 <t:profile>
     <jsp:body>
         <div class="col-md-9">
@@ -25,7 +23,7 @@
                     </div>
                     <div class="row">
                         <div class="col-md-12">
-                            <form id="form-change-password" method="POST" action="#">
+                            <form id="form-change-password" method="post">
                                 <div class="form-group row">
                                     <label for="password_current" class="col-4 col-form-label">Nhập mật khẩu hiện tại</label>
                                     <div class="col-8">
