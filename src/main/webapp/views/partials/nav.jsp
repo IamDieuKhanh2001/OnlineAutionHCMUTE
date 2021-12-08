@@ -35,7 +35,7 @@
                 <a class="nav-link disabled" href="#">Disabled</a>
             </li>
         </ul>
-        <div class="form-inline my-2 my-lg-0">
+        <div class=" my-2 my-lg-0">
             <div class="d-flex justify-content-between">
                 <button type="button" class="btn btn-outline-warning mr-3" data-toggle="modal"
                         data-target="#exampleModalCenter">
