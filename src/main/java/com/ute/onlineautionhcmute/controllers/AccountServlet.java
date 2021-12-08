@@ -46,6 +46,9 @@ public class AccountServlet extends HttpServlet {
                 break;
 
             case "/Profile/ChangePassword":
+                request.setAttribute("isError", false);
+                request.setAttribute("errorMessage", "");
+                request.setAttribute("message", "");
                 ServletUtils.forward("/views/vwAccount/ProfileChangePassword.jsp", request, response);
                 break;
 
@@ -214,6 +217,8 @@ public class AccountServlet extends HttpServlet {
             String passwordCurrent = request.getParameter("password_current");
             String passwordNew = request.getParameter("password_new");
 
+            System.out.println(passwordCurrent);
+
             BCrypt.Result isPasswordCorrect = BCrypt.verifyer().verify(passwordCurrent.toCharArray(), user.getPassword().toCharArray());
             if(isPasswordCorrect.verified)
             {
@@ -221,13 +226,13 @@ public class AccountServlet extends HttpServlet {
                 UserModel.updatePasswordByID(user.getId(), newPasswordCrypt);
 
                 request.setAttribute("message", "Đổi mật khẩu thành công!");
-                ServletUtils.forward("/views/Account/Profile/ChangePassword", request, response);
+                ServletUtils.forward("/views/vwAccount/ProfileChangePassword.jsp", request, response);
             }
             else // Sai mật khẩu hiện tại
             {
                 request.setAttribute("isError", true);
                 request.setAttribute("errorMessage", "Sai mật khẩu hiện tại");
-                ServletUtils.forward("/views/Account/Profile/ChangePassword", request, response);
+                ServletUtils.forward("/views/vwAccount/ProfileChangePassword.jsp", request, response);
             }
         }
     }
