@@ -75,7 +75,7 @@
                             <div class="preview col-6">
                                 <div class="preview-pic tab-content">
                                     <div class="tab-pane active" id="pic-1"><img
-                                            src="${pageContext.request.contextPath}/public/img/product/${product.id}/thumps_1.jpg"/>
+                                            src="${pageContext.request.contextPath}/public/img/product/${product.id}/thumps_1.jpg" alt="" title=""/>
                                     </div>
                                     <div class="tab-pane" id="pic-2"><img
                                             src="${pageContext.request.contextPath}/public/img/product/${product.id}/thumps_2.jpg"/>
