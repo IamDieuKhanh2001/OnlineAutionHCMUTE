@@ -14,9 +14,6 @@
 <jsp:useBean id="userType" scope="request"
              type="java.util.List<com.ute.onlineautionhcmute.beans.UserType>"/>
 <t:main>
-    <jsp:attribute name="admin_left_navigation">
-        <jsp:include page="../partials/AdminLeft.jsp"/>
-    </jsp:attribute>
     <jsp:body>
         <div class="card">
             <h4 class="card-header d-flex justify-content-between bg-dark text-light">

@@ -2,8 +2,12 @@
 <%--Ki thuật tạo fragment, tạo 2 lỗ đưa css js vào tag--%>
 <%@ attribute name="css" fragment="true" required="false" %>
 <%@ attribute name="js" fragment="true" required="false" %>
+<%--De su dung JSTL, can mo ta--%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%--lỗ chứa giao diện của riêng admin view--%>
 <%@ attribute name="admin_left_navigation" fragment="true" required="false" %>
+
+<jsp:useBean id="authUser" scope="session" type="com.ute.onlineautionhcmute.beans.User"/>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -25,6 +29,14 @@
     <div class="row">
         <div class="col-2">
             <jsp:invoke fragment="admin_left_navigation"/>
+            <c:choose>
+                <c:when test="${authUser.user_type_id == 1}">
+                    <jsp:include page="../../views/partials/AdminLeft.jsp"/>
+                </c:when>
+                <c:when test="${authUser.user_type_id == 2}">
+                    <jsp:include page="../../views/partials/SellerLeft.jsp"/>
+                </c:when>
+            </c:choose>
             <jsp:include page="../../views/partials/left.jsp"/>
         </div>
         <div class="col-10">

@@ -19,11 +19,12 @@ public class WatchListModel {
         }
     }
 
-    public static WatchList findByProID(int id) {
-        final String query = "select * from watch_list where product_id = :id";
+    public static WatchList findByProIdAndUserId(int productId, int userId) {
+        final String query = "select * from watch_list where product_id = :id and user_id = :userId";
         try (Connection con = DbUtils.getConnection()) {
             List<WatchList> list = con.createQuery(query)
-                    .addParameter("id", id)
+                    .addParameter("id", productId)
+                    .addParameter("userId", userId)
                     .executeAndFetch(WatchList.class);
             if (list.size() == 0) {
                 return null;
@@ -56,13 +57,14 @@ public class WatchListModel {
 
         }
     }
-    public static void delete(int productID)
+    public static void delete(int productID, int userID)
     {
-        final String query = "DELETE FROM watch_list WHERE watch_list.product_id = :productID";
+        final String query = "DELETE FROM watch_list WHERE watch_list.product_id = :productID and watch_list.user_id = :userID";
         try (Connection connection = DbUtils.getConnection())
         {
             connection.createQuery(query)
                     .addParameter("productID", productID)
+                    .addParameter("userID", userID)
                     .executeUpdate();
         }
     }

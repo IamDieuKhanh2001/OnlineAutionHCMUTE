@@ -10,9 +10,6 @@
 <jsp:useBean id="products" scope="request"
              type="java.util.List<com.ute.onlineautionhcmute.beans.Product>"/>
 <t:main>
-    <jsp:attribute name="admin_left_navigation">
-        <jsp:include page="../partials/SellerLeft.jsp"/>
-    </jsp:attribute>
     <jsp:body>
         <div class="card">
             <h4 class="card-header bg-dark text-light">

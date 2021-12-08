@@ -16,9 +16,6 @@
 <%--             type="java.util.List<com.ute.onlineautionhcmute.beans.UserType>"/>--%>
 
 <t:main>
-    <jsp:attribute name="admin_left_navigation">
-        <jsp:include page="../partials/SellerLeft.jsp"/>
-    </jsp:attribute>
     <jsp:attribute name="css">
         <%--        bootstrap file input--%>
     <link href="https://cdn.jsdelivr.net/gh/kartik-v/bootstrap-fileinput@5.2.5/css/fileinput.min.css" media="all" rel="stylesheet" type="text/css" />

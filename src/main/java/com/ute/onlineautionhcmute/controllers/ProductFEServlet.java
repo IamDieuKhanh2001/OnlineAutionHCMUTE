@@ -32,24 +32,27 @@ public class ProductFEServlet extends HttpServlet {
                 request.setAttribute("products", list);
                 List<User> sellerList = UserModel.findAll();
                 request.setAttribute("sellerList", sellerList);
-                List<WatchList> userWatchList = WatchListModel.findByUserID(6);         //Authuser session
-                request.setAttribute("userWatchList", userWatchList);
                 ServletUtils.forward("/views/vwProduct/ByProID.jsp", request, response);
                 break;
             }
             case "/AddWatchList": {
+                HttpSession session = request.getSession();
+                User userLogin = (User) session.getAttribute("authUser");
+
+                System.out.println(userLogin.getId());
                 String url = request.getHeader("referer"); //Luu dia chi trang trc do de quay ve
                 int id = 0;
-                int bidderID = 6; //Bien luu id user lấy trên session (chưa xong)
+                int bidderID = userLogin.getId();
+
+
                 try {
                     id = Integer.parseInt(request.getParameter("id"));
                 } catch (NumberFormatException e) {
                 }
-                Product c = ProductModel.findById(id);              //Kiem tra thong tin bidder, san pham
-                User u = UserModel.findById(bidderID);
+                Product c = ProductModel.findById(id);
                 if (c != null) {                             //neu trong watchlist chuwa có sp
-                    if (WatchListModel.findByProID(c.getId()) == null){
-                        WatchListModel.add(c,u);
+                    if (WatchListModel.findByProIdAndUserId(c.getId(),userLogin.getId()) == null){
+                        WatchListModel.add(c,userLogin);
                         ServletUtils.redirect(url,request,response);
                     }else{                                                 //neu trong watchlist da có sp
                         ServletUtils.redirect(url,request,response);
@@ -61,7 +64,9 @@ public class ProductFEServlet extends HttpServlet {
             }
 
             case "/MyWatchList": {
-                List<WatchList> userWatchList =WatchListModel.findByUserID(6);  // User id lay tu session
+                HttpSession session = request.getSession();
+                User userLogin = (User) session.getAttribute("authUser");
+                List<WatchList> userWatchList =WatchListModel.findByUserID(userLogin.getId());  // User id lay tu session
                 request.setAttribute("userWatchList", userWatchList);
                 List<Product> userProduct = new ArrayList<>();         //Tim san pham tu watchlist ra product
                 for (WatchList item : userWatchList){
@@ -79,15 +84,17 @@ public class ProductFEServlet extends HttpServlet {
 
             case "/RemoveFromWatchList": {
                 String url = request.getHeader("referer"); //Luu dia chi trang trc do de quay ve
+                HttpSession session = request.getSession();
+                User userLogin = (User) session.getAttribute("authUser");
 
                 int id = 0;
                 try {
                     id = Integer.parseInt(request.getParameter("id"));
                 } catch (NumberFormatException e) {
                 }
-                WatchList wl = WatchListModel.findByProID(id);
+                WatchList wl = WatchListModel.findByProIdAndUserId(id,userLogin.getId());
                 if (wl != null) {
-                    WatchListModel.delete(id);
+                    WatchListModel.delete(id,userLogin.getId());
                     ServletUtils.redirect(url, request, response);
                 } else {
                     ServletUtils.forward("/views/204.jsp", request, response);

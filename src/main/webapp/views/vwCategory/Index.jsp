@@ -16,10 +16,6 @@
              type="java.util.List<com.ute.onlineautionhcmute.beans.Category>"/>
 
 <t:main>
-    <jsp:attribute name="admin_left_navigation">
-        <jsp:include page="../partials/AdminLeft.jsp" />
-    </jsp:attribute>
-
     <jsp:body>
         <div class="card">
             <h4 class="card-header bg-dark text-light d-flex justify-content-between">

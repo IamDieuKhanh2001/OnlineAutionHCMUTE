@@ -10,7 +10,6 @@
 
 <t:main>
     <jsp:body>
-
         <div class="py-2">
             <div class="container">
                 <div class="row hidden-md-up">

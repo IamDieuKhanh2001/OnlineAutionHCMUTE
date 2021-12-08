@@ -9,7 +9,6 @@ import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -29,7 +28,6 @@ public class SellerProductServlet extends HttpServlet {
         }
         switch (path){
             case "/Dashboard":{
-
                 ServletUtils.forward("/views/vwProduct/SellerProductDashBoard.jsp",request,response);
                 break;
             }
@@ -40,7 +38,7 @@ public class SellerProductServlet extends HttpServlet {
             }
             case "/Edit":{
                 HttpSession session = request.getSession();
-                User userLogin = (User) session.getAttribute("authUser1");
+                User userLogin = (User) session.getAttribute("authUser");
 
                 int id = 0;
                 try {
@@ -63,7 +61,7 @@ public class SellerProductServlet extends HttpServlet {
             //Xem tat ca san pham cua seller da dang
             case "/All":{
                 HttpSession session = request.getSession();
-                User userLogin = (User) session.getAttribute("authUser1");
+                User userLogin = (User) session.getAttribute("authUser");
 
                 List<Product> sellerProduct = ProductModel.findByUserID(userLogin.getId());     //Lay id user tu session AuthUser
                 request.setAttribute("products", sellerProduct);
@@ -114,7 +112,7 @@ public class SellerProductServlet extends HttpServlet {
 
     private void addProduct(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
-        User userLogin = (User) session.getAttribute("authUser1");
+        User userLogin = (User) session.getAttribute("authUser");
 
         String name = request.getParameter("name");
         String description = request.getParameter("description");
@@ -133,7 +131,7 @@ public class SellerProductServlet extends HttpServlet {
     }
     private void storeImage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
         HttpSession session = request.getSession();
-        User userLogin = (User) session.getAttribute("authUser1");
+        User userLogin = (User) session.getAttribute("authUser");
 
         Product p = ProductModel.findInsertRecentByUserID(userLogin.getId());
 

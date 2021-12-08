@@ -15,9 +15,6 @@
              type="com.ute.onlineautionhcmute.beans.ProductType"/>
 <%--View này Admin có quyền vào | view có form chứa product info chỉ đọc và không thể sửa--%>
 <t:main>
-    <jsp:attribute name="admin_left_navigation">
-        <jsp:include page="../partials/AdminLeft.jsp"/>
-    </jsp:attribute>
     <jsp:attribute name="css">
         <style>
             .imgCarousel{

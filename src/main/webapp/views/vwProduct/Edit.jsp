@@ -15,9 +15,6 @@
              type="com.ute.onlineautionhcmute.beans.ProductType"/>
 <%--View này Admin có quyền vào | view có form chứa product info chỉ đọc và không thể sửa--%>
 <t:main>
-    <jsp:attribute name="admin_left_navigation">
-        <jsp:include page="../partials/SellerLeft.jsp"/>
-    </jsp:attribute>
     <jsp:attribute name="css">
         <link href="https://cdn.jsdelivr.net/gh/kartik-v/bootstrap-fileinput@5.2.5/css/fileinput.min.css" media="all"
               rel="stylesheet" type="text/css"/>

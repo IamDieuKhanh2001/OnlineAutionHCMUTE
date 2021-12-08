@@ -16,9 +16,6 @@
              type="java.util.List<com.ute.onlineautionhcmute.beans.UserType>"/>
 
 <t:main>
-    <jsp:attribute name="admin_left_navigation">
-        <jsp:include page="../partials/AdminLeft.jsp"/>
-    </jsp:attribute>
     <jsp:attribute name="css">
         <link rel="stylesheet"
               href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.css">

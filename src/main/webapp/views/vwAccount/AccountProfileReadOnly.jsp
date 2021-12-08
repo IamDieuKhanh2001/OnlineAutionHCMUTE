@@ -10,10 +10,6 @@
 
 <%--View này Admin có quyền vào | view có form chứa user info chỉ đọc và không thể sửa--%>
 <t:main>
-    <jsp:attribute name="admin_left_navigation">
-        <jsp:include page="../partials/AdminLeft.jsp"/>
-    </jsp:attribute>
-
     <jsp:body>
         <div class="card">
             <h4 class="card-header">

@@ -302,7 +302,6 @@ public class AccountServlet extends HttpServlet {
     }
 
     private void logout(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        System.out.println("aaaa");
         HttpSession session = request.getSession();
         session.setAttribute("auth", false);
         session.setAttribute("authUser", new User());
