@@ -10,6 +10,8 @@
 
 <%--De su dung JSTL, can mo ta--%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<jsp:useBean id="productTypeList" scope="request"
+             type="java.util.List<com.ute.onlineautionhcmute.beans.ProductType>"/>
 
 <%--Nhan view model tu controler tra ve r ta hien thi ra view (JSP EL)--%>
 <%--<jsp:useBean id="listUserType" scope="request"--%>
@@ -82,15 +84,21 @@
                         <label for="description">Mô tả</label>
                         <textarea id="description" name="description" placeholder="Mô tả sản phẩm"></textarea>
                     </div>
-                    <div class="form-group">
-                        <label for="txtProductTypeID">Loại sản phẩm (Sửa thành sellect chọn)</label>
-                        <input type="text" class="form-control" id="txtProductTypeID" placeholder="Loại sản phẩm"
-                               name="Product_type_id" autofocus>
-                    </div>
-                    <div class="form-group">
-                        <label for="txtUserID">User ID (xoá và lấy từ authUser)</label>
-                        <input type="text" class="form-control" id="txtUserID" placeholder="User id sản phẩm"
-                               name="user_id" autofocus>
+<%--                    <div class="form-group">--%>
+<%--                        <label for="txtProductTypeID">Loại sản phẩm (Sửa thành sellect chọn)</label>--%>
+<%--                        <input type="text" class="form-control" id="txtProductTypeID" placeholder="Loại sản phẩm"--%>
+<%--                               name="Product_type_id" autofocus>--%>
+<%--                    </div>--%>
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <label class="input-group-text" for="inputGroupSelect01">Chọn loại sản phẩm</label>
+                        </div>
+                        <select class="custom-select" id="inputGroupSelect01" name="Product_type_id">
+                            <c:forEach items="${productTypeList}" var="c">
+                                <option value="${c.id}">ID: ${c.id} - ${c.name}</option>
+                            </c:forEach>
+
+                        </select>
                     </div>
                     <div class="form-group">
                         <label for="txtPriceStart">Giá khởi đầu</label>

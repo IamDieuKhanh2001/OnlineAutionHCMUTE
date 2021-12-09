@@ -26,10 +26,12 @@
                 background-color: rgba(0, 0, 0, 0.5);
                 opacity: 0;
             }
-            .otherProduct{
+
+            .otherProduct {
                 width: 291px;
                 height: 163px;
             }
+
             .otherProduct:hover .hover__content {
                 opacity: 1;
                 transition: 0.5s;
@@ -75,52 +77,52 @@
             <div class="card-body">
                     <%--                đổ data vào đây--%>
                 <div class="card-slide">
-                        <div class="wrapper row">
-                            <div class="preview col-6">
-                                <div class="preview-pic tab-content">
-                                    <div class="tab-pane active" id="pic-1"><img
-                                            src="${pageContext.request.contextPath}/public/img/product/${product.id}/thumps_1.jpg"
-                                            alt="" title=""/>
-                                    </div>
-                                    <div class="tab-pane" id="pic-2"><img
-                                            src="${pageContext.request.contextPath}/public/img/product/${product.id}/thumps_2.jpg"/>
-                                    </div>
+                    <div class="wrapper row">
+                        <div class="preview col-6">
+                            <div class="preview-pic tab-content">
+                                <div class="tab-pane active" id="pic-1"><img
+                                        src="${pageContext.request.contextPath}/public/img/product/${product.id}/thumps_1.jpg"
+                                        alt="" title=""/>
                                 </div>
-                                <ul class="preview-thumbnail nav nav-tabs">
-                                    <li class="active"><a data-target="#pic-1" data-toggle="tab"><img
-                                            src="${pageContext.request.contextPath}/public/img/product/${product.id}/thumps_1.jpg"/></a>
-                                    </li>
-                                    <li><a data-target="#pic-2" data-toggle="tab"><img
-                                            src="${pageContext.request.contextPath}/public/img/product/${product.id}/thumps_2.jpg"/></a>
-                                    </li>
-                                </ul>
+                                <div class="tab-pane" id="pic-2"><img
+                                        src="${pageContext.request.contextPath}/public/img/product/${product.id}/thumps_2.jpg"/>
+                                </div>
                             </div>
-                            <div class="details col-6">
-                                <h3 class="product-title">${product.name}</h3>
-                                <p class="product-description">
-                                    <i class="fa fa-user" aria-hidden="true"></i>
-                                    Người bán: ${seller.username}
-                                </p>
-                                <h4 class="price">
+                            <ul class="preview-thumbnail nav nav-tabs">
+                                <li class="active"><a data-target="#pic-1" data-toggle="tab"><img
+                                        src="${pageContext.request.contextPath}/public/img/product/${product.id}/thumps_1.jpg"/></a>
+                                </li>
+                                <li><a data-target="#pic-2" data-toggle="tab"><img
+                                        src="${pageContext.request.contextPath}/public/img/product/${product.id}/thumps_2.jpg"/></a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="details col-6">
+                            <h3 class="product-title">${product.name}</h3>
+                            <p class="product-description">
+                                <i class="fa fa-user" aria-hidden="true"></i>
+                                Người bán: ${seller.username}
+                            </p>
+                            <h4 class="price">
+                                <i class="fa fa-money" aria-hidden="true"></i>
+                                Giá hiện tại: <span><fmt:formatNumber value="${product.price_current}"
+                                                                      type="number"/></span>
+                            </h4>
+                            <h4 class="price">Ngày hết hạn (Database thiếu ngày hết hạn): <span><fmt:formatDate
+                                    value="${product.create_time}" type="date"/></span></h4>
+                            <div class="action">
+                                <button class="add-to-cart btn btn-default" type="button">
                                     <i class="fa fa-money" aria-hidden="true"></i>
-                                    Giá hiện tại: <span><fmt:formatNumber value="${product.price_current}"
-                                                                          type="number"/></span>
-                                </h4>
-                                <h4 class="price">Ngày hết hạn (Database thiếu ngày hết hạn): <span><fmt:formatDate
-                                        value="${product.create_time}" type="date"/></span></h4>
-                                <div class="action">
-                                    <button class="add-to-cart btn btn-default" type="button">
-                                        <i class="fa fa-money" aria-hidden="true"></i>
-                                        Đặt giá ngay
-                                    </button>
-                                    <a href="${pageContext.request.contextPath}/Product/AddWatchList?id=${product.id}"
-                                       class="like btn btn-outline-danger" type="button">
-                                        <span class="fa fa-heart"></span>
-                                        Thêm vào watch list
-                                    </a>
-                                </div>
+                                    Đặt giá ngay
+                                </button>
+                                <a href="${pageContext.request.contextPath}/Product/AddWatchList?id=${product.id}"
+                                   class="like btn btn-outline-danger" type="button">
+                                    <span class="fa fa-heart"></span>
+                                    Thêm vào watch list
+                                </a>
                             </div>
                         </div>
+                    </div>
                 </div>
                     <%--description--%>
                 <p>
@@ -134,19 +136,62 @@
                         Chi tiết giá
                         <i class="fa fa-sort-desc" aria-hidden="true"></i>
                     </a>
+                    <a class="add-to-cart btn btn-default" data-toggle="collapse" href="#history" role="button"
+                       aria-expanded="false" aria-controls="history">
+                        Lịch sử đấu giá
+                        <i class="fa fa-list" aria-hidden="true"></i>
+                    </a>
                 </p>
+<%--                        Lịch sử đấu giá nội dung--%>
+                <div class="collapse" id="history">
+                    <div class="card card-body border-0 border-bottom-1">
+                        <h3 class="card-title">Lịch sử đấu giá</h3>
+                        <table class="table table-hover">
+                            <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">First</th>
+                                <th scope="col">Last</th>
+                                <th scope="col">Handle</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <th scope="row">1</th>
+                                <td>Mark</td>
+                                <td>Otto</td>
+                                <td>@mdo</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">2</th>
+                                <td>Jacob</td>
+                                <td>Thornton</td>
+                                <td>@fat</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">3</th>
+                                <td colspan="2">Larry the Bird</td>
+                                <td>@twitter</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+<%--                        Mô tả sản phẩm nội dung--%>
                 <div class="row shadow-lg">
                     <div class="col">
                         <div class="collapse multi-collapse" id="des">
-                            <div class="card card-body border-0 border-right">
-                                <h6 class="card-title">Mô tả sản phẩm</h6>
+                            <div class="card card-body border-0 border-right-1">
+                                <h3 class="card-title">Mô tả sản phẩm</h3>
                                 <p class="product-description">${product.description}</p>
                             </div>
                         </div>
                     </div>
+<%--                    Chi tiết giá nội dung--%>
                     <div class="col">
                         <div class="collapse multi-collapse" id="price">
                             <div class="card card-body border-0">
+                                <h3 class="card-title">Chi tiết giá</h3>
                                 <h4 class="price">
                                     <i class="fa fa-money" aria-hidden="true"></i>
                                     Giá khởi điểm: <span><fmt:formatNumber value="${product.price_start}"
@@ -172,19 +217,21 @@
                         </div>
                     </div>
                 </div>
-                    <%--                        Hien thi đề xuất sản phẩm tương tự--%>
+                    <%--Hien thi đề xuất 5 sản phẩm tương tự--%>
                 <div class="sameProductType my-3">
                     <h5 class="card-title">Các sản phẩm khác cùng chuyên mục</h5>
                     <div class="owl-carousel">
                         <c:forEach items="${similarProduct}" var="c">
                             <div class="otherProduct">
                                 <div class="product__img position-relative h-100">
-                                    <img class="h-100" src="${pageContext.request.contextPath}/public/img/product/${c.id}/main.jpg" alt="">
+                                    <img class="h-100"
+                                         src="${pageContext.request.contextPath}/public/img/product/${c.id}/main.jpg"
+                                         alt="">
                                 </div>
                                 <div class="hover__content h-100 position-absolute sticky-top w-100 h-100">
                                     <div class="d-flex justify-content-around align-items-center h-100">
                                         <h5 class="card-title text-danger">
-                                            ${c.price_current}
+                                                ${c.price_current}
                                         </h5>
                                         <a class="btn btn-success" href="#" role="button">
                                             <i class="fa fa-eye" aria-hidden="true"></i>

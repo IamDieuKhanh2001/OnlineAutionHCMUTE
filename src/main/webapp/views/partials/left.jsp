@@ -1,3 +1,4 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="com.ute.onlineautionhcmute.beans.ProductType" %>
 <%--
   Created by IntelliJ IDEA.
@@ -28,7 +29,7 @@
 
 
     <div class="card">
-        <h4 class="card-header bg-dark text-light">Categories</h4>
+        <h4 class="card-header bg-dark text-light">Danh mục</h4>
         <div class="list-group">
 
             <c:forEach var="category" items="${categoriesWithDetails}" >

@@ -32,7 +32,8 @@ public class SellerProductServlet extends HttpServlet {
                 break;
             }
             case "/Add":{
-                //Them attribute Protypeid vao o select
+                List<ProductType> productTypeList = ProductTypeModel.findAll();
+                request.setAttribute("productTypeList",productTypeList);
                 ServletUtils.forward("/views/vwProduct/Add.jsp",request,response);
                 break;
             }
@@ -117,7 +118,7 @@ public class SellerProductServlet extends HttpServlet {
         String name = request.getParameter("name");
         String description = request.getParameter("description");
         int product_type_id = Integer.parseInt(request.getParameter("Product_type_id"));
-        int user_id = userLogin.getId();              //Xem usser id cua usser tu session (chua xong)
+        int user_id = userLogin.getId();
         double priceStart = Double.parseDouble(request.getParameter("priceStart"));
         double priceCurrent = Double.parseDouble(request.getParameter("priceCurrent"));
         double priceStep = Double.parseDouble(request.getParameter("PriceStep"));
