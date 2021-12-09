@@ -115,9 +115,12 @@ public class ProductFEServlet extends HttpServlet {
                 if(product == null)
                     ServletUtils.forward("/views/404.jsp", request, response);
 
-
+                User seller = UserModel.findById(product.getUser_id());
+                List<Product> similarProduct = ProductModel.findFirstFiveProductByProductTypeID(product.getProduct_type_id()); //Hien thi danh sach 5 san pham cung chuyen muc
 
                 request.setAttribute("product", product);
+                request.setAttribute("seller", seller);
+                request.setAttribute("similarProduct", similarProduct);
                 ServletUtils.forward("/views/vwProduct/Detail.jsp", request, response);
                 break;
             }

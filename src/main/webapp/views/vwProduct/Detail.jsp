@@ -12,6 +12,8 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
 <jsp:useBean id="product" scope="request" type="com.ute.onlineautionhcmute.beans.Product"/>
+<jsp:useBean id="seller" scope="request" type="com.ute.onlineautionhcmute.beans.User"/>
+<jsp:useBean id="similarProduct" scope="request" type="java.util.List<com.ute.onlineautionhcmute.beans.Product>"/>
 
 <t:main>
     <jsp:attribute name="css">
@@ -20,11 +22,15 @@
         <link rel="stylesheet"
               href="${pageContext.request.contextPath}/public/lib/owlCarousel/owl.theme.default.min.css">
         <style>
-            .hover__content{
-                background-color: rgba(0,0,0,0.5);
+            .hover__content {
+                background-color: rgba(0, 0, 0, 0.5);
                 opacity: 0;
             }
-            .otherProduct:hover .hover__content{
+            .otherProduct{
+                width: 291px;
+                height: 163px;
+            }
+            .otherProduct:hover .hover__content {
                 opacity: 1;
                 transition: 0.5s;
             }
@@ -35,25 +41,24 @@
         <script>
             var owl = $('.owl-carousel');
             owl.owlCarousel({
-                loop:true,
-                margin:10,
-                responsive:{
-                    0:{
-                        items:1
+                margin: 10,
+                responsive: {
+                    0: {
+                        items: 1
                     },
-                    600:{
-                        items:2
+                    600: {
+                        items: 2
                     },
-                    960:{
-                        items:3
+                    960: {
+                        items: 3
                     },
-                    1200:{
-                        items:4
+                    1200: {
+                        items: 4
                     }
                 }
             });
             owl.on('mousewheel', '.owl-stage', function (e) {
-                if (e.deltaY>0) {
+                if (e.deltaY > 0) {
                     owl.trigger('next.owl');
                 } else {
                     owl.trigger('prev.owl');
@@ -70,12 +75,12 @@
             <div class="card-body">
                     <%--                đổ data vào đây--%>
                 <div class="card-slide">
-                    <div class="container-fluid">
                         <div class="wrapper row">
                             <div class="preview col-6">
                                 <div class="preview-pic tab-content">
                                     <div class="tab-pane active" id="pic-1"><img
-                                            src="${pageContext.request.contextPath}/public/img/product/${product.id}/thumps_1.jpg" alt="" title=""/>
+                                            src="${pageContext.request.contextPath}/public/img/product/${product.id}/thumps_1.jpg"
+                                            alt="" title=""/>
                                     </div>
                                     <div class="tab-pane" id="pic-2"><img
                                             src="${pageContext.request.contextPath}/public/img/product/${product.id}/thumps_2.jpg"/>
@@ -92,13 +97,22 @@
                             </div>
                             <div class="details col-6">
                                 <h3 class="product-title">${product.name}</h3>
-                                <p class="product-description">${product.description}</p>
-                                <h4 class="price">Giá hiện tại: <span><fmt:formatNumber value="${product.price_current}"
-                                                                                        type="number"/></span></h4>
+                                <p class="product-description">
+                                    <i class="fa fa-user" aria-hidden="true"></i>
+                                    Người bán: ${seller.username}
+                                </p>
+                                <h4 class="price">
+                                    <i class="fa fa-money" aria-hidden="true"></i>
+                                    Giá hiện tại: <span><fmt:formatNumber value="${product.price_current}"
+                                                                          type="number"/></span>
+                                </h4>
                                 <h4 class="price">Ngày hết hạn (Database thiếu ngày hết hạn): <span><fmt:formatDate
                                         value="${product.create_time}" type="date"/></span></h4>
                                 <div class="action">
-                                    <button class="add-to-cart btn btn-default" type="button">Đặt giá ngay</button>
+                                    <button class="add-to-cart btn btn-default" type="button">
+                                        <i class="fa fa-money" aria-hidden="true"></i>
+                                        Đặt giá ngay
+                                    </button>
                                     <a href="${pageContext.request.contextPath}/Product/AddWatchList?id=${product.id}"
                                        class="like btn btn-outline-danger" type="button">
                                         <span class="fa fa-heart"></span>
@@ -107,108 +121,86 @@
                                 </div>
                             </div>
                         </div>
+                </div>
+                    <%--description--%>
+                <p>
+                    <a class="add-to-cart btn btn-default" data-toggle="collapse" href="#des" role="button"
+                       aria-expanded="false" aria-controls="des">
+                        Mô tả sản phẩm
+                        <i class="fa fa-sort-desc" aria-hidden="true"></i>
+                    </a>
+                    <a class="add-to-cart btn btn-default" data-toggle="collapse" href="#price" role="button"
+                       aria-expanded="false" aria-controls="des">
+                        Chi tiết giá
+                        <i class="fa fa-sort-desc" aria-hidden="true"></i>
+                    </a>
+                </p>
+                <div class="row shadow-lg">
+                    <div class="col">
+                        <div class="collapse multi-collapse" id="des">
+                            <div class="card card-body border-0 border-right">
+                                <h6 class="card-title">Mô tả sản phẩm</h6>
+                                <p class="product-description">${product.description}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="collapse multi-collapse" id="price">
+                            <div class="card card-body border-0">
+                                <h4 class="price">
+                                    <i class="fa fa-money" aria-hidden="true"></i>
+                                    Giá khởi điểm: <span><fmt:formatNumber value="${product.price_start}"
+                                                                           type="number"/></span>
+                                </h4>
+                                <h4 class="price">
+                                    <i class="fa fa-money" aria-hidden="true"></i>
+                                    Giá hiện tại: <span><fmt:formatNumber value="${product.price_current}"
+                                                                          type="number"/></span>
+                                </h4>
+
+                                <h4 class="price">
+                                    <i class="fa fa-money" aria-hidden="true"></i>
+                                    Bước giá mỗi lần: <span><fmt:formatNumber value="${product.price_step}"
+                                                                              type="number"/></span>
+                                </h4>
+                                <h4 class="price">
+                                    <i class="fa fa-money" aria-hidden="true"></i>
+                                    Giá mua ngay: <span><fmt:formatNumber value="${product.price_buy_now}"
+                                                                          type="number"/></span>
+                                </h4>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div class="sameProductType">
+                    <%--                        Hien thi đề xuất sản phẩm tương tự--%>
+                <div class="sameProductType my-3">
                     <h5 class="card-title">Các sản phẩm khác cùng chuyên mục</h5>
                     <div class="owl-carousel">
-                        <div class="otherProduct">
-                            <div class="product__img position-relative">
-                                <img src="${pageContext.request.contextPath}/public/img/product/3/main.jpg" alt="">
-                            </div>
-                            <div class="hover__content position-absolute sticky-top w-100 h-100">
-                                <div class="d-flex justify-content-around align-items-center h-100">
-                                    <h5 class="card-title text-danger">
-                                        3000000 VND
-                                    </h5>
-                                    <a class="btn btn-success" href="#" role="button">
-                                        <i class="fa fa-eye" aria-hidden="true"></i>
-                                        Detail
-                                    </a>
+                        <c:forEach items="${similarProduct}" var="c">
+                            <div class="otherProduct">
+                                <div class="product__img position-relative h-100">
+                                    <img class="h-100" src="${pageContext.request.contextPath}/public/img/product/${c.id}/main.jpg" alt="">
+                                </div>
+                                <div class="hover__content h-100 position-absolute sticky-top w-100 h-100">
+                                    <div class="d-flex justify-content-around align-items-center h-100">
+                                        <h5 class="card-title text-danger">
+                                            ${c.price_current}
+                                        </h5>
+                                        <a class="btn btn-success" href="#" role="button">
+                                            <i class="fa fa-eye" aria-hidden="true"></i>
+                                            Detail
+                                        </a>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="otherProduct">
-                            <div class="product__img position-relative">
-                                <img src="${pageContext.request.contextPath}/public/img/product/3/main.jpg" alt="">
-                            </div>
-                            <div class="hover__content position-absolute sticky-top w-100 h-100">
-                                <div class="d-flex justify-content-around align-items-center h-100">
-                                    <h5 class="card-title text-danger">
-                                        3000000 VND
-                                    </h5>
-                                    <a class="btn btn-success" href="#" role="button">
-                                        <i class="fa fa-eye" aria-hidden="true"></i>
-                                        Detail
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="otherProduct">
-                            <div class="product__img position-relative">
-                                <img src="${pageContext.request.contextPath}/public/img/product/3/main.jpg" alt="">
-                            </div>
-                            <div class="hover__content position-absolute sticky-top w-100 h-100">
-                                <div class="d-flex justify-content-around align-items-center h-100">
-                                    <h5 class="card-title text-danger">
-                                        3000000 VND
-                                    </h5>
-                                    <a class="btn btn-success" href="#" role="button">
-                                        <i class="fa fa-eye" aria-hidden="true"></i>
-                                        Detail
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="otherProduct">
-                            <div class="product__img position-relative">
-                                <img src="${pageContext.request.contextPath}/public/img/product/3/main.jpg" alt="">
-                            </div>
-                            <div class="hover__content position-absolute sticky-top w-100 h-100">
-                                <div class="d-flex justify-content-around align-items-center h-100">
-                                    <h5 class="card-title text-danger">
-                                        3000000 VND
-                                    </h5>
-                                    <a class="btn btn-success" href="#" role="button">
-                                        <i class="fa fa-eye" aria-hidden="true"></i>
-                                        Detail
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="otherProduct">
-                            <div class="product__img position-relative">
-                                <img src="${pageContext.request.contextPath}/public/img/product/3/main.jpg" alt="">
-                            </div>
-                            <div class="hover__content position-absolute sticky-top w-100 h-100">
-                                <div class="d-flex justify-content-around align-items-center h-100">
-                                    <h5 class="card-title text-danger">
-                                        3000000 VND
-                                    </h5>
-                                    <a class="btn btn-success" href="#" role="button">
-                                        <i class="fa fa-eye" aria-hidden="true"></i>
-                                        Detail
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="otherProduct">
-                            <div class="product__img position-relative">
-                                <img src="${pageContext.request.contextPath}/public/img/product/3/main.jpg" alt="">
-                            </div>
-                            <div class="hover__content position-absolute sticky-top w-100 h-100">
-                                <div class="d-flex justify-content-around align-items-center h-100">
-                                    <h5 class="card-title text-danger">
-                                        3000000 VND
-                                    </h5>
-                                    <a class="btn btn-success" href="#" role="button">
-                                        <i class="fa fa-eye" aria-hidden="true"></i>
-                                        Detail
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
+                        </c:forEach>
                     </div>
+                </div>
+                <div class="card-footer text-muted">
+                    <a class="btn btn-outline-primary" href="${pageContext.request.contextPath}/Home/" role="button">
+                        <i class="fa fa-backward" aria-hidden="true"></i>
+                        Back
+                    </a>
                 </div>
             </div>
         </div>

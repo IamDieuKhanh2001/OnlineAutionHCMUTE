@@ -46,6 +46,17 @@ public class ProductModel {
             return list;
         }
     }
+    public static List<Product> findFirstFiveProductByProductTypeID(int productTypeID)
+    {
+        final String query = "select * from products where products.product_type_id = :productTypeID limit 5";
+        try (Connection connection = DbUtils.getConnection())
+        {
+            List<Product> list = connection.createQuery(query)
+                    .addParameter("productTypeID", productTypeID)
+                    .executeAndFetch(Product.class);
+            return list;
+        }
+    }
     public static List<Product> findByUserID(int userID)
     {
         final String query = "SELECT * FROM `products` WHERE `user_id` = :userID";
