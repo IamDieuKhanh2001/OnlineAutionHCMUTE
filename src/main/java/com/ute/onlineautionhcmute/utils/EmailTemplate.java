@@ -18,4 +18,18 @@ public class EmailTemplate {
 
         return email;
     }
+
+    public static String TemplateChangeEmailNotification(User user, String newEmail)
+    {
+        String message = "Hi [name],\n" +
+                "\n" +
+                "chúng tôi nhận được yêu cầu đổi từ email [emailcurrent] đến email mới có địa chỉ là [emailnew].\n" +
+                "Nếu đúng hãy nhấp vào đường liên kết này [link].";
+
+        message = message.replace("[name]", user.getLastname());
+        message = message.replace("[emailcurrent]", user.getEmail());
+        message = message.replace("[emailnew]", newEmail);
+        message = message.replace("[link]", "http://localhost:8080/OnlineAutionHCMUTE/Account/ConfirmChangeEmail?userID=" + user.getId() + "&hash=" + "hashne");
+        return message;
+    }
 }
