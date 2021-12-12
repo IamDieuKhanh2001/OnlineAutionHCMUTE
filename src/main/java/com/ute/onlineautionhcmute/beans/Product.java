@@ -13,6 +13,7 @@ public class Product {
     private double price_current;
     private double price_buy_now;
     private Date end_time;
+    private int user_id_holding_price;
     private Date create_time;
     private Date modified_time;
 
@@ -39,6 +40,20 @@ public class Product {
         this.price_current = price_current;
         this.price_buy_now = price_buy_now;
         this.end_time = end_time;
+    }
+
+    public Product(int id, String name, String description, int product_type_id, int user_id, double price_start, double price_step, double price_current, double price_buy_now, Date end_time, int user_id_holding_price) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.product_type_id = product_type_id;
+        this.user_id = user_id;
+        this.price_start = price_start;
+        this.price_step = price_step;
+        this.price_current = price_current;
+        this.price_buy_now = price_buy_now;
+        this.end_time = end_time;
+        this.user_id_holding_price = user_id_holding_price;
     }
 
     public int getId() {
@@ -135,5 +150,13 @@ public class Product {
 
     public void setEnd_time(Date end_time) {
         this.end_time = end_time;
+    }
+
+    public int getUser_id_holding_price() {
+        return user_id_holding_price;
+    }
+
+    public void setUser_id_holding_price(int user_id_holding_price) {
+        this.user_id_holding_price = user_id_holding_price;
     }
 }

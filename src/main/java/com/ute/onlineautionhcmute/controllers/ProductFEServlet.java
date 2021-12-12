@@ -11,6 +11,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @WebServlet(name = "ProductFEServlet", value = "/Product/*")
@@ -51,11 +52,11 @@ public class ProductFEServlet extends HttpServlet {
                 }
                 Product c = ProductModel.findById(id);
                 if (c != null) {                             //neu trong watchlist chuwa có sp
-                    if (WatchListModel.findByProIdAndUserId(c.getId(),userLogin.getId()) == null){
-                        WatchListModel.add(c,userLogin);
-                        ServletUtils.redirect(url,request,response);
-                    }else{                                                 //neu trong watchlist da có sp
-                        ServletUtils.redirect(url,request,response);
+                    if (WatchListModel.findByProIdAndUserId(c.getId(), userLogin.getId()) == null) {
+                        WatchListModel.add(c, userLogin);
+                        ServletUtils.redirect(url, request, response);
+                    } else {                                                 //neu trong watchlist da có sp
+                        ServletUtils.redirect(url, request, response);
                     }
                 } else {
                     ServletUtils.forward("/views/204.jsp", request, response);
@@ -66,12 +67,12 @@ public class ProductFEServlet extends HttpServlet {
             case "/MyWatchList": {
                 HttpSession session = request.getSession();
                 User userLogin = (User) session.getAttribute("authUser");
-                List<WatchList> userWatchList =WatchListModel.findByUserID(userLogin.getId());  // User id lay tu session
+                List<WatchList> userWatchList = WatchListModel.findByUserID(userLogin.getId());  // User id lay tu session
                 request.setAttribute("userWatchList", userWatchList);
                 List<Product> userProduct = new ArrayList<>();         //Tim san pham tu watchlist ra product
-                for (WatchList item : userWatchList){
+                for (WatchList item : userWatchList) {
                     Product p = ProductModel.findProductByID(item.getProduct_id());
-                    if(p != null){
+                    if (p != null) {
                         userProduct.add(p);
                     }
                 }
@@ -92,27 +93,25 @@ public class ProductFEServlet extends HttpServlet {
                     id = Integer.parseInt(request.getParameter("id"));
                 } catch (NumberFormatException e) {
                 }
-                WatchList wl = WatchListModel.findByProIdAndUserId(id,userLogin.getId());
+                WatchList wl = WatchListModel.findByProIdAndUserId(id, userLogin.getId());
                 if (wl != null) {
-                    WatchListModel.delete(id,userLogin.getId());
+                    WatchListModel.delete(id, userLogin.getId());
                     ServletUtils.redirect(url, request, response);
                 } else {
                     ServletUtils.forward("/views/204.jsp", request, response);
                 }
                 break;
             }
-            case "/Detail":{
+            case "/Detail": {
                 int productID = -1;
-                try
-                {
+                try {
                     productID = Integer.parseInt(request.getParameter("id"));
-                } catch (Exception ex)
-                {
+                } catch (Exception ex) {
                     ServletUtils.forward("/views/404.jsp", request, response);
                 }
 
                 Product product = ProductModel.findById(productID);
-                if(product == null)
+                if (product == null)
                     ServletUtils.forward("/views/404.jsp", request, response);
 
                 User seller = UserModel.findById(product.getUser_id());
@@ -133,6 +132,41 @@ public class ProductFEServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String path = request.getPathInfo();
 
+        switch (path) {
+            case "/Auction": {
+                AuctionProduct(request, response);
+                break;
+            }
+            default: {
+                ServletUtils.forward("/views/404.jsp", request, response);
+                break;
+            }
+        }
+    }
+
+    private void AuctionProduct(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        HttpSession session = request.getSession();
+        User userLogin = (User) session.getAttribute("authUser");
+
+        int productId = -1;
+        try {
+            productId = Integer.parseInt(request.getParameter("id"));
+        } catch (Exception ex) {
+            ServletUtils.forward("/views/404.jsp", request, response);
+        }
+        double maxAuctionPrice = Double.parseDouble(request.getParameter("maxAuctionPrice"));
+        Product product = ProductModel.findById(productId);
+        if (product != null) {
+                AuctionHistory productDeposit = new AuctionHistory(-1,product.getId(),userLogin.getId(),maxAuctionPrice);
+                AuctionHistoryModel.add(productDeposit);
+        } else {
+            ServletUtils.forward("/views/204.jsp", request, response);
+        }
+
+        request.setAttribute("product",product);
+        request.setAttribute("result",true);
+        ServletUtils.forward("/views/vwProduct/BidResult.jsp",request,response);
     }
 }

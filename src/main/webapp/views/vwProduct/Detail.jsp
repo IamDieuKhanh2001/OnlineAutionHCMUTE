@@ -111,8 +111,7 @@
                             <h4 class="price">Ngày hết hạn: <span><fmt:formatDate
                                     value="${product.end_time}" type="date"/></span></h4>
                             <div class="action">
-                                <button class="add-to-cart btn btn-default" type="button">
-                                    <i class="fa fa-money" aria-hidden="true"></i>
+                                <button type="button" class="add-to-cart btn btn-default" data-toggle="modal" data-target="#enterPriceAuction">
                                     Đặt giá ngay
                                 </button>
                                 <a href="${pageContext.request.contextPath}/Product/AddWatchList?id=${product.id}"
@@ -251,6 +250,38 @@
                 </div>
             </div>
         </div>
+<%--Form post so tien dat--%>
 
+        <!-- Modal -->
+        <div class="modal fade" id="enterPriceAuction" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Nhập số tiền cao nhất bạn có thể đấu giá</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="frmAuction" method="post" action="${pageContext.request.contextPath}/Product/Auction?id=${product.id}">
+                            <div class="input-group mb-3">
+                                <input name="maxAuctionPrice" type="text" class="form-control" placeholder="Số tiền...">
+                                <div class="input-group-append">
+                                    <span class="input-group-text" id="">VND</span>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer d-flex justify-content-between">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Quay về</button>
+                        <a class="btn btn-outline-success" href="javascript: $('#frmAuction').submit()">
+                            <i class="fa fa-check" aria-hidden="true"></i>
+                            Đồng ý
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
     </jsp:body>
 </t:main>
