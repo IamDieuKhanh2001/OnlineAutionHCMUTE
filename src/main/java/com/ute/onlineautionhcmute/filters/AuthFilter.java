@@ -34,6 +34,12 @@ public class AuthFilter implements Filter {
             ServletUtils.redirect("/Account/Login", request, (HttpServletResponse) res);
             return;
         }
+//        else{
+//            if(authUser.getPermission() == 0){
+//                ServletUtils.forward("/views/404.jsp",request,(HttpServletResponse) res);
+//                return;
+//            }
+        //Xét quyền
 
         // đọc thông tin user, xem field permission để check xem user có được phép vào view hay không?
         // ...

@@ -12,6 +12,7 @@ public class Product {
     private double price_step;
     private double price_current;
     private double price_buy_now;
+    private Date end_time;
     private Date create_time;
     private Date modified_time;
 
@@ -113,5 +114,13 @@ public class Product {
 
     public void setModified_time(Date modified_time) {
         this.modified_time = modified_time;
+    }
+
+    public Date getEnd_time() {
+        return end_time;
+    }
+
+    public void setEnd_time(Date end_time) {
+        this.end_time = end_time;
     }
 }
