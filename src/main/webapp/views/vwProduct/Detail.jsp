@@ -108,8 +108,8 @@
                                 Giá hiện tại: <span><fmt:formatNumber value="${product.price_current}"
                                                                       type="number"/></span>
                             </h4>
-                            <h4 class="price">Ngày hết hạn (Database thiếu ngày hết hạn): <span><fmt:formatDate
-                                    value="${product.create_time}" type="date"/></span></h4>
+                            <h4 class="price">Ngày hết hạn: <span><fmt:formatDate
+                                    value="${product.end_time}" type="date"/></span></h4>
                             <div class="action">
                                 <button class="add-to-cart btn btn-default" type="button">
                                     <i class="fa fa-money" aria-hidden="true"></i>
@@ -233,7 +233,7 @@
                                         <h5 class="card-title text-danger">
                                                 ${c.price_current}
                                         </h5>
-                                        <a class="btn btn-success" href="#" role="button">
+                                        <a class="btn btn-success" href="${pageContext.request.contextPath}/Product/Detail?id=${c.id}" role="button">
                                             <i class="fa fa-eye" aria-hidden="true"></i>
                                             Detail
                                         </a>

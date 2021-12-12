@@ -28,6 +28,19 @@ public class Product {
         this.price_buy_now = price_buy_now;
     }
 
+    public Product(int id, String name, String description, int product_type_id, int user_id, double price_start, double price_step, double price_current, double price_buy_now, Date end_time) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.product_type_id = product_type_id;
+        this.user_id = user_id;
+        this.price_start = price_start;
+        this.price_step = price_step;
+        this.price_current = price_current;
+        this.price_buy_now = price_buy_now;
+        this.end_time = end_time;
+    }
+
     public int getId() {
         return id;
     }

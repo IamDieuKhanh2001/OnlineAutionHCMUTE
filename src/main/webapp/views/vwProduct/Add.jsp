@@ -84,11 +84,6 @@
                         <label for="description">Mô tả</label>
                         <textarea id="description" name="description" placeholder="Mô tả sản phẩm"></textarea>
                     </div>
-<%--                    <div class="form-group">--%>
-<%--                        <label for="txtProductTypeID">Loại sản phẩm (Sửa thành sellect chọn)</label>--%>
-<%--                        <input type="text" class="form-control" id="txtProductTypeID" placeholder="Loại sản phẩm"--%>
-<%--                               name="Product_type_id" autofocus>--%>
-<%--                    </div>--%>
                     <div class="input-group mb-3">
                         <div class="input-group-prepend">
                             <label class="input-group-text" for="inputGroupSelect01">Chọn loại sản phẩm</label>
@@ -97,18 +92,22 @@
                             <c:forEach items="${productTypeList}" var="c">
                                 <option value="${c.id}">ID: ${c.id} - ${c.name}</option>
                             </c:forEach>
-
+                        </select>
+                    </div>
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <label class="input-group-text" for="end_time">Thời gian đấu giá</label>
+                        </div>
+                        <select class="custom-select" id="end_time" name="end_time">
+                                <option value="1">1 ngày</option>
+                                <option value="2">2 ngày</option>
+                                <option value="3">3 ngày</option>
                         </select>
                     </div>
                     <div class="form-group">
                         <label for="txtPriceStart">Giá khởi đầu</label>
                         <input type="text" class="form-control" id="txtPriceStart"
                                value="" name="priceStart">
-                    </div>
-                    <div class="form-group">
-                        <label for="txtPriceCurrent">Giá hiện tại</label>
-                        <input type="text" class="form-control" id="txtPriceCurrent"
-                               value="" name="priceCurrent">
                     </div>
                     <div class="form-group">
                         <label for="txtPriceStep">Bước giá</label>

@@ -9,6 +9,8 @@ import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -119,11 +121,17 @@ public class SellerProductServlet extends HttpServlet {
         String description = request.getParameter("description");
         int product_type_id = Integer.parseInt(request.getParameter("Product_type_id"));
         int user_id = userLogin.getId();
+
+        int end_time_select = Integer.parseInt(request.getParameter("end_time"));
+        long dayNowMillis = System.currentTimeMillis();
+        Date end_time = new Date(dayNowMillis + (24 * 60 * 60 * 1000 * end_time_select));   //Luu thoi gian ket thuc ng user
+
+
         double priceStart = Double.parseDouble(request.getParameter("priceStart"));
-        double priceCurrent = Double.parseDouble(request.getParameter("priceCurrent"));
+        double priceCurrent = Double.parseDouble(request.getParameter("priceStart"));
         double priceStep = Double.parseDouble(request.getParameter("PriceStep"));
         double priceBuyNow = Double.parseDouble(request.getParameter("PriceBuyNow"));
-        Product p = new Product(-1,name,description,product_type_id,user_id,priceStart,priceStep,priceCurrent,priceBuyNow);
+        Product p = new Product(-1,name,description,product_type_id,user_id,priceStart,priceStep,priceCurrent,priceBuyNow,end_time);
         ProductModel.add(p);
 
         storeImage(request,response);  //Lưu hình vào server

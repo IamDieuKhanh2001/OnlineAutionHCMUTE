@@ -98,8 +98,8 @@ public class ProductModel {
 
     public static void add(Product product)
     {
-        final String query = "INSERT INTO `products` (`name`, `description`, `product_type_id`, `user_id`, `price_start`, `price_step`, `price_current`, `price_buy_now`) " +
-                "VALUES (:name, :description, :productTypeID, :userID, :priceStart, :priceStep, :priceCurrent, :priceBuyNow)";
+        final String query = "INSERT INTO `products` (`name`, `description`, `product_type_id`, `user_id`, `price_start`, `price_step`, `price_current`, `price_buy_now`,`end_time`) " +
+                "VALUES (:name, :description, :productTypeID, :userID, :priceStart, :priceStep, :priceCurrent, :priceBuyNow, :endTime)";
         try (Connection connection = DbUtils.getConnection())
         {
             connection.createQuery(query)
@@ -111,6 +111,7 @@ public class ProductModel {
                     .addParameter("priceStep", product.getPrice_step())
                     .addParameter("priceCurrent", product.getPrice_current())
                     .addParameter("priceBuyNow", product.getPrice_buy_now())
+                    .addParameter("endTime", product.getEnd_time())
                     .executeUpdate();
         }
     }
