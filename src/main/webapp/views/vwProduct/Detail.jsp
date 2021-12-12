@@ -13,6 +13,7 @@
 
 <jsp:useBean id="product" scope="request" type="com.ute.onlineautionhcmute.beans.Product"/>
 <jsp:useBean id="seller" scope="request" type="com.ute.onlineautionhcmute.beans.User"/>
+<jsp:useBean id="userHighestBid" scope="request" type="com.ute.onlineautionhcmute.beans.User"/>
 <jsp:useBean id="similarProduct" scope="request" type="java.util.List<com.ute.onlineautionhcmute.beans.Product>"/>
 
 <t:main>
@@ -103,13 +104,27 @@
                                 <i class="fa fa-user" aria-hidden="true"></i>
                                 Người bán: ${seller.username}
                             </p>
+                            <c:choose>
+                                <c:when test="${userHighestBid.id == product.user_id_holding_price}">
+                                    <p class="product-description">
+                                        <i class="fa fa-user" aria-hidden="true"></i>
+                                        Người đang đặt giá cao nhất: ${userHighestBid.username}
+                                    </p>
+                                </c:when>
+                                <c:when test="${userHighestBid.id == -1}">
+                                    <p class="product-description">
+                                        <i class="fa fa-user" aria-hidden="true"></i>
+                                        Người đang đặt giá cao nhất: sản phẩm chưa ai đặt
+                                    </p>
+                                </c:when>
+                            </c:choose>
+
                             <h4 class="price">
                                 <i class="fa fa-money" aria-hidden="true"></i>
                                 Giá hiện tại: <span><fmt:formatNumber value="${product.price_current}"
                                                                       type="number"/></span>
                             </h4>
-                            <h4 class="price">Ngày hết hạn: <span><fmt:formatDate
-                                    value="${product.end_time}" type="date"/></span></h4>
+                            <h4 class="price">Ngày hết hạn: <span>${product.end_time}</span></h4>
                             <div class="action">
                                 <button type="button" class="add-to-cart btn btn-default" data-toggle="modal" data-target="#enterPriceAuction">
                                     Đặt giá ngay

@@ -23,6 +23,10 @@ public class User {
 
     }
 
+    public User(int id) {
+        this.id = id;
+    }
+
     public User(int id, String username, String password, String firstname, String lastname, Date birthdate, String address, String email, String phone, int user_type_id) {
         this.id = id;
         this.username = username;

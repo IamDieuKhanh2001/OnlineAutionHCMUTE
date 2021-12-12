@@ -1,10 +1,27 @@
 package com.ute.onlineautionhcmute.models;
 
 import com.ute.onlineautionhcmute.beans.AuctionHistory;
+import com.ute.onlineautionhcmute.beans.Product;
+import com.ute.onlineautionhcmute.beans.User;
 import com.ute.onlineautionhcmute.utils.DbUtils;
 import org.sql2o.Connection;
 
+import java.util.List;
+
 public class AuctionHistoryModel {
+
+    public static AuctionHistory findMaxDepositPrice(Product product) {
+        final String query = "SELECT * FROM auction_history WHERE deposit_price = (SELECT MAX(deposit_price) FROM auction_history where auction_history.product_id = :productID)";
+        try (Connection con = DbUtils.getConnection()) {
+            List<AuctionHistory> list = con.createQuery(query)
+                    .addParameter("productID", product.getId())
+                    .executeAndFetch(AuctionHistory.class);
+            if (list.size() == 0) {
+                return null;
+            }
+            return  list.get(0);
+        }
+    }
     public static void add(AuctionHistory auctionHistory)
     {
         final String query = "INSERT INTO `auction_history` (`product_id`, `user_id`, `deposit_price`) VALUES (:productID, :userID, :depositPrice)";

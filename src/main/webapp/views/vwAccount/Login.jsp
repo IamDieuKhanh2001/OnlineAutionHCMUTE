@@ -27,7 +27,7 @@
                     </button>
                 </div>
             </c:if>
-            <form action="" method="post">
+            <form action="${pageContext.request.contextPath}/Account/Login" method="post">
                 <div class="form-group">
                     <label class="sr-only" for="txtUsername">Username</label>
                     <div class="input-group">

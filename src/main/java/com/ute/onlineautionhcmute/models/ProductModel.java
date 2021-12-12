@@ -118,7 +118,7 @@ public class ProductModel {
 
     public static void update(Product product)
     {
-        final String query = "UPDATE products SET  name = :name, price_buy_now = :priceBuyNow, modified_time = :modifiedTime, description = :description, product_type_id = :productTypeId, user_id = :userId, price_start = :priceStart, price_step = :priceStep, price_current = :priceCurrent WHERE id = :id";
+        final String query = "UPDATE products SET  name = :name, price_buy_now = :priceBuyNow, modified_time = :modifiedTime, description = :description, product_type_id = :productTypeId, user_id = :userId, price_start = :priceStart, price_step = :priceStep, price_current = :priceCurrent, user_id_holding_price = :userHolding WHERE id = :id";
         try (Connection connection = DbUtils.getConnection())
         {
             connection.createQuery(query)
@@ -131,6 +131,7 @@ public class ProductModel {
                     .addParameter("priceStep", product.getPrice_step())
                     .addParameter("priceCurrent", product.getPrice_current())
                     .addParameter("priceBuyNow", product.getPrice_buy_now())
+                    .addParameter("userHolding", product.getUser_id_holding_price())
                     .addParameter("modifiedTime", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()))
                     .executeUpdate();
         }
