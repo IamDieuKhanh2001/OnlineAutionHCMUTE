@@ -9,7 +9,6 @@ Chức năng còn lại
 2.2
 2.3
 2.4(Đổi email, xem đánh giá, ....)
-2.5
 
 3.3
 3.4 (Xem danh sách sản phẩm đã có người thắng đấu giá)
@@ -18,8 +17,7 @@ Chức năng còn lại
 Duyệt nâng cấp tài khoản bidder ➠ seller
 Hạ cấp seller ➠ bidder)
 
-5.2 (email)
-5.4 (Chưa hoạt động đc)
+5.2 (Sửa lại view)
 
-6.1
+6.1 
 6.2
