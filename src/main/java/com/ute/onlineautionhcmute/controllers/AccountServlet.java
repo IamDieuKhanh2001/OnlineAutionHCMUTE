@@ -21,9 +21,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 
 @WebServlet(name = "AccountServlet", value = "/Account/*")
@@ -63,6 +61,8 @@ public class AccountServlet extends HttpServlet {
                     userLogin = (User)session.getAttribute("authUser");
                 if(userLogin == null)
                     ServletUtils.forward("/views/404.jsp", request, response);
+
+                request.setAttribute("message", "");
 
                 ServletUtils.forward("/views/vwAccount/ProfileChangeInformation.jsp", request, response);
                 break;
@@ -145,6 +145,10 @@ public class AccountServlet extends HttpServlet {
                 changePassword(request, response);
                 break;
 
+            case "/Profile/ChangeInformation":
+                changeInformation(request, response);
+                break;
+
             case "/Recovery":
                 recovery(request, response);
                 break;
@@ -157,6 +161,37 @@ public class AccountServlet extends HttpServlet {
                 ServletUtils.forward("/views/404.jsp", request, response);
                 break;
         }
+    }
+
+    private void changeInformation(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
+    {
+        HttpSession session = request.getSession();
+        User user = (User)session.getAttribute("authUser");
+
+        String newLastname = request.getParameter("lastname");
+        String newFirstname = request.getParameter("firstname");
+        String newPhone = request.getParameter("phone");
+        String newAddress = request.getParameter("address");
+        String newBirthdate = request.getParameter("birthdate");
+
+        Date birthDateParsed;
+        SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
+        try {
+            birthDateParsed = df.parse(newBirthdate);
+        } catch (ParseException ex) {
+            birthDateParsed = new Date();
+        }
+
+        user.setLastname(newLastname);
+        user.setFirstname(newFirstname);
+        user.setPhone(newPhone);
+        user.setAddress(newAddress);
+        user.setBirthdate(birthDateParsed);
+
+        UserModel.updateInformation(user);
+
+        request.setAttribute("message", "Cập nhật thông tin cá nhân thành công");
+        ServletUtils.forward("/views/vwAccount/ProfileChangeInformation.jsp", request, response);
     }
 
     private void recovery(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException

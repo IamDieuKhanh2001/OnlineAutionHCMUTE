@@ -9,7 +9,7 @@
 <%@ taglib prefix="t" tagdir="/WEB-INF/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<jsp:useBean id="authUser1" scope="session" type="com.ute.onlineautionhcmute.beans.User" />
+<jsp:useBean id="authUser" scope="session" type="com.ute.onlineautionhcmute.beans.User" />
 
 <t:profile>
     <jsp:body>
@@ -28,7 +28,7 @@
                                 <div class="form-group row">
                                     <label for="email_current" class="col-4 col-form-label">Email hiện tại</label>
                                     <div class="col-6">
-                                        <input value="${authUser1.email}" disabled id="email_current" name="email_current" class="form-control here" required="required" type="text">
+                                        <input value="${authUser.email}" disabled id="email_current" name="email_current" class="form-control here" required="required" type="text">
                                     </div>
                                 </div>
 

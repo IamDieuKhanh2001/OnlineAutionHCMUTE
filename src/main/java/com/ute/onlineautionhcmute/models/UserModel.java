@@ -7,7 +7,9 @@ import org.sql2o.Connection;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Dictionary;
 import java.util.List;
+import java.util.Map;
 
 public class UserModel {
 
@@ -58,6 +60,7 @@ public class UserModel {
         }
     }
 
+
     public static void updateInformation(User user)
     {
         final String query = "UPDATE `users` SET `firstname` = :firstname, `lastname` = :lastname, `birthdate` = :birthdate, `address` = :address, `email` = :email, `phone` = :phone, `modified_time` = :modifiedTime WHERE `id` = :userID";
@@ -71,6 +74,7 @@ public class UserModel {
                     .addParameter("email", user.getEmail())
                     .addParameter("phone", user.getPhone())
                     .addParameter("modifiedTime", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()))
+                    .addParameter("userID", user.getId())
                     .executeUpdate();
         }
     }
