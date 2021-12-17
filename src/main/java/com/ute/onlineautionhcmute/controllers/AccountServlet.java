@@ -35,6 +35,7 @@ public class AccountServlet extends HttpServlet {
                 break;
 
             case "/Profile/WatchList":
+            {
                 User userLogin = (User)session.getAttribute("authUser");
                 List<WatchList> listWatchList = WatchListModel.findByUserID(userLogin.getId());
                 List<ProductWithCard> listProductCard = new ArrayList<ProductWithCard>();
@@ -48,46 +49,74 @@ public class AccountServlet extends HttpServlet {
                 request.setAttribute("listProductCard", listProductCard);
                 ServletUtils.forward("/views/vwAccount/ProfileWatchList.jsp", request, response);
                 break;
+            }
 
             case "/Profile/ProductWin":
+            {
+                User userLogin = (User)session.getAttribute("authUser");
+                List<Winner> listWinner = WinnerModel.findByUserID(userLogin.getId());
+                List<ProductWithCard> listProductCard = new ArrayList<ProductWithCard>();
+
+                listWinner.forEach((win) -> {
+                    ProductWithCard pwc = ProductModel.getProductInfoWithCard(win.getProduct_id());
+                    if(pwc != null)
+                        listProductCard.add(pwc);
+                });
+
+                request.setAttribute("listProductCard", listProductCard);
                 ServletUtils.forward("/views/vwAccount/ProfileProductWin.jsp", request, response);
                 break;
+            }
 
             case "/Profile/Upgrade":
+            {
                 ServletUtils.forward("/views/vwAccount/ProfileUpgrade.jsp", request, response);
                 break;
+            }
+
 
             case "/Profile/ChangePassword":
+            {
                 request.setAttribute("isError", false);
                 request.setAttribute("errorMessage", "");
                 request.setAttribute("message", "");
                 ServletUtils.forward("/views/vwAccount/ProfileChangePassword.jsp", request, response);
                 break;
+            }
 
             case "/Profile/ChangeEmail":
+            {
                 request.setAttribute("status", "");
                 request.setAttribute("message", "");
                 ServletUtils.forward("/views/vwAccount/ProfileChangeEmail.jsp", request, response);
                 break;
+            }
 
             case "/Profile/ChangeInformation":
+            {
                 request.setAttribute("message", "");
                 ServletUtils.forward("/views/vwAccount/ProfileChangeInformation.jsp", request, response);
                 break;
+            }
 //            End Profile
 
             case "/Register2":
+            {
                 ServletUtils.forward("/views/vwAccount/Register2.jsp", request, response);
                 break;
+            }
 
             case "/Login":
+            {
                 if ((boolean) session.getAttribute("auth")) {
                     ServletUtils.redirect("/Home", request, response);
                 } else ServletUtils.forward("/views/vwAccount/Login.jsp", request, response);
                 ServletUtils.forward("/views/vwAccount/Login.jsp", request, response);
                 break;
+            }
 
             case "/ResetPassword":
+            {
                 String userID = request.getParameter("userID");
                 String code = request.getParameter("code");
 
@@ -105,15 +134,19 @@ public class AccountServlet extends HttpServlet {
                 request.setAttribute("code", code);
                 ServletUtils.forward("/views/vwAccount/ResetPassword.jsp", request, response);
                 break;
+            }
 
             case "/Recovery":
+            {
                 request.setAttribute("isPost", false);
                 request.setAttribute("isExist", false);
                 request.setAttribute("emailPost", "");
                 ServletUtils.forward("/views/vwAccount/AccountRecovery.jsp", request, response);
                 break;
+            }
 
             case "/IsAvailable":
+            {
                 String username = request.getParameter("user");
                 User user = UserModel.findByUsername(username);
                 boolean isAvailable = (user == null);
@@ -125,10 +158,13 @@ public class AccountServlet extends HttpServlet {
                 out.print(isAvailable);
                 out.flush();
                 break;
+            }
 
             default:
+            {
                 ServletUtils.forward("/views/404.jsp", request, response);
                 break;
+            }
         }
     }
 

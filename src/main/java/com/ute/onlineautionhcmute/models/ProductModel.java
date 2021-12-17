@@ -187,4 +187,5 @@ public class ProductModel {
             return list.get(0);
         }
     }
+
 }

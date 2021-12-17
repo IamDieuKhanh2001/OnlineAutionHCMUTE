@@ -60,7 +60,7 @@
                             Hi, <b>${authUser.username}!</b>
                         </a>
                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" href="${pageContext.request.contextPath}/Account/Profile">
+                            <a class="dropdown-item" href="${pageContext.request.contextPath}/Account/Profile/Overview">
                                 <i class="fa fa-user" aria-hidden="true"></i>
                                 Profile
                             </a>
