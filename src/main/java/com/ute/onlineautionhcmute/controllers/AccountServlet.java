@@ -1,14 +1,8 @@
 package com.ute.onlineautionhcmute.controllers;
 
 import at.favre.lib.crypto.bcrypt.BCrypt;
-import com.ute.onlineautionhcmute.beans.AccountRecovery;
-import com.ute.onlineautionhcmute.beans.Category;
-import com.ute.onlineautionhcmute.beans.ProductType;
-import com.ute.onlineautionhcmute.beans.User;
-import com.ute.onlineautionhcmute.models.AccountRecoveryModel;
-import com.ute.onlineautionhcmute.models.CategoryModel;
-import com.ute.onlineautionhcmute.models.ProductTypeModel;
-import com.ute.onlineautionhcmute.models.UserModel;
+import com.ute.onlineautionhcmute.beans.*;
+import com.ute.onlineautionhcmute.models.*;
 import com.ute.onlineautionhcmute.utils.*;
 
 import javax.servlet.*;
@@ -40,6 +34,21 @@ public class AccountServlet extends HttpServlet {
                 ServletUtils.forward("/views/vwAccount/ProfileOverview.jsp", request, response);
                 break;
 
+            case "/Profile/WatchList":
+                User userLogin = (User)session.getAttribute("authUser");
+                List<WatchList> listWatchList = WatchListModel.findByUserID(userLogin.getId());
+                List<ProductWithCard> listProductCard = new ArrayList<ProductWithCard>();
+
+                listWatchList.forEach((wl) -> {
+                    ProductWithCard pwc = ProductModel.getProductInfoWithCard(wl.getProduct_id());
+                    if(pwc != null)
+                        listProductCard.add(pwc);
+                });
+
+                request.setAttribute("listProductCard", listProductCard);
+                ServletUtils.forward("/views/vwAccount/ProfileWatchList.jsp", request, response);
+                break;
+
             case "/Profile/ChangePassword":
                 request.setAttribute("isError", false);
                 request.setAttribute("errorMessage", "");
@@ -54,15 +63,7 @@ public class AccountServlet extends HttpServlet {
                 break;
 
             case "/Profile/ChangeInformation":
-                boolean isLogin = (boolean)session.getAttribute("auth");
-                User userLogin = null;
-                if(isLogin)
-                    userLogin = (User)session.getAttribute("authUser");
-                if(userLogin == null)
-                    ServletUtils.forward("/views/404.jsp", request, response);
-
                 request.setAttribute("message", "");
-
                 ServletUtils.forward("/views/vwAccount/ProfileChangeInformation.jsp", request, response);
                 break;
 //            End Profile

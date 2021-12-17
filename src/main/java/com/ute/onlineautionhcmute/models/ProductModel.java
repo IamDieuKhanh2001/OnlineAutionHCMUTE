@@ -2,6 +2,7 @@ package com.ute.onlineautionhcmute.models;
 
 import com.ute.onlineautionhcmute.beans.Category;
 import com.ute.onlineautionhcmute.beans.Product;
+import com.ute.onlineautionhcmute.beans.ProductWithCard;
 import com.ute.onlineautionhcmute.beans.User;
 import com.ute.onlineautionhcmute.utils.DbUtils;
 import org.sql2o.Connection;
@@ -172,6 +173,18 @@ public class ProductModel {
 
     }
 
+    public static ProductWithCard getProductInfoWithCard(int productID)
+    {
+        final String query = "SELECT `p`.`id`, `p`.`name`, `p`.`price_current`, `u`.`firstname`, `u`.`lastname`, `p`.`price_buy_now`, `p`.`create_time` FROM `products` AS `p`, `users` AS `u` WHERE `u`.`id` = `p`.`user_id` AND `p`.`id` = :productID";
+        try (Connection connection = DbUtils.getConnection())
+        {
+            List<ProductWithCard> list = connection.createQuery(query)
+                    .addParameter("productID", productID)
+                    .executeAndFetch(ProductWithCard.class);
 
-
+            if(list.size() == 0)
+                return null;
+            return list.get(0);
+        }
+    }
 }
