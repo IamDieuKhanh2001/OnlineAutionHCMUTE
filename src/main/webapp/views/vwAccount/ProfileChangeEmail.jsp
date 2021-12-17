@@ -10,8 +10,34 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <jsp:useBean id="authUser" scope="session" type="com.ute.onlineautionhcmute.beans.User" />
+<jsp:useBean id="status" scope="request" type="java.lang.String" />
+<jsp:useBean id="message" scope="request" type="java.lang.String" />
+
+
 
 <t:profile>
+
+    <jsp:attribute name="js">
+        <script>
+            //Kiem tra form validation
+            $('#form-change-email').on('submit', function (e){
+                e.preventDefault();
+
+                const emailNew = $('#email_new').val();
+                if(emailNew.length === 0){
+                    alert("Invalid new email");
+                    return;
+                }
+                const passwordCurrent = $('#password_current').val();
+                if(passwordCurrent.length === 0){
+                    alert("Invalid password");
+                    return;
+                }
+                $('#form-change-email').off('submit').submit()
+            });
+        </script>
+    </jsp:attribute>
+
     <jsp:body>
         <div class="col-md-9">
             <div class="card">
@@ -22,20 +48,30 @@
                             <hr>
                         </div>
                     </div>
+
+                    <c:if test="${status == \"success\"}">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <p class="text-success text-center">${message}</p>
+                            </div>
+                        </div>
+                    </c:if>
+
+                    <c:if test="${status == \"error\"}">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <p class="text-danger text-center">${message}</p>
+                            </div>
+                        </div>
+                    </c:if>
+
                     <div class="row">
                         <div class="col-md-12">
                             <form id="form-change-email" method="POST" action="#">
                                 <div class="form-group row">
                                     <label for="email_current" class="col-4 col-form-label">Email hiện tại</label>
-                                    <div class="col-6">
-                                        <input value="${authUser.email}" disabled id="email_current" name="email_current" class="form-control here" required="required" type="text">
-                                    </div>
-                                </div>
-
-                                <div class="form-group row">
-                                    <label for="code_confirm" class="col-4 col-form-label">Mã xác nhận</label>
                                     <div class="col-8">
-                                        <input id="code_confirm" name="code_confirm" placeholder="Mã xác nhận" class="form-control here" type="text">
+                                        <input value="${authUser.email}" disabled id="email_current" name="email_current" class="form-control here" required="required" type="text">
                                     </div>
                                 </div>
 
@@ -43,6 +79,13 @@
                                     <label for="email_new" class="col-4 col-form-label">Nhập email mới</label>
                                     <div class="col-8">
                                         <input id="email_new" name="email_new" placeholder="Nhập email mới" class="form-control here" type="text">
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label for="password_current" class="col-4 col-form-label">Mật khẩu của bạn</label>
+                                    <div class="col-8">
+                                        <input id="password_current" name="password_current" placeholder="Mật khẩu của bạn" class="form-control here" type="password">
                                     </div>
                                 </div>
 

@@ -1,9 +1,13 @@
 package com.ute.onlineautionhcmute.utils;
 
+import com.ute.onlineautionhcmute.beans.User;
+import com.ute.onlineautionhcmute.models.UserModel;
+
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 public class ServletUtils {
@@ -19,5 +23,12 @@ public class ServletUtils {
         }else{
             response.sendRedirect(url);
         }
+    }
+    public static void updateUserSession(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
+    {
+        HttpSession session = request.getSession();
+        User user = (User)session.getAttribute("authUser");
+        User userUpdated = UserModel.findById(user.getId());
+        session.setAttribute("authUser", userUpdated);
     }
 }

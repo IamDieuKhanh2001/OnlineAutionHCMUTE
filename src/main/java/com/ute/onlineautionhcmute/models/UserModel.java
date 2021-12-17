@@ -60,6 +60,18 @@ public class UserModel {
         }
     }
 
+    public static void updateEmail(int userID, String newEmail)
+    {
+        final String query = "UPDATE `users` SET `email` = :email, `modified_time` = :modifiedTime WHERE `id` = :userID";
+        try (Connection connection = DbUtils.getConnection())
+        {
+            connection.createQuery(query)
+                    .addParameter("email", newEmail)
+                    .addParameter("modifiedTime", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()))
+                    .addParameter("userID", userID)
+                    .executeUpdate();
+        }
+    }
 
     public static void updateInformation(User user)
     {

@@ -9,10 +9,7 @@ import com.ute.onlineautionhcmute.models.AccountRecoveryModel;
 import com.ute.onlineautionhcmute.models.CategoryModel;
 import com.ute.onlineautionhcmute.models.ProductTypeModel;
 import com.ute.onlineautionhcmute.models.UserModel;
-import com.ute.onlineautionhcmute.utils.Common;
-import com.ute.onlineautionhcmute.utils.EmailTemplate;
-import com.ute.onlineautionhcmute.utils.SendEmail;
-import com.ute.onlineautionhcmute.utils.ServletUtils;
+import com.ute.onlineautionhcmute.utils.*;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
@@ -51,6 +48,8 @@ public class AccountServlet extends HttpServlet {
                 break;
 
             case "/Profile/ChangeEmail":
+                request.setAttribute("status", "");
+                request.setAttribute("message", "");
                 ServletUtils.forward("/views/vwAccount/ProfileChangeEmail.jsp", request, response);
                 break;
 
@@ -149,6 +148,10 @@ public class AccountServlet extends HttpServlet {
                 changeInformation(request, response);
                 break;
 
+            case "/Profile/ChangeEmail":
+                changeEmail(request, response);
+                break;
+
             case "/Recovery":
                 recovery(request, response);
                 break;
@@ -160,6 +163,42 @@ public class AccountServlet extends HttpServlet {
             default:
                 ServletUtils.forward("/views/404.jsp", request, response);
                 break;
+        }
+    }
+
+    private void changeEmail(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
+    {
+        request.setAttribute("status", "");
+        request.setAttribute("message", "");
+
+        HttpSession session = request.getSession();
+        User user = (User)session.getAttribute("authUser");
+        String newEmail = request.getParameter("email_new");
+        String currentPassword = request.getParameter("password_current");
+
+        BCrypt.Result result = BCrypt.verifyer().verify(currentPassword.toCharArray(), user.getPassword());
+        if(!result.verified)
+        {
+            request.setAttribute("status", "error");
+            request.setAttribute("message", "Mật khẩu của bạn không đúng!");
+            ServletUtils.forward("/views/vwAccount/ProfileChangeEmail.jsp", request, response);
+        }
+        else
+        {
+            if(ValidateUtils.isValidEmail(newEmail))
+            {
+                UserModel.updateEmail(user.getId(), newEmail);
+                request.setAttribute("status", "success");
+                request.setAttribute("message", "Cập nhật email thành công");
+            }
+            else
+            {
+                request.setAttribute("status", "error");
+                request.setAttribute("message", "Cập nhật email thất bại. Email không hợp lệ");
+            }
+
+            ServletUtils.updateUserSession(request, response);
+            ServletUtils.forward("/views/vwAccount/ProfileChangeEmail.jsp", request, response);
         }
     }
 
