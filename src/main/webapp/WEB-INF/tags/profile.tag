@@ -43,6 +43,24 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
         integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
         crossorigin="anonymous"></script>
+
+<script>
+    $(function(){
+
+        var url = window.location.pathname; // in real app this would have to be replaced with window.location.pathname
+        var urlRegExp = new RegExp(url.replace(/\/$/,'')); // create regexp to match current url pathname and remove trailing slash if present as it could collide with the link in navigation in case trailing slash wasn't present there
+
+        // now grab every link from the navigation
+        $('.list-group a').each(function(){
+            // and test its href against the url pathname regexp
+            if(urlRegExp.test(this.href)){
+                $(this).addClass('active');
+            }
+        });
+
+    });
+</script>
+
 <jsp:invoke fragment="js"/>
 </body>
 </html>

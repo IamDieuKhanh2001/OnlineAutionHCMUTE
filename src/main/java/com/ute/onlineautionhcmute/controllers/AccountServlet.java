@@ -49,6 +49,14 @@ public class AccountServlet extends HttpServlet {
                 ServletUtils.forward("/views/vwAccount/ProfileWatchList.jsp", request, response);
                 break;
 
+            case "/Profile/ProductWin":
+                ServletUtils.forward("/views/vwAccount/ProfileProductWin.jsp", request, response);
+                break;
+
+            case "/Profile/Upgrade":
+                ServletUtils.forward("/views/vwAccount/ProfileUpgrade.jsp", request, response);
+                break;
+
             case "/Profile/ChangePassword":
                 request.setAttribute("isError", false);
                 request.setAttribute("errorMessage", "");

@@ -24,9 +24,9 @@
         <a href="${pageContext.request.contextPath}/Account/Profile/ChangeEmail" class="list-group-item list-group-item-action">Đổi Email</a>
         <a href="${pageContext.request.contextPath}/Account/Profile/ChangePassword" class="list-group-item list-group-item-action">Đổi mật khẩu mới</a>
         <a href="${pageContext.request.contextPath}/Account/Profile/WatchList" class="list-group-item list-group-item-action">Danh sách sản phẩm yêu thích</a>
-        <a href="${pageContext.request.contextPath}/Account/Profile/ChangePassword" class="list-group-item list-group-item-action">Sản phẩm đang đấu giá</a>
-        <a href="${pageContext.request.contextPath}/Account/Profile/ChangePassword" class="list-group-item list-group-item-action">Sản phẩm đã thắng</a>
-        <a href="${pageContext.request.contextPath}/Account/Profile/ChangePassword" class="list-group-item list-group-item-action">Xin lên Seller</a>
+        <a href="${pageContext.request.contextPath}/Account/Profile/ProductAuction" class="list-group-item list-group-item-action">Sản phẩm đang đấu giá</a>
+        <a href="${pageContext.request.contextPath}/Account/Profile/ProductWin" class="list-group-item list-group-item-action">Sản phẩm đã thắng</a>
+        <a href="${pageContext.request.contextPath}/Account/Profile/Upgrade" class="list-group-item list-group-item-action">Xin lên Seller</a>
 
     </div>
 </div>
