@@ -126,14 +126,30 @@
                             </h4>
                             <h4 class="price">Ngày hết hạn: <span>${product.end_time}</span></h4>
                             <div class="action">
-                                <button type="button" class="add-to-cart btn btn-default" data-toggle="modal" data-target="#enterPriceAuction">
-                                    Đặt giá ngay
-                                </button>
+<%--                                Ẩn nút đấu giá khi hết giờ --%>
+                                <c:if test="${time_ended}">
+                                    <button type="button" class="add-to-cart btn btn-default disabled" disabled
+                                            data-toggle="modal" data-target="#enterPriceAuction">
+                                        Đặt giá ngay
+                                    </button>
+                                </c:if>
+                                <c:if test="${time_ended == false}">
+                                    <button type="button" class="add-to-cart btn btn-default"
+                                            data-toggle="modal" data-target="#enterPriceAuction">
+                                        Đặt giá ngay
+                                    </button>
+                                </c:if>
                                 <a href="${pageContext.request.contextPath}/Product/AddWatchList?id=${product.id}"
                                    class="like btn btn-outline-danger" type="button">
                                     <span class="fa fa-heart"></span>
                                     Thêm vào watch list
                                 </a>
+                                    <%--                                THong bao sp het han dau gia--%>
+                                <c:if test="${time_ended}">
+                                    <div class="alert alert-warning alert-dismissible fade show mt-3" role="alert">
+                                        <strong>Sản phẩm đã kết thúc</strong>
+                                    </div>
+                                </c:if>
                             </div>
                         </div>
                     </div>
@@ -156,7 +172,7 @@
                         <i class="fa fa-list" aria-hidden="true"></i>
                     </a>
                 </p>
-<%--                        Lịch sử đấu giá nội dung--%>
+                    <%--                        Lịch sử đấu giá nội dung--%>
                 <div class="collapse" id="history">
                     <div class="card card-body border-0 border-bottom-1">
                         <h3 class="card-title">Lịch sử đấu giá</h3>
@@ -191,7 +207,7 @@
                         </table>
                     </div>
                 </div>
-<%--                        Mô tả sản phẩm nội dung--%>
+                    <%--                        Mô tả sản phẩm nội dung--%>
                 <div class="row shadow-lg">
                     <div class="col">
                         <div class="collapse multi-collapse" id="des">
@@ -201,7 +217,7 @@
                             </div>
                         </div>
                     </div>
-<%--                    Chi tiết giá nội dung--%>
+                        <%--                    Chi tiết giá nội dung--%>
                     <div class="col">
                         <div class="collapse multi-collapse" id="price">
                             <div class="card card-body border-0">
@@ -247,7 +263,9 @@
                                         <h5 class="card-title text-danger">
                                                 ${c.price_current}
                                         </h5>
-                                        <a class="btn btn-success" href="${pageContext.request.contextPath}/Product/Detail?id=${c.id}" role="button">
+                                        <a class="btn btn-success"
+                                           href="${pageContext.request.contextPath}/Product/Detail?id=${c.id}"
+                                           role="button">
                                             <i class="fa fa-eye" aria-hidden="true"></i>
                                             Detail
                                         </a>
@@ -265,10 +283,11 @@
                 </div>
             </div>
         </div>
-<%--Form post so tien dat--%>
+        <%--Form post so tien dat--%>
 
         <!-- Modal -->
-        <div class="modal fade" id="enterPriceAuction" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal fade" id="enterPriceAuction" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+             aria-hidden="true">
 
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
@@ -279,7 +298,8 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        <form id="frmAuction" method="post" action="${pageContext.request.contextPath}/Product/Auction?id=${product.id}">
+                        <form id="frmAuction" method="post"
+                              action="${pageContext.request.contextPath}/Product/Auction?id=${product.id}">
                             <div class="input-group mb-3">
                                 <input name="maxAuctionPrice" type="text" class="form-control" placeholder="Số tiền...">
                                 <div class="input-group-append">

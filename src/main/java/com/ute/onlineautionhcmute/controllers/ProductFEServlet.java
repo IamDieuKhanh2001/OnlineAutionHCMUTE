@@ -9,6 +9,7 @@ import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @WebServlet(name = "ProductFEServlet", value = "/Product/*")
@@ -119,6 +120,11 @@ public class ProductFEServlet extends HttpServlet {
                 request.setAttribute("seller", seller);
                 request.setAttribute("userHighestBid",userHighestBid);
                 request.setAttribute("similarProduct", similarProduct);
+                if(product.getEnd_time().after(new Date())){                 //Kiem tra thoi gian ket thuc chua
+                    request.setAttribute("time_ended", false);
+                }else{
+                    request.setAttribute("time_ended", true);
+                }
                 ServletUtils.forward("/views/vwProduct/Detail.jsp", request, response);
                 break;
             }
@@ -140,7 +146,7 @@ public class ProductFEServlet extends HttpServlet {
                 if (!(boolean) session.getAttribute("auth")) {
                     ServletUtils.forward("/views/vwAccount/Login.jsp", request, response);
                 }else{
-                    AuctionProduct(request, response);
+                    checkAuctionProduct(request, response);
                 }
                 break;
             }
@@ -151,9 +157,7 @@ public class ProductFEServlet extends HttpServlet {
         }
     }
 
-    private void AuctionProduct(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        HttpSession session = request.getSession();
-        User userLogin = (User) session.getAttribute("authUser");
+    private void checkAuctionProduct(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         int productId = -1;
         try {
@@ -161,39 +165,10 @@ public class ProductFEServlet extends HttpServlet {
         } catch (Exception ex) {
             ServletUtils.forward("/views/404.jsp", request, response);
         }
-        double currentAuctionPrice = Double.parseDouble(request.getParameter("maxAuctionPrice")); //So tien nguoi hien tai dat
-        Product product = ProductModel.findById(productId);
-        if (product != null) {
-            if(product.getUser_id_holding_price() == 0){ // Nguoi dau tien dat, gia vao cung la gia bat dau
-                AuctionHistory productDeposit = new AuctionHistory(-1,product.getId(),userLogin.getId(),currentAuctionPrice);
-                AuctionHistoryModel.add(productDeposit);
-                product.setUser_id_holding_price(userLogin.getId());
-                ProductModel.update(product);
-            }
-            else{                                                           // Nguoi thu 2 tro di dat
-                AuctionHistory previousAuctionBidder = AuctionHistoryModel.findMaxDepositPrice(product);
-                if(previousAuctionBidder.getDeposit_price() > currentAuctionPrice){
-                    AuctionHistory productDeposit = new AuctionHistory(-1,product.getId(),userLogin.getId(),currentAuctionPrice);
-                    AuctionHistoryModel.add(productDeposit);
-                    product.setPrice_current(currentAuctionPrice);
-                    ProductModel.update(product);
-                }
-                else if(previousAuctionBidder.getDeposit_price() < currentAuctionPrice){
-                    AuctionHistory productDeposit = new AuctionHistory(-1,product.getId(),userLogin.getId(),currentAuctionPrice);
-                    AuctionHistoryModel.add(productDeposit);
-                    System.out.println(previousAuctionBidder.getDeposit_price());
-                    product.setPrice_current(previousAuctionBidder.getDeposit_price() + product.getPrice_step());
-                    product.setUser_id_holding_price(userLogin.getId());
-                    ProductModel.update(product);
-                }
-                else if(previousAuctionBidder.getDeposit_price() == currentAuctionPrice){
-                    AuctionHistory productDeposit = new AuctionHistory(-1,product.getId(),userLogin.getId(),currentAuctionPrice);
-                    AuctionHistoryModel.add(productDeposit);
-                    product.setPrice_current(previousAuctionBidder.getDeposit_price());
-                    ProductModel.update(product);
-                }
-            }
 
+        Product product = ProductModel.findById(productId);
+        if (product != null && product.getEnd_time().after(new Date())) {
+            auctionProduct(product,request,response);
         } else {
             ServletUtils.forward("/views/204.jsp", request, response);
         }
@@ -202,4 +177,40 @@ public class ProductFEServlet extends HttpServlet {
         request.setAttribute("result",true);
         ServletUtils.forward("/views/vwProduct/BidResult.jsp",request,response);
     }
+    private void auctionProduct(Product product,HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        HttpSession session = request.getSession();
+        User userLogin = (User) session.getAttribute("authUser");
+
+        double currentAuctionPrice = Double.parseDouble(request.getParameter("maxAuctionPrice")); //So tien nguoi hien tai dat
+
+        if(product.getUser_id_holding_price() == 0){ // Nguoi dau tien dat, gia vao cung la gia bat dau
+            AuctionHistory productDeposit = new AuctionHistory(-1,product.getId(),userLogin.getId(),currentAuctionPrice);
+            AuctionHistoryModel.add(productDeposit);
+            product.setUser_id_holding_price(userLogin.getId());
+            ProductModel.update(product);
+        }
+        else{                                                           // Nguoi thu 2 tro di dat
+            AuctionHistory previousAuctionBidder = AuctionHistoryModel.findMaxDepositPrice(product);
+            if(previousAuctionBidder.getDeposit_price() > currentAuctionPrice){
+                AuctionHistory productDeposit = new AuctionHistory(-1,product.getId(),userLogin.getId(),currentAuctionPrice);
+                AuctionHistoryModel.add(productDeposit);
+                product.setPrice_current(currentAuctionPrice);
+                ProductModel.update(product);
+            }
+            else if(previousAuctionBidder.getDeposit_price() < currentAuctionPrice){
+                AuctionHistory productDeposit = new AuctionHistory(-1,product.getId(),userLogin.getId(),currentAuctionPrice);
+                AuctionHistoryModel.add(productDeposit);
+                product.setPrice_current(previousAuctionBidder.getDeposit_price() + product.getPrice_step());
+                product.setUser_id_holding_price(userLogin.getId());
+                ProductModel.update(product);
+            }
+            else if(previousAuctionBidder.getDeposit_price() == currentAuctionPrice){
+                AuctionHistory productDeposit = new AuctionHistory(-1,product.getId(),userLogin.getId(),currentAuctionPrice);
+                AuctionHistoryModel.add(productDeposit);
+                product.setPrice_current(previousAuctionBidder.getDeposit_price());
+                ProductModel.update(product);
+            }
+        }
+    }
 }
+

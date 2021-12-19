@@ -45,15 +45,16 @@
                     99+
                     </span>
                 </button>
-                <a class="btn btn-outline-danger mr-3" href="${pageContext.request.contextPath}/Product/MyWatchList"
-                   role="button">
-                    <i class="fa fa-heart" aria-hidden="true"></i>
-                    My watch list
-                </a>
                 <ul class="navbar-nav">
                     <c:choose>
                     <c:when test="${auth}">
-                    <form id="frmLogout" method="post" action="${pageContext.request.contextPath}/Account/Logout"></form>
+                    <a class="btn btn-outline-danger mr-3" href="${pageContext.request.contextPath}/Product/MyWatchList"
+                       role="button">
+                        <i class="fa fa-heart" aria-hidden="true"></i>
+                        My watch list
+                    </a>
+                    <form id="frmLogout" method="post"
+                          action="${pageContext.request.contextPath}/Account/Logout"></form>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownR" role="button"
                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
