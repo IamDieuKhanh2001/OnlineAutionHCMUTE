@@ -11,6 +11,12 @@ public class Winner {
     public Winner() {
     }
 
+    public Winner(int id, int user_id, int product_id) {
+        this.id = id;
+        this.user_id = user_id;
+        this.product_id = product_id;
+    }
+
     public Winner(int id, int user_id, int product_id, Date create_time) {
         this.id = id;
         this.user_id = user_id;

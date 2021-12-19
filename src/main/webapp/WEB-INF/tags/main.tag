@@ -12,7 +12,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Web app</title>
+    <title>Online auction HCMUTE</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
           integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -24,7 +24,11 @@
     <jsp:invoke fragment="css"/>
 </head>
 <body>
+<div style="height: 120px">
+    <%--        Vùng trống chứa vị trí nav bar đứng tránh nav chồng lên element khác--%>
+</div>
 <jsp:include page="../../views/partials/nav.jsp"/>
+
 <div class="container-fluid mt-2 mb-3">
     <div class="row">
         <div class="col-2">

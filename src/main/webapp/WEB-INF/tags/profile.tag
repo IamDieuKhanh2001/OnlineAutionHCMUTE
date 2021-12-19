@@ -20,6 +20,9 @@
     <jsp:invoke fragment="css"/>
 </head>
 <body>
+<div style="height: 120px">
+    <%--        Vùng trống chứa vị trí nav bar đứng tránh nav chồng lên element khác--%>
+</div>
 <jsp:include page="../../views/partials/nav.jsp"/>
 <div class="container-fluid mt-2 mb-3">
     <div class="row">

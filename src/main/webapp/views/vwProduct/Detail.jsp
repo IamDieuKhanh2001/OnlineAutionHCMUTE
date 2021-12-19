@@ -306,6 +306,12 @@
                                     <span class="input-group-text" id="">VND</span>
                                 </div>
                             </div>
+                            <p class="card-text text-warning">
+                                <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                                Lưu ý 
+                                <br>Hệ thống sẽ tự động đấu giá sản phẩm với chi phí thấp nhất với chi phí bạn đặt ra!! Đặt giá và uống 1 tách trà đợi kết quả nhé
+                                <br>Hệ thống sẽ phân định người sở hữu sản phẩm dựa trên giá đấu cao nhất khi hết thời gian
+                            </p>
                         </form>
                     </div>
                     <div class="modal-footer d-flex justify-content-between">

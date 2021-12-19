@@ -165,8 +165,7 @@ public class ProductFEServlet extends HttpServlet {
         } catch (Exception ex) {
             ServletUtils.forward("/views/404.jsp", request, response);
         }
-
-        Product product = ProductModel.findById(productId);
+            Product product = ProductModel.findById(productId);
         if (product != null && product.getEnd_time().after(new Date())) {
             auctionProduct(product,request,response);
         } else {
@@ -174,7 +173,6 @@ public class ProductFEServlet extends HttpServlet {
         }
 
         request.setAttribute("product",product);
-        request.setAttribute("result",true);
         ServletUtils.forward("/views/vwProduct/BidResult.jsp",request,response);
     }
     private void auctionProduct(Product product,HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -188,6 +186,7 @@ public class ProductFEServlet extends HttpServlet {
             AuctionHistoryModel.add(productDeposit);
             product.setUser_id_holding_price(userLogin.getId());
             ProductModel.update(product);
+            request.setAttribute("ResultMessage","Bạn đã đặt giá thành công cho sản phẩm!! vui lòng kiểm tra lịch sử đấu giá tại sản phẩm");
         }
         else{                                                           // Nguoi thu 2 tro di dat
             AuctionHistory previousAuctionBidder = AuctionHistoryModel.findMaxDepositPrice(product);
@@ -196,6 +195,7 @@ public class ProductFEServlet extends HttpServlet {
                 AuctionHistoryModel.add(productDeposit);
                 product.setPrice_current(currentAuctionPrice);
                 ProductModel.update(product);
+                request.setAttribute("ResultMessage","Giá trị bạn đặt đã bị vượt qua!! Hãy đặt giá cao hơn");
             }
             else if(previousAuctionBidder.getDeposit_price() < currentAuctionPrice){
                 AuctionHistory productDeposit = new AuctionHistory(-1,product.getId(),userLogin.getId(),currentAuctionPrice);
@@ -203,12 +203,14 @@ public class ProductFEServlet extends HttpServlet {
                 product.setPrice_current(previousAuctionBidder.getDeposit_price() + product.getPrice_step());
                 product.setUser_id_holding_price(userLogin.getId());
                 ProductModel.update(product);
+                request.setAttribute("ResultMessage","Bạn đã đặt giá thành công cho sản phẩm!! vui lòng kiểm tra lịch sử đấu giá tại sản phẩm");
             }
             else if(previousAuctionBidder.getDeposit_price() == currentAuctionPrice){
                 AuctionHistory productDeposit = new AuctionHistory(-1,product.getId(),userLogin.getId(),currentAuctionPrice);
                 AuctionHistoryModel.add(productDeposit);
                 product.setPrice_current(previousAuctionBidder.getDeposit_price());
                 ProductModel.update(product);
+                request.setAttribute("ResultMessage","Đã có người đặt giá bằng bạn và trước bạn!! Hãy đặt giá cao hơn");
             }
         }
     }
