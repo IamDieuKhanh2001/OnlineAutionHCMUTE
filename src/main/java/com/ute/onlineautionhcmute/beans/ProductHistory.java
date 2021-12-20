@@ -2,13 +2,22 @@ package com.ute.onlineautionhcmute.beans;
 
 import java.util.Date;
 
-public class ProductHistory {
+public class ProductHistory implements Comparable<ProductHistory>{
     private int id;
     private int product_id;
     private double price_bidding;
     private int user_id_holding;
     private Date create_time;
 
+    //Phương thức cho colection sort so sánh sắp xếp 2 đối tượng
+    public int compareTo(ProductHistory productHistory) {
+        if (price_bidding == productHistory.price_bidding)
+            return 0;
+        else if (price_bidding > productHistory.price_bidding)
+            return -1;
+        else
+            return 1;
+    }
     public ProductHistory(int id, int product_id, double price_bidding, int user_id_holding) {
         this.id = id;
         this.product_id = product_id;

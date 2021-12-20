@@ -7,32 +7,68 @@
 
 <jsp:useBean id="product" scope="request"
              type="com.ute.onlineautionhcmute.beans.Product"/>
+<jsp:useBean id="productHistory" scope="request"
+             type="java.util.List<com.ute.onlineautionhcmute.beans.ProductHistory>"/>
+<jsp:useBean id="allUser" scope="request"
+             type="java.util.List<com.ute.onlineautionhcmute.beans.User>"/>
 <t:main>
     <jsp:body>
         <div class="card">
             <h4 class="card-header bg-dark text-light">
                 Lịch sử đấu giá của sản phẩm ${product.name}
+                ${productHistory.size()}
             </h4>
             <div class="card-body">
-                    <%--                đổ data vào đây--%>
+                <c:choose>
+                    <c:when test="${productHistory.size() == 0}">
+                        <div class="card-body">
+                            <p class="card-text">Khong co du lieu</p>
+                        </div>
+                    </c:when>
+                    <c:otherwise>
+                        <%--                đổ data vào đây--%>
                         <table class="table table-hover">
                             <thead>
                             <tr>
                                 <th scope="col">#</th>
-                                <th scope="col">First</th>
-                                <th scope="col">Last</th>
-                                <th scope="col">Handle</th>
+                                <th scope="col">Thời điểm</th>
+                                <th scope="col">Người đặt</th>
+                                <th scope="col">Giá</th>
+                                <th scope="col">Từ chối đấu giá</th>
                             </tr>
                             </thead>
                             <tbody>
-                            <tr>
-                                <th scope="row">1</th>
-                                <td>Mark</td>
-                                <td>Otto</td>
-                                <td>@mdo</td>
-                            </tr>
+                            <c:forEach items="${productHistory}" var="c" varStatus="loop">
+                                <tr>
+                                    <th scope="row">${loop.index + 1}</th>
+                                    <td>
+                                        ${c.create_time}
+                                    </td>
+                                    <c:forEach items="${allUser}" var="u">
+                                        <c:choose>
+                                            <c:when test="${u.id == c.user_id_holding}">
+                                                <td>
+                                                        ${u.username}
+                                                </td>
+                                            </c:when>
+                                        </c:choose>
+                                    </c:forEach>
+                                    <td>
+                                        <fmt:formatNumber value="${c.price_bidding}" type="number"/>
+                                    </td>
+                                    <td>
+                                        <a name="" id="" class="btn btn-outline-danger" href="#" role="button">
+                                            <i class="fa fa-user-times" aria-hidden="true"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            </c:forEach>
+
                             </tbody>
                         </table>
+                    </c:otherwise>
+                </c:choose>
+
             </div>
         </div>
     </jsp:body>

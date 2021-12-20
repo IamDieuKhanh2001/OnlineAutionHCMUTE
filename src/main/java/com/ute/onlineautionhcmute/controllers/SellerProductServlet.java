@@ -11,6 +11,7 @@ import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -81,9 +82,12 @@ public class SellerProductServlet extends HttpServlet {
                 }
                 Product p = ProductModel.findById(id);
                 if(p != null){
-                    List<AuctionHistory> productHistory = AuctionHistoryModel.findAllByProductID(p.getId());
+                    List<ProductHistory> productHistory = ProductHistoryModel.findByProductID(p.getId());
+                    Collections.sort(productHistory);
+                    List<User> allUser = UserModel.findAll();
                     request.setAttribute("product", p);
                     request.setAttribute("productHistory", productHistory);
+                    request.setAttribute("allUser", allUser);
                 }else{
                     ServletUtils.forward("/views/204.jsp", request, response);
                 }
