@@ -7,8 +7,6 @@
 
 <jsp:useBean id="product" scope="request"
              type="com.ute.onlineautionhcmute.beans.Product"/>
-<jsp:useBean id="productHistory" scope="request"
-             type="java.util.List<com.ute.onlineautionhcmute.beans.AuctionHistory>"/>
 <t:main>
     <jsp:body>
         <div class="card">

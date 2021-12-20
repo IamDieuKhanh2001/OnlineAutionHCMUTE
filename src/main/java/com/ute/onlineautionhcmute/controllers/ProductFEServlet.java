@@ -158,7 +158,6 @@ public class ProductFEServlet extends HttpServlet {
     }
 
     private void checkAuctionProduct(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
         int productId = -1;
         try {
             productId = Integer.parseInt(request.getParameter("id"));
@@ -179,13 +178,28 @@ public class ProductFEServlet extends HttpServlet {
         HttpSession session = request.getSession();
         User userLogin = (User) session.getAttribute("authUser");
 
+        if(userLogin.getId() == product.getUser_id_holding_price()){
+            request.setAttribute("ResultMessage","Bạn đã đặt giá cho sản phẩm này rồi!!");
+            return;
+        }
         double currentAuctionPrice = Double.parseDouble(request.getParameter("maxAuctionPrice")); //So tien nguoi hien tai dat
+        if(product.getPrice_start() > currentAuctionPrice || product.getPrice_current() > currentAuctionPrice){
+            request.setAttribute("ResultMessage","Đặt giá không thành công, giá trị đặt cần lớn hơn giá ban đầu");
+            return;
+        }else if(product.getPrice_buy_now() <= currentAuctionPrice){
+            request.setAttribute("ResultMessage","Giá trị bạn đặt đã vượt qua giá mua ngay của sản phẩm, bạn có thể nhấn vào mua ngay");
+            return;
+        }
+
 
         if(product.getUser_id_holding_price() == 0){ // Nguoi dau tien dat, gia vao cung la gia bat dau
             AuctionHistory productDeposit = new AuctionHistory(-1,product.getId(),userLogin.getId(),currentAuctionPrice);
             AuctionHistoryModel.add(productDeposit);
             product.setUser_id_holding_price(userLogin.getId());
             ProductModel.update(product);
+            //Luu lich su san pham
+            ProductHistory productHistory = new ProductHistory(-1,product.getId(),product.getPrice_current(),product.getUser_id_holding_price());
+            ProductHistoryModel.add(productHistory);
             request.setAttribute("ResultMessage","Bạn đã đặt giá thành công cho sản phẩm!! vui lòng kiểm tra lịch sử đấu giá tại sản phẩm");
         }
         else{                                                           // Nguoi thu 2 tro di dat
@@ -195,6 +209,9 @@ public class ProductFEServlet extends HttpServlet {
                 AuctionHistoryModel.add(productDeposit);
                 product.setPrice_current(currentAuctionPrice);
                 ProductModel.update(product);
+                //Luu lich su san pham
+                ProductHistory productHistory = new ProductHistory(-1,product.getId(),product.getPrice_current(),product.getUser_id_holding_price());
+                ProductHistoryModel.add(productHistory);
                 request.setAttribute("ResultMessage","Giá trị bạn đặt đã bị vượt qua!! Hãy đặt giá cao hơn");
             }
             else if(previousAuctionBidder.getDeposit_price() < currentAuctionPrice){
@@ -203,6 +220,9 @@ public class ProductFEServlet extends HttpServlet {
                 product.setPrice_current(previousAuctionBidder.getDeposit_price() + product.getPrice_step());
                 product.setUser_id_holding_price(userLogin.getId());
                 ProductModel.update(product);
+                //Luu lich su san pham
+                ProductHistory productHistory = new ProductHistory(-1,product.getId(),product.getPrice_current(),product.getUser_id_holding_price());
+                ProductHistoryModel.add(productHistory);
                 request.setAttribute("ResultMessage","Bạn đã đặt giá thành công cho sản phẩm!! vui lòng kiểm tra lịch sử đấu giá tại sản phẩm");
             }
             else if(previousAuctionBidder.getDeposit_price() == currentAuctionPrice){
@@ -210,6 +230,9 @@ public class ProductFEServlet extends HttpServlet {
                 AuctionHistoryModel.add(productDeposit);
                 product.setPrice_current(previousAuctionBidder.getDeposit_price());
                 ProductModel.update(product);
+                //Luu lich su san pham
+                ProductHistory productHistory = new ProductHistory(-1,product.getId(),product.getPrice_current(),product.getUser_id_holding_price());
+                ProductHistoryModel.add(productHistory);
                 request.setAttribute("ResultMessage","Đã có người đặt giá bằng bạn và trước bạn!! Hãy đặt giá cao hơn");
             }
         }
