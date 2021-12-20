@@ -2,7 +2,6 @@ package com.ute.onlineautionhcmute.models;
 
 import com.ute.onlineautionhcmute.beans.AuctionHistory;
 import com.ute.onlineautionhcmute.beans.Product;
-import com.ute.onlineautionhcmute.beans.User;
 import com.ute.onlineautionhcmute.utils.DbUtils;
 import org.sql2o.Connection;
 
@@ -20,6 +19,17 @@ public class AuctionHistoryModel {
                 return null;
             }
             return  list.get(0);
+        }
+    }
+    public static List<AuctionHistory> findAllByProductID(int proID)
+    {
+        final String query = "SELECT * FROM auction_history WHERE `product_id` = :proID";
+        try (Connection connection = DbUtils.getConnection())
+        {
+            List<AuctionHistory> list = connection.createQuery(query)
+                    .addParameter("proID", proID)
+                    .executeAndFetch(AuctionHistory.class);
+            return list;
         }
     }
     public static void add(AuctionHistory auctionHistory)

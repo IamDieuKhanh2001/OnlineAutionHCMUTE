@@ -46,7 +46,11 @@
                                             <div class="card-footer text-muted">
                                                 <a class="btn btn-outline-primary" href="${pageContext.request.contextPath}/Seller/Product/Edit?id=${c.id}" role="button">
                                                     <i class="fa fa-pencil" aria-hidden="true"></i>
-                                                    Bổ sung mô tả sản phẩm
+                                                    Bổ sung thông tin
+                                                </a>
+                                                <!-- Button mở modal lịch sử đấu-->
+                                                <a role="button" class="btn btn-success" href="${pageContext.request.contextPath}/Seller/Product/History?id=${c.id}">
+                                                    Lịch sử đấu giá
                                                 </a>
                                             </div>
                                         </div>

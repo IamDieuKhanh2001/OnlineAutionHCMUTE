@@ -71,7 +71,26 @@ public class SellerProductServlet extends HttpServlet {
                 ServletUtils.forward("/views/vwProduct/SellerProducts.jsp",request,response);
                 break;
             }
+            case "/History":{
+                //Nhận vào product id
+                int id = 0;
+                try {
+                    id = Integer.parseInt(request.getParameter("id"));
+                } catch (NumberFormatException e) {
+                    ServletUtils.forward("/views/204.jsp", request, response);
+                }
+                Product p = ProductModel.findById(id);
+                if(p != null){
+                    List<AuctionHistory> productHistory = AuctionHistoryModel.findAllByProductID(p.getId());
+                    request.setAttribute("product", p);
+                    request.setAttribute("productHistory", productHistory);
+                }else{
+                    ServletUtils.forward("/views/204.jsp", request, response);
+                }
 
+                ServletUtils.forward("/views/vwProduct/SellerProductBiddingHistory.jsp",request,response);
+                break;
+            }
             default:{
                 ServletUtils.forward("/views/404.jsp",request,response);
                 break;
