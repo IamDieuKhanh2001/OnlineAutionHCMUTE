@@ -160,6 +160,22 @@ public class AccountServlet extends HttpServlet {
                 break;
             }
 
+            case "/EmailIsAvailable":
+            {
+                String email = request.getParameter("email");
+                User emailOfUser = UserModel.findByEmail(email);
+                boolean EmailisAvailable = (emailOfUser == null);
+
+                PrintWriter out2 = response.getWriter();
+                response.setContentType("application/json");
+                response.setCharacterEncoding("utf-8");
+
+                out2.print(EmailisAvailable);
+                out2.flush();
+                break;
+            }
+
+
             default:
             {
                 ServletUtils.forward("/views/404.jsp", request, response);
@@ -357,15 +373,6 @@ public class AccountServlet extends HttpServlet {
     }
 
     private void registerUser(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-//        String rawpwd = request.getParameter("rawpwd");
-//        String bcryptHashString = BCrypt.withDefaults().hashToString(12, rawpwd.toCharArray());
-//
-//
-//        String username = request.getParameter("username");
-//        int user_type_id = 3;
-//
-//        User c = new User(username, bcryptHashString, firstname, , null, null,null,null,user_type_id);
-//        UserModel.add(c);
         String username = request.getParameter("username");
 
         String rawpwd = request.getParameter("rawpwd");

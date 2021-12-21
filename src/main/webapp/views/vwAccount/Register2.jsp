@@ -65,6 +65,8 @@
                 alert("Invalid phone number");
                 return;
             }
+
+
             //Kiem tra tai khoan username tồn tại không
             $.getJSON('${pageContext.request.contextPath}/Account/IsAvailable?user=' + username,function (data){
                 if(data === true){//Tai khoan khong ton tai trong db, post
@@ -73,6 +75,16 @@
                     alert("Username has been used!!")
                 }
             })
+
+            //Kiem tra tai khoan email tồn tại không
+            $.getJSON('${pageContext.request.contextPath}/Account/EmailIsAvailable?email=' + email,function (data){
+                if(data === true){//email khong ton tai trong db, post
+                    $('#frmAddAccount').off('submit').submit();
+                }else{
+                    alert("Email has been used!!")
+                }
+            })
+
         });
         // cai dat query date time picker
         $('#txtDOB').datetimepicker({
@@ -124,11 +136,6 @@
                         <label for="txtPhone">Phone</label>
                         <input type="text" class="form-control" id="txtPhone" name="phone">
                     </div>
-                        <%--                    <div class="form-group">--%>
-                        <%--                        <label for="txtAvatar">Avatar</label>--%>
-                        <%--                        <input type="text" class="form-control" id="txtAvatar" name="avatar" readonly value="user.png">--%>
-                        <%--                    </div>--%>
-
                 </div>
                 <div class="card-footer">
                     <a class="btn btn-outline-primary" href="${pageContext.request.contextPath}/Home"
@@ -142,17 +149,5 @@
                 </div>
             </div>
         </form>
-
-<%--        <script>--%>
-<%--            $('#frmRegister').on('submit',function(e){--%>
-<%--                e.preventDefault();--%>
-<%--                const username = $('#txtUsername').val();--%>
-<%--                if (username.length === 0){--%>
-<%--                    alert('Tên tài khoản không hợp lệ');--%>
-<%--                    return;--%>
-<%--                }--%>
-<%--                $('#frmRegister').off('submit').submit()--%>
-<%--            });--%>
-<%--        </script>--%>
     </jsp:body>
 </t:main>
