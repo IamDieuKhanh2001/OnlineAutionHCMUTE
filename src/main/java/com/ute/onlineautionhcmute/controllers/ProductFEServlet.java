@@ -8,6 +8,7 @@ import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -32,30 +33,6 @@ public class ProductFEServlet extends HttpServlet {
                 List<User> sellerList = UserModel.findAll();
                 request.setAttribute("sellerList", sellerList);
                 ServletUtils.forward("/views/vwProduct/ByProID.jsp", request, response);
-                break;
-            }
-            case "/AddWatchList": {
-                HttpSession session = request.getSession();
-                User userLogin = (User) session.getAttribute("authUser");
-
-                System.out.println(userLogin.getId());
-                String url = request.getHeader("referer"); //Luu dia chi trang trc do de quay ve
-                int id = 0;
-                try {
-                    id = Integer.parseInt(request.getParameter("id"));
-                } catch (NumberFormatException e) {
-                }
-                Product c = ProductModel.findById(id);
-                if (c != null) {                             //neu trong watchlist chuwa có sp
-                    if (WatchListModel.findByProIdAndUserId(c.getId(), userLogin.getId()) == null) {
-                        WatchListModel.add(c, userLogin);
-                        ServletUtils.redirect(url, request, response);
-                    } else {                                                 //neu trong watchlist da có sp
-                        ServletUtils.redirect(url, request, response);
-                    }
-                } else {
-                    ServletUtils.forward("/views/204.jsp", request, response);
-                }
                 break;
             }
 
@@ -97,6 +74,73 @@ public class ProductFEServlet extends HttpServlet {
                 }
                 break;
             }
+
+            case "/WatchList/IsAvailable": {
+                boolean isAvailable = false;
+                PrintWriter out = response.getWriter();
+                response.setContentType("application/json");
+                response.setCharacterEncoding("utf-8");
+
+                HttpSession session = request.getSession();
+                User userLogin = (User) session.getAttribute("authUser");
+
+                int productID = -1;
+                try
+                {
+                    productID = Integer.parseInt(request.getParameter("idProductAddingToWatchList"));
+                }
+                catch (Exception ex)
+                {
+                    out.print(isAvailable);
+                    out.flush();
+                    break;
+                }
+
+                WatchList wl = WatchListModel.findByProIdAndUserId(productID, userLogin.getId());
+                isAvailable = (wl == null);
+
+                out.print(isAvailable);
+                out.flush();
+                break;
+            }
+
+            case "/WatchList/Add": {
+                boolean isAdd = false;
+                PrintWriter out = response.getWriter();
+                response.setContentType("application/json");
+                response.setCharacterEncoding("utf-8");
+
+                HttpSession session = request.getSession();
+                User userLogin = (User) session.getAttribute("authUser");
+
+                int productID = 0;
+                try {
+                    productID = Integer.parseInt(request.getParameter("productID"));
+                } catch (NumberFormatException e) {
+                    out.print(isAdd);
+                    out.flush();
+                    break;
+                }
+                Product c = ProductModel.findById(productID);
+                if (c != null) {                             //neu trong watchlist chuwa có sp
+                    if (WatchListModel.findByProIdAndUserId(c.getId(), userLogin.getId()) == null) {
+                        WatchListModel.add(c, userLogin);
+                        isAdd = true;
+                        out.print(isAdd);
+                        out.flush();
+                        break;
+                    } else {                                                 //neu trong watchlist da có sp
+                        out.print(isAdd);
+                        out.flush();
+                        break;
+                    }
+                } else {
+                    out.print(isAdd);
+                    out.flush();
+                    break;
+                }
+            }
+
             case "/Detail": {
                 int productID = -1;
                 try {

@@ -18,6 +18,7 @@
 
 <t:main>
     <jsp:attribute name="css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css">
         <link rel="stylesheet" href="${pageContext.request.contextPath}/public/css/product_detail_style.css">
         <link rel="stylesheet" href="${pageContext.request.contextPath}/public/lib/owlCarousel/owl.carousel.min.css">
         <link rel="stylesheet"
@@ -39,7 +40,9 @@
             }
         </style>
     </jsp:attribute>
+
     <jsp:attribute name="js">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
         <script src="${pageContext.request.contextPath}/public/lib/owlCarousel/owl.carousel.min.js"></script>
         <script>
             var owl = $('.owl-carousel');
@@ -70,6 +73,7 @@
             });
         </script>
 
+        <%--CountDown Timer--%>
         <script>
             // Ngày cần đếm ngược
             var countDownDate = new Date("${product.end_time}").getTime();
@@ -101,6 +105,47 @@
                 }
             }, 1000);
         </script>
+
+        <%--Add To Watch List--%>
+        <script>
+            toastr.options = {
+                "closeButton": true,
+                "debug": false,
+                "newestOnTop": true,
+                "progressBar": true,
+                "positionClass": "toast-top-right",
+                "preventDuplicates": false,
+                "onclick": null,
+                "showDuration": "300",
+                "hideDuration": "1000",
+                "timeOut": "3000",
+                "extendedTimeOut": "1000",
+                "showEasing": "swing",
+                "hideEasing": "linear",
+                "showMethod": "fadeIn",
+                "hideMethod": "fadeOut"
+            }
+
+            function addToWatchList(proID, proName){
+                $.getJSON('${pageContext.request.contextPath}/Product/WatchList/IsAvailable?idProductAddingToWatchList=' + proID,function (data){
+                    if(data === true){              //Sp khong ton tai trong watchlist
+                        $.getJSON('${pageContext.request.contextPath}/Product/WatchList/Add?productID=' + proID, function (result){
+                            if(result === true) {
+                                toastr["success"]("Đã thêm sản phẩm thành công!", "Action Success");
+                                return true;
+                            } else {
+                                toastr["error"]("Thêm thất bại!", "Action Failure");
+                                return false;
+                            }
+                        });
+                    }else{
+                        toastr["error"]("Sản phẩm này đã có trong watch list của bạn!", "Action Failure");
+                        return false;
+                    }
+                })
+            }
+        </script>
+
     </jsp:attribute>
     <jsp:body>
         <div class="card">
@@ -171,11 +216,12 @@
                                         Đặt giá ngay
                                     </button>
                                 </c:if>
-                                <a href="${pageContext.request.contextPath}/Product/AddWatchList?id=${product.id}"
-                                   class="like btn btn-outline-danger" type="button">
-                                    <span class="fa fa-heart"></span>
+                                <span onclick="addToWatchList('${product.id}', '${product.name}')" class="like btn btn-outline-danger"
+                                    role="button">
+                                    <i class="fa fa-heart" aria-hidden="true"></i>
                                     Thêm vào watch list
-                                </a>
+                                </span>
+
                                     <%--                                THong bao sp het han dau gia--%>
                                 <c:if test="${time_ended}">
                                     <div class="alert alert-warning alert-dismissible fade show mt-3" role="alert">

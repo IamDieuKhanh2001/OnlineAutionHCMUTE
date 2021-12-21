@@ -14,20 +14,53 @@
 <jsp:useBean id="sellerList" scope="request"
              type="java.util.List<com.ute.onlineautionhcmute.beans.User>"/>
 <t:main>
+    <jsp:attribute name="css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css">
+    </jsp:attribute>
+
     <jsp:attribute name="js">
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+
         <script>
-            //Kiem tra san pham duoc them vao watch list chua
-                    $('.js-WatchListAlert').on('click', function (e){
-                        const proID = $('#txtProID').val();
-                        $.getJSON('${pageContext.request.contextPath}/Product/WatchList/IsAvailable?idProductAddingToWatchList=' + proID,function (data){
-                            if(data === true){              //Sp khong ton tai trong watchlist
-                                alert("Đã thêm sản phẩm thành công!!")
-                            }else{
-                                alert("Sản phẩm này đã có trong watch list của bạn!")
+
+            toastr.options = {
+                "closeButton": true,
+                "debug": false,
+                "newestOnTop": true,
+                "progressBar": true,
+                "positionClass": "toast-top-right",
+                "preventDuplicates": false,
+                "onclick": null,
+                "showDuration": "300",
+                "hideDuration": "1000",
+                "timeOut": "3000",
+                "extendedTimeOut": "1000",
+                "showEasing": "swing",
+                "hideEasing": "linear",
+                "showMethod": "fadeIn",
+                "hideMethod": "fadeOut"
+            }
+
+            function addToWatchList(proID, proName){
+                $.getJSON('${pageContext.request.contextPath}/Product/WatchList/IsAvailable?idProductAddingToWatchList=' + proID,function (data){
+                    if(data === true){              //Sp khong ton tai trong watchlist
+                        $.getJSON('${pageContext.request.contextPath}/Product/WatchList/Add?productID=' + proID, function (result){
+                            if(result === true) {
+                                toastr["success"]("Đã thêm sản phẩm thành công!", "Action Success");
+                                return true;
+                            } else {
+                                toastr["error"]("Thêm thất bại!", "Action Failure");
+                                return false;
                             }
-                        })
-                    })
-                </script>
+                        });
+                    }else{
+                        toastr["error"]("Sản phẩm này đã có trong watch list của bạn!", "Action Failure");
+                        return false;
+                    }
+                })
+            }
+        </script>
     </jsp:attribute>
 
     <jsp:body>
@@ -74,14 +107,11 @@
                                                 Details
                                             </a>
 
-                                            <a class="btn btn-outline-danger watchListNoticePopover js-WatchListAlert"
-                                               href="${pageContext.request.contextPath}/Product/AddWatchList?id=${c.id}"
+                                            <span onclick="addToWatchList('${c.id}', '${c.name}')" class="btn btn-outline-danger watchListNoticePopover"
                                                role="button">
                                                 <i class="fa fa-heart" aria-hidden="true"></i>
                                                 Add to watch list
-                                            </a>
-<%--                                            Input lưu id sản phẩm cho việc js lấy id sản phẩm và xử lí IsAvailable--%>
-                                        <input id="txtProID" name="proID" value="${c.id}" class="d-none"/>
+                                            </span>
                                         </div>
                                     </div>
                                 </div>
