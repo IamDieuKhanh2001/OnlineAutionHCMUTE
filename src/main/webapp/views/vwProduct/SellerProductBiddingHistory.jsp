@@ -39,6 +39,13 @@
                             </thead>
                             <tbody>
                             <c:forEach items="${productHistory}" var="c" varStatus="loop">
+                                <form id="frmHistoryDelete" method="post"
+                                      action="${pageContext.request.contextPath}/Seller/Product/History/Delete">
+                                    <c:if test="${loop.index == 0}">
+                                        <input class="" type="text" disabled readonly name="productID" value="${c.product_id}">
+                                        <input class="" type="text" disabled readonly name="userHighestBiddingID" value="${c.user_id_holding}">
+                                    </c:if>
+                                </form>
                                 <tr>
                                     <th scope="row">${loop.index + 1}</th>
                                     <td>
@@ -56,11 +63,14 @@
                                     <td>
                                         <fmt:formatNumber value="${c.price_bidding}" type="number"/>
                                     </td>
-                                    <td>
-                                        <a name="" id="" class="btn btn-outline-danger" href="#" role="button">
-                                            <i class="fa fa-user-times" aria-hidden="true"></i>
-                                        </a>
-                                    </td>
+<%--                                    Hiển thị nút xóa người đặt cao nhất trong bảng--%>
+                                    <c:if test="${loop.index == 0}">
+                                        <td>
+                                            <a class="btn btn-outline-danger" href="javascript: $('#frmHistoryDelete').submit()" role="button">
+                                                <i class="fa fa-user-times" aria-hidden="true"></i>
+                                            </a>
+                                        </td>
+                                    </c:if>
                                 </tr>
                             </c:forEach>
 

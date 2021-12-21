@@ -210,8 +210,12 @@ public class ProductFEServlet extends HttpServlet {
                 product.setPrice_current(currentAuctionPrice);
                 ProductModel.update(product);
                 //Luu lich su san pham
-                ProductHistory productHistory = new ProductHistory(-1,product.getId(),product.getPrice_current(),product.getUser_id_holding_price());
-                ProductHistoryModel.add(productHistory);
+                //Lưu người giữ giá của sp hiện tại
+                ProductHistory HightestProductHistory = new ProductHistory(-1,product.getId(),product.getPrice_current(),product.getUser_id_holding_price());
+                ProductHistoryModel.add(HightestProductHistory);
+                //Lưu người đặt giá hiện tại bị vượt do đấu giá sau người trước
+                ProductHistory currentBiddingProductHistory = new ProductHistory(-1,product.getId(),product.getPrice_current(),userLogin.getId());
+                ProductHistoryModel.add(currentBiddingProductHistory);
                 request.setAttribute("ResultMessage","Giá trị bạn đặt đã bị vượt qua!! Hãy đặt giá cao hơn");
             }
             else if(previousAuctionBidder.getDeposit_price() < currentAuctionPrice){
@@ -221,8 +225,9 @@ public class ProductFEServlet extends HttpServlet {
                 product.setUser_id_holding_price(userLogin.getId());
                 ProductModel.update(product);
                 //Luu lich su san pham
-                ProductHistory productHistory = new ProductHistory(-1,product.getId(),product.getPrice_current(),product.getUser_id_holding_price());
-                ProductHistoryModel.add(productHistory);
+                //Lưu người giữ giá của sp hiện tại
+                ProductHistory HightestProductHistory = new ProductHistory(-1,product.getId(),product.getPrice_current(),product.getUser_id_holding_price());
+                ProductHistoryModel.add(HightestProductHistory);
                 request.setAttribute("ResultMessage","Bạn đã đặt giá thành công cho sản phẩm!! vui lòng kiểm tra lịch sử đấu giá tại sản phẩm");
             }
             else if(previousAuctionBidder.getDeposit_price() == currentAuctionPrice){
@@ -231,8 +236,12 @@ public class ProductFEServlet extends HttpServlet {
                 product.setPrice_current(previousAuctionBidder.getDeposit_price());
                 ProductModel.update(product);
                 //Luu lich su san pham
-                ProductHistory productHistory = new ProductHistory(-1,product.getId(),product.getPrice_current(),product.getUser_id_holding_price());
-                ProductHistoryModel.add(productHistory);
+                //Lưu người giữ giá của sp hiện tại
+                ProductHistory HightestProductHistory = new ProductHistory(-1,product.getId(),product.getPrice_current(),product.getUser_id_holding_price());
+                ProductHistoryModel.add(HightestProductHistory);
+                //Lưu người đặt giá hiện tại bị vượt do đấu giá sau người trước
+                ProductHistory currentBiddingProductHistory = new ProductHistory(-1,product.getId(),product.getPrice_current(),userLogin.getId());
+                ProductHistoryModel.add(currentBiddingProductHistory);
                 request.setAttribute("ResultMessage","Đã có người đặt giá bằng bạn và trước bạn!! Hãy đặt giá cao hơn");
             }
         }

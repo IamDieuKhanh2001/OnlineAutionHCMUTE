@@ -116,6 +116,12 @@ public class SellerProductServlet extends HttpServlet {
                 editProduct(request, response);
                 break;
             }
+            case "/History/Delete": {
+                int productID = Integer.parseInt(request.getParameter("productID"));
+                int userHighestBiddingID = Integer.parseInt(request.getParameter("userHighestBiddingID"));
+
+                break;
+            }
             default: {
                 ServletUtils.forward("/views/404.jsp", request, response);
                 break;

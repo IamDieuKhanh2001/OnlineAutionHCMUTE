@@ -56,6 +56,18 @@ public class AuctionHistoryModel {
         }
     }
 
+    public static void deleteByProductIdAndUserId(int productID,int userID)
+    {
+        final String query = "DELETE FROM auction_history WHERE product_id = :productID and user_id = :userID";
+        try (Connection connection = DbUtils.getConnection())
+        {
+            connection.createQuery(query)
+                    .addParameter("productID", productID)
+                    .addParameter("userID", userID)
+                    .executeUpdate();
+        }
+    }
+
     public static void deleteAllRecordByUserID(int userID)
     {
         final String query = "DELETE FROM `auction_history` WHERE `user_id` = :userID";

@@ -21,6 +21,18 @@ public class ProductHistoryModel {
         }
     }
 
+    public static void deleteByProductIdAndUserId(int productID,int userID)
+    {
+        final String query = "DELETE FROM product_history WHERE product_id = :productID and user_id_holding = :userID";
+        try (Connection connection = DbUtils.getConnection())
+        {
+            connection.createQuery(query)
+                    .addParameter("productID", productID)
+                    .addParameter("userID", userID)
+                    .executeUpdate();
+        }
+    }
+
     public static List<ProductHistory> findByProductID(int productID)
     {
         final String query = "SELECT * FROM product_history WHERE product_id = :productID";
@@ -32,4 +44,5 @@ public class ProductHistoryModel {
             return list;
         }
     }
+
 }
