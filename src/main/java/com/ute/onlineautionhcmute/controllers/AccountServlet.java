@@ -289,7 +289,7 @@ public class AccountServlet extends HttpServlet {
             try {
                 String code = Common.getRandomNumberString();
                 AccountRecoveryModel.add(user, code);
-                SendEmail.sendAsHtml(email, "Reset Password Online Aution HCMUTE", EmailTemplate.TemplateRecoverAccount(user, code));
+                SendEmail.sendAsHtml(email, "Reset Password Online Aution HCMUTE", EmailTemplate.TemplateRecoverAccount2(user, code));
             } catch (Exception ex) {
                 System.out.println(ex.getMessage());
             }

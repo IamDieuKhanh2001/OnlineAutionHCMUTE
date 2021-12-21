@@ -69,6 +69,38 @@
                 e.preventDefault();
             });
         </script>
+
+        <script>
+            // Ngày cần đếm ngược
+            var countDownDate = new Date("${product.end_time}").getTime();
+
+            // Cập nhật đếm ngược sau mỗi 1 giây
+            var x = setInterval(function() {
+
+                // Lấy ngày và giờ hôm nay
+                var now = new Date().getTime();
+
+                // Tìm khoảng cách giữa bây giờ và ngày đếm ngược
+                var distance = countDownDate - now;
+
+                // Tính toán thời gian cho ngày, giờ, phút và giây
+                var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+                // Xuất kết quả trong phần tử có id = "countdown"
+                document.getElementById("countdown").innerHTML = days + "d " + hours + "h "
+                    + minutes + "m " + seconds + "s ";
+
+                // Nếu quá trình đếm ngược kết thúc, viết hết hạn ra
+                if (distance < 0) {
+                    clearInterval(x);
+                    document.getElementById("countdown").style.color = "red";
+                    document.getElementById("countdown").innerHTML = "Đã hết hạn";
+                }
+            }, 1000);
+        </script>
     </jsp:attribute>
     <jsp:body>
         <div class="card">
@@ -124,7 +156,7 @@
                                 Giá hiện tại: <span><fmt:formatNumber value="${product.price_current}"
                                                                       type="number"/> VND</span>
                             </h4>
-                            <h4 class="price">Ngày hết hạn: <span>${product.end_time}</span></h4>
+                            <h4 class="price">Thời gian còn lại: <span id="countdown"></span></h4>
                             <div class="action">
 <%--                                Ẩn nút đấu giá khi hết giờ --%>
                                 <c:if test="${time_ended}">
