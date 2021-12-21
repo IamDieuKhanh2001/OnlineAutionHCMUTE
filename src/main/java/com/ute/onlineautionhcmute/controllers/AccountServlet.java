@@ -68,6 +68,12 @@ public class AccountServlet extends HttpServlet {
                 break;
             }
 
+            case "/Profile/ProductAuction":
+            {
+                ServletUtils.forward("/views/vwAccount/ProfileProductAuction.jsp", request, response);
+                break;
+            }
+
             case "/Profile/Upgrade":
             {
                 ServletUtils.forward("/views/vwAccount/ProfileUpgrade.jsp", request, response);
