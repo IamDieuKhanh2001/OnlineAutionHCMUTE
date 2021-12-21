@@ -74,6 +74,10 @@
                             <i class="fa fa-home" aria-hidden="true"></i>
                             Home
                         </a>
+                        <a class="btn btn-primary" href="${pageContext.request.contextPath}/Account/Login" role="button">
+                            <i class="fa fa-key" aria-hidden="true"></i>
+                            Back To Login
+                        </a>
                     </div>
                 </div>
             </div>

@@ -90,6 +90,8 @@
                     </div>
                 </c:otherwise>
             </c:choose>
+
         </div>
+
     </jsp:body>
 </t:main>

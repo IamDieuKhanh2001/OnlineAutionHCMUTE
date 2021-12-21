@@ -50,6 +50,7 @@
                         </div>
                     </div>
                 </div>
+                <p><a style="color: red" href="${pageContext.request.contextPath}/Account/Recovery">Quên Mật Khẩu ?</a></p>
                 <div class="form-group d-flex">
                     <div>
                         <a class="btn btn-lg btn-outline-info" href="${pageContext.request.contextPath}/Home" role="button">
