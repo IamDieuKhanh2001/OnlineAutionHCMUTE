@@ -69,7 +69,7 @@
     <jsp:body>
         <form action="" method="post" id="frmAddProduct" enctype="multipart/form-data" accept-charset="UTF-8">
             <div class="card">
-                <h4 class="card-header">
+                <h4 class="card-header bg-dark text-light">
                     <i class="fa fa-list" aria-hidden="true"></i>
                     Đăng đấu giá sản phẩm
                 </h4>

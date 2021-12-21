@@ -122,7 +122,7 @@
                             <h4 class="price">
                                 <i class="fa fa-money" aria-hidden="true"></i>
                                 Giá hiện tại: <span><fmt:formatNumber value="${product.price_current}"
-                                                                      type="number"/></span>
+                                                                      type="number"/> VND</span>
                             </h4>
                             <h4 class="price">Ngày hết hạn: <span>${product.end_time}</span></h4>
                             <div class="action">
@@ -260,8 +260,8 @@
                                 </div>
                                 <div class="hover__content h-100 position-absolute sticky-top w-100 h-100">
                                     <div class="d-flex justify-content-around align-items-center h-100">
-                                        <h5 class="card-title text-danger">
-                                                ${c.price_current}
+                                        <h5 class="card-title text-light">
+                                                ${c.name}
                                         </h5>
                                         <a class="btn btn-success"
                                            href="${pageContext.request.contextPath}/Product/Detail?id=${c.id}"

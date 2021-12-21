@@ -14,12 +14,12 @@
         <%--        Đăng--%>
         <a href="${pageContext.request.contextPath}/Seller/Product/Add" type="button" class="btn btn-outline-secondary rounded-0 py-3">
             <i class="fa fa-plus" aria-hidden="true"></i>
-            Đăng bán sản phẩm
+            Đăng đấu giá sản phẩm
         </a>
             <%--      Xem tất cả sp seller--%>
             <a href="${pageContext.request.contextPath}/Seller/Product/All" type="button" class="btn btn-outline-secondary rounded-0 py-3">
                 <i class="fa fa-product-hunt" aria-hidden="true"></i>
-                Sản phẩm của tôi
+                Sản phẩm đã đăng
             </a>
     </div>
 </div>

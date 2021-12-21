@@ -117,9 +117,31 @@ public class SellerProductServlet extends HttpServlet {
                 break;
             }
             case "/History/Delete": {
-                int productID = Integer.parseInt(request.getParameter("productID"));
-                int userHighestBiddingID = Integer.parseInt(request.getParameter("userHighestBiddingID"));
-
+                int productID = -1;
+                int userHighestBiddingID = -1;
+                try {
+                    productID = Integer.parseInt(request.getParameter("productID"));
+                    userHighestBiddingID = Integer.parseInt(request.getParameter("userHighestBiddingID"));
+                } catch (NumberFormatException e) {
+                    ServletUtils.forward("/views/204.jsp", request, response);
+                }
+                ProductHistoryModel.deleteByProductIdAndUserId(productID,userHighestBiddingID);   //Xoa lich su dau gia nguoi id user do
+                AuctionHistoryModel.deleteByProductIdAndUserId(productID,userHighestBiddingID);   //Xoa lich su dat gia cao nhat id user do
+                ProductHistory secondBiddingHistory = ProductHistoryModel.findHighestPriceBiddingRecord(); //Tìm người đấu giá cao thứ 2 và update thành người đấu giá cao nhất
+                if(secondBiddingHistory != null){
+                    Product product = ProductModel.findById(secondBiddingHistory.getProduct_id());
+                    product.setPrice_current(secondBiddingHistory.getPrice_bidding());
+                    product.setUser_id_holding_price(secondBiddingHistory.getUser_id_holding());
+                    ProductModel.update(product);
+                }else{                                          //Nếu đã cấm hết người đang bidding sản phẩm | reset giá về ban đầu và user id là null
+                    Product product = ProductModel.findById(productID);
+                    product.setPrice_current(product.getPrice_start());
+                    product.setUser_id_holding_price(0);
+                    ProductModel.update(product);
+                }
+                AuctionPermission auctionPermissionDeletedUser = new AuctionPermission(-1,productID,userHighestBiddingID,"block"); //Chặn người dùng này không cho đấu sp này nữa
+                AuctionPermissionModel.add(auctionPermissionDeletedUser);
+                ServletUtils.redirect("/Seller/Product/History?id=31",request,response);
                 break;
             }
             default: {

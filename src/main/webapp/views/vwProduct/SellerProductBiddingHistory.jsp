@@ -16,13 +16,14 @@
         <div class="card">
             <h4 class="card-header bg-dark text-light">
                 Lịch sử đấu giá của sản phẩm ${product.name}
-                ${productHistory.size()}
+
             </h4>
             <div class="card-body">
+                <h4 class="card-title">Số lượt đấu giá: ${productHistory.size()} lượt</h4>
                 <c:choose>
                     <c:when test="${productHistory.size() == 0}">
                         <div class="card-body">
-                            <p class="card-text">Khong co du lieu</p>
+                            <p class="card-text">Chưa có lượt đấu giá nào</p>
                         </div>
                     </c:when>
                     <c:otherwise>
@@ -34,16 +35,17 @@
                                 <th scope="col">Thời điểm</th>
                                 <th scope="col">Người đặt</th>
                                 <th scope="col">Giá</th>
-                                <th scope="col">Từ chối đấu giá</th>
+                                <th scope="col">Cấm đấu giá</th>
                             </tr>
                             </thead>
                             <tbody>
                             <c:forEach items="${productHistory}" var="c" varStatus="loop">
                                 <form id="frmHistoryDelete" method="post"
+<%--                                      form post id sản phẩm và id user đặt cao nhất để xử lí delete--%>
                                       action="${pageContext.request.contextPath}/Seller/Product/History/Delete">
                                     <c:if test="${loop.index == 0}">
-                                        <input class="" type="text" disabled readonly name="productID" value="${c.product_id}">
-                                        <input class="" type="text" disabled readonly name="userHighestBiddingID" value="${c.user_id_holding}">
+                                        <input class="d-none" type="text" readonly name="productID" value="${c.product_id}">
+                                        <input class="d-none" type="text" readonly name="userHighestBiddingID" value="${c.user_id_holding}">
                                     </c:if>
                                 </form>
                                 <tr>

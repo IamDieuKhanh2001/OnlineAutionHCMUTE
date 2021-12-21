@@ -21,6 +21,18 @@ public class ProductHistoryModel {
         }
     }
 
+    public static ProductHistory findHighestPriceBiddingRecord() {
+        final String query = "SELECT * FROM product_history WHERE price_bidding = (SELECT MAX(price_bidding) FROM product_history);";
+        try (Connection con = DbUtils.getConnection()) {
+            List<ProductHistory> list = con.createQuery(query)
+                    .executeAndFetch(ProductHistory.class);
+            if (list.size() == 0) {
+                return null;
+            }
+            return list.get(0);
+        }
+    }
+
     public static void deleteByProductIdAndUserId(int productID,int userID)
     {
         final String query = "DELETE FROM product_history WHERE product_id = :productID and user_id_holding = :userID";

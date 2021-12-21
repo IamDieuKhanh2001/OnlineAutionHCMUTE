@@ -13,7 +13,7 @@
     <jsp:body>
         <div class="card">
             <h4 class="card-header bg-dark text-light">
-                <i class="fa fa-heart" aria-hidden="true"></i>
+                <i class="fa fa-product-hunt" aria-hidden="true"></i>
                 Sản phẩm đã đăng
             </h4>
             <div class="card-body">
