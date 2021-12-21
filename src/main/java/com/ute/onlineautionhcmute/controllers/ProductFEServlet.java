@@ -158,6 +158,9 @@ public class ProductFEServlet extends HttpServlet {
     }
 
     private void checkAuctionProduct(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        HttpSession session = request.getSession();
+        User userLogin = (User) session.getAttribute("authUser");
+
         int productId = -1;
         try {
             productId = Integer.parseInt(request.getParameter("id"));
@@ -165,8 +168,15 @@ public class ProductFEServlet extends HttpServlet {
             ServletUtils.forward("/views/404.jsp", request, response);
         }
             Product product = ProductModel.findById(productId);
-        if (product != null && product.getEnd_time().after(new Date())) {
-            auctionProduct(product,request,response);
+        if (product != null && product.getEnd_time().after(new Date())) { //Nếu sp chưa hết hạn
+            AuctionPermission auctionBlocked = AuctionPermissionModel.findByProductIdAndUserId(productId,userLogin.getId());
+            System.out.println(auctionBlocked);
+            if(auctionBlocked != null && auctionBlocked.getStatus().equals("block")){
+                request.setAttribute("product",product);
+                request.setAttribute("ResultMessage","Bạn đã bị người bán cấm đấu giá sản phẩm này, bạn không thể đấu sản phẩm này được nữa!!");
+            }else{
+                auctionProduct(product,request,response);
+            }
         } else {
             ServletUtils.forward("/views/204.jsp", request, response);
         }

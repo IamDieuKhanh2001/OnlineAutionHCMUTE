@@ -1,5 +1,6 @@
 package com.ute.onlineautionhcmute.filters;
 
+import com.ute.onlineautionhcmute.beans.User;
 import com.ute.onlineautionhcmute.utils.ServletUtils;
 
 import javax.servlet.*;
@@ -29,13 +30,14 @@ public class AuthFilter implements Filter {
 
         HttpSession session = request.getSession();
         boolean auth = (boolean) session.getAttribute("auth");
+//        User authUser = (User) session.getAttribute("authUser");
         if (!auth) {
             session.setAttribute("retUrl", request.getRequestURI());
             ServletUtils.redirect("/Account/Login", request, (HttpServletResponse) res);
             return;
         }
 //        else{
-//            if(authUser.getPermission() == 0){
+//            if(authUser.getUser_type_id() == 1){
 //                ServletUtils.forward("/views/404.jsp",request,(HttpServletResponse) res);
 //                return;
 //            }
