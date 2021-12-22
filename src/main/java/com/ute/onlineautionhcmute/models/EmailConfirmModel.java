@@ -25,6 +25,21 @@ public class EmailConfirmModel {
         }
     }
 
+    public static void add(EmailConfirm emailConfirm)
+    {
+        final String query = "INSERT INTO `email_confirm`(`user_id`, `purpose`, `status`, `json_data`, `hash`) " +
+                "VALUES(:userID, :purpose, :status, :jsonData, :hash)";
+        try (Connection con = DbUtils.getConnection()) {
+            con.createQuery(query)
+                    .addParameter("userID", emailConfirm.getUser_id())
+                    .addParameter("purpose", emailConfirm.getPurpose())
+                    .addParameter("status", emailConfirm.getStatus())
+                    .addParameter("jsonData", emailConfirm.getJson_data())
+                    .addParameter("hash", emailConfirm.getHash())
+                    .executeUpdate();
+        }
+    }
+
     public static EmailConfirm check(int userID, String purpose, String status, String hash)
     {
         final String query = "SELECT * FROM `email_confirm` WHERE `user_id` = :userID " +

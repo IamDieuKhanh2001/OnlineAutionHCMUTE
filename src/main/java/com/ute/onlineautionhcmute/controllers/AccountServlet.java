@@ -72,6 +72,8 @@ public class AccountServlet extends HttpServlet {
                 if(ValidateUtils.isValidEmail(newEmail)){
                     EmailConfirmModel.updateStatus(emailConfirm.getId(), "success");
                     UserModel.updateEmail(emailConfirm.getUser_id(), newEmail);
+                    ServletUtils.redirect("/Account/Profile/ChangeEmail", request, response);
+                    break;
                 } else {
 
                 }
@@ -315,15 +317,22 @@ public class AccountServlet extends HttpServlet {
         {
             if(ValidateUtils.isValidEmail(newEmail))
             {
-//                UserModel.updateEmail(user.getId(), newEmail);
-//                request.setAttribute("status", "success");
-//                request.setAttribute("message", "Cập nhật email thành công");
-
                 String emailHash = DigestUtils.sha256Hex(newEmail);
                 JSONObject obj = new JSONObject();
                 obj.put("email", newEmail);
-                EmailConfirmModel.add(user.getId(), "change_email", "pending", obj.toJSONString(), emailHash);
+                EmailConfirm emailConfirm = new EmailConfirm();
+                emailConfirm.setUser_id(user.getId());
+                emailConfirm.setPurpose("change_email");
+                emailConfirm.setStatus("pending");
+                emailConfirm.setJson_data(obj.toJSONString());
+                emailConfirm.setHash(emailHash);
 
+                EmailConfirmModel.add(emailConfirm);
+                try {
+                    SendEmail.sendAsHtml(newEmail, "Please Confirm Your Email", EmailTemplate.TemplateConfirmNewEmail(emailConfirm));
+                } catch (Exception ex) {
+
+                }
                 request.setAttribute("status", "success");
                 request.setAttribute("message", "Chúng tôi đã gửi email xác nhận đến email " + newEmail);
             }
