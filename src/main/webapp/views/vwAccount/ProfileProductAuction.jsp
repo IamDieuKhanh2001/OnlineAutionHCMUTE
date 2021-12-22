@@ -16,7 +16,6 @@
 <%--Lay Du Lieu Tu Controller--%>
 <jsp:useBean id="listProductCard" scope="request" type="java.util.List<com.ute.onlineautionhcmute.beans.ProductWithCard>" />
 
-
 <t:profile>
     <jsp:body>
         <div class="card">
