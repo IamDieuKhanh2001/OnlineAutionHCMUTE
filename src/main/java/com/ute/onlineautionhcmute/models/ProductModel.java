@@ -188,4 +188,14 @@ public class ProductModel {
         }
     }
 
+    public static List<Product> findTop5ProductPrice()
+    {
+        final String query = "SELECT  * FROM `products` order by `price_current` desc limit 0,5 ";
+        try (Connection connection = DbUtils.getConnection())
+        {
+            List<Product> list = connection.createQuery(query)
+                    .executeAndFetch(Product.class);
+            return list;
+        }
+    }
 }

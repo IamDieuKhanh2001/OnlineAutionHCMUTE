@@ -1,9 +1,13 @@
 package com.ute.onlineautionhcmute.controllers;
 
 import com.ute.onlineautionhcmute.beans.Category;
+import com.ute.onlineautionhcmute.beans.Product;
 import com.ute.onlineautionhcmute.beans.ProductType;
+import com.ute.onlineautionhcmute.beans.User;
 import com.ute.onlineautionhcmute.models.CategoryModel;
+import com.ute.onlineautionhcmute.models.ProductModel;
 import com.ute.onlineautionhcmute.models.ProductTypeModel;
+import com.ute.onlineautionhcmute.models.UserModel;
 import com.ute.onlineautionhcmute.utils.ServletUtils;
 
 import javax.servlet.*;
@@ -21,7 +25,6 @@ public class HomeServlet extends HttpServlet {
         if(path == null || path.equals("/")){
             path = "/Index";
         }
-
         switch (path){
             case "/Index":{
                 ServletUtils.forward("/views/vwHome/Index.jsp",request,response);
@@ -29,6 +32,14 @@ public class HomeServlet extends HttpServlet {
             }
             case "/About":{
                 ServletUtils.forward("/views/vwHome/About.jsp",request,response);
+                break;
+            }
+            case "/Top5ProductPrice":{
+                List<Product> c = ProductModel.findTop5ProductPrice();
+                request.setAttribute("products", c);
+                List<User> sellerList = UserModel.findAll();
+                request.setAttribute("sellerList", sellerList);
+                ServletUtils.forward("/views/vwHome/Top5ProductPrice.jsp",request,response);
                 break;
             }
             default:{

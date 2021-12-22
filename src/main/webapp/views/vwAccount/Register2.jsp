@@ -11,6 +11,8 @@
 <%--De su dung JSTL, can mo ta--%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
+<%--API Recaptcha--%>
+<script src="https://www.google.com/recaptcha/api.js"></script>
 
 <t:main>
     <jsp:attribute name="css">
@@ -23,7 +25,8 @@
         <script src="${pageContext.request.contextPath}/public/js/ValidateUtils.js"></script>
     <script>
         //Kiem tra form validation
-        $('#frmAddAccount').on('submit', function (e){
+        $('#frmAddAccount').on('submit', function (e)
+        {
             e.preventDefault();
             const username = $('#txtUsername').val();
             if(username.length === 0){
@@ -66,37 +69,45 @@
                 return;
             }
 
-
+            let flaguser = false;
             //Kiem tra tai khoan username tồn tại không
-            $.getJSON('${pageContext.request.contextPath}/Account/IsAvailable?user=' + username,function (data){
+             $.getJSON('${pageContext.request.contextPath}/Account/IsAvailable?user=' + username,function (data){
                 if(data === true){//Tai khoan khong ton tai trong db, post
-                    $('#frmAddAccount').off('submit').submit();
+                    flaguser =true;
                 }else{
                     alert("Username has been used!!")
+                    return;
                 }
             })
 
+            let flagemail = false;
             //Kiem tra tai khoan email tồn tại không
             $.getJSON('${pageContext.request.contextPath}/Account/EmailIsAvailable?email=' + email,function (data){
                 if(data === true){//email khong ton tai trong db, post
-                    $('#frmAddAccount').off('submit').submit();
+                    flagemail = true;
                 }else{
                     alert("Email has been used!!")
+                    return;
                 }
             })
 
+            if (flaguser === true && flagemail === true) {
+                $('#frmAddAccount').off('submit').submit();
+            }
         });
+
         // cai dat query date time picker
         $('#txtDOB').datetimepicker({
             format: 'd/m/Y',
             timepicker: false,
             mask: true
         });
+
     </script>
 
     </jsp:attribute>
     <jsp:body>
-        <form action="" method="post" id="frmAddAccount">
+        <form action="" method="post" id="frmAddAccount" onsubmit="return submitUserForm();">
             <div class="card">
                 <h4 class="card-header">
                     Create new Account
@@ -137,6 +148,9 @@
                         <input type="text" class="form-control" id="txtPhone" name="phone">
                     </div>
                 </div>
+
+
+
                 <div class="card-footer">
                     <a class="btn btn-outline-primary" href="${pageContext.request.contextPath}/Home"
                        role="button">
