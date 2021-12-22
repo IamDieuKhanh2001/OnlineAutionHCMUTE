@@ -15,6 +15,7 @@
 <jsp:useBean id="seller" scope="request" type="com.ute.onlineautionhcmute.beans.User"/>
 <jsp:useBean id="userHighestBid" scope="request" type="com.ute.onlineautionhcmute.beans.User"/>
 <jsp:useBean id="similarProduct" scope="request" type="java.util.List<com.ute.onlineautionhcmute.beans.Product>"/>
+<jsp:useBean id="allowBidding" scope="request" type="java.lang.Boolean"/>
 
 <t:main>
     <jsp:attribute name="css">
@@ -151,6 +152,7 @@
         <div class="card">
             <h4 class="card-header bg-dark text-light">
                     ${product.name}
+                ${allowBidding}
             </h4>
             <div class="card-body">
                     <%--                đổ data vào đây--%>
@@ -361,8 +363,11 @@
                 </div>
             </div>
         </div>
-        <%--Form post so tien dat--%>
-
+        <%--Form post yêu cầu đấu giá chi chưa đạt 80% like--%>
+        <form id="frmRequest" method="post"
+              action="${pageContext.request.contextPath}/Product/Request">
+                <input class="d-none" type="text" readonly name="productID" value="${product.id}">
+        </form>
         <!-- Modal -->
         <div class="modal fade" id="enterPriceAuction" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
              aria-hidden="true">
@@ -384,20 +389,56 @@
                                     <span class="input-group-text" id="">VND</span>
                                 </div>
                             </div>
-                            <p class="card-text text-warning">
-                                <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
-                                Lưu ý 
-                                <br>Hệ thống sẽ tự động đấu giá sản phẩm với chi phí thấp nhất với chi phí bạn đặt ra!! Đặt giá và uống 1 tách trà đợi kết quả nhé
-                                <br>Hệ thống sẽ phân định người sở hữu sản phẩm dựa trên giá đấu cao nhất khi hết thời gian
-                            </p>
+                            <c:choose>
+                                <c:when test="${auth == false}">
+                                    <p class="card-text text-danger">
+                                        <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                                        Lưu ý
+                                        <br>
+                                        Bạn chưa đăng nhập, vui lòng đăng nhập để sử dụng chức năng này!!
+                                    </p>
+                                </c:when>
+                                <c:otherwise>
+                                    <c:if test="${allowBidding == false}">
+                                        <p class="card-text text-danger">
+                                            <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                                            Lưu ý
+                                            <br>
+                                            Bạn không đủ điều kiện để đấu giá sản phẩm này do bạn chưa có lượt đánh giá like trên 80%
+                                            <br>
+                                            Để có thể đấu giá sản phẩm này bạn cần gửi yêu cầu đến người bán
+                                            <br>
+                                            <a href="javascript: $('#frmRequest').submit()">Gửi yêu cầu</a>
+                                        </p>
+                                    </c:if>
+                                    <c:if test="${allowBidding == true}">
+                                        <p class="card-text text-success">
+                                            <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                                            Lưu ý
+                                            <br>
+                                            Đặt cho bạn một giá trị cao nhất thích hợp mà bạn có thể chi trả
+                                            <br>
+                                            Cảm ơn bạn đã tham gia!!
+                                        </p>
+                                    </c:if>
+                                </c:otherwise>
+                            </c:choose>
                         </form>
                     </div>
                     <div class="modal-footer d-flex justify-content-between">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Quay về</button>
-                        <a class="btn btn-outline-success" href="javascript: $('#frmAuction').submit()">
-                            <i class="fa fa-check" aria-hidden="true"></i>
-                            Đồng ý
-                        </a>
+                        <c:if test="${allowBidding == true}">
+                            <a class="btn btn-outline-success" href="javascript: $('#frmAuction').submit()">
+                                <i class="fa fa-check" aria-hidden="true"></i>
+                                Đặt giá
+                            </a>
+                        </c:if>
+                        <c:if test="${allowBidding == false}">
+                            <button class="btn btn-outline-success disabled" disabled>
+                                <i class="fa fa-check" aria-hidden="true"></i>
+                                Đặt giá
+                            </button>
+                        </c:if>
                     </div>
                 </div>
             </div>

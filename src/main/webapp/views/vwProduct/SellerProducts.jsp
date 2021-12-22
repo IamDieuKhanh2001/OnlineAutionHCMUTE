@@ -42,12 +42,16 @@
                                                 </p>
                                                 <p class="card-text">Ngày đăng: ${c.create_time}</p>
                                                 <p class="card-text">Lần cuối chỉnh sửa: ${c.modified_time}</p>
+                                                <a class="btn btn-secondary" href="${pageContext.request.contextPath}/Seller/Product/RequestList?id=${c.id}" role="button">
+                                                    <i class="fa fa-align-justify" aria-hidden="true"></i>
+                                                    Danh sách yêu cầu đấu giá sản phẩm
+                                                </a>
                                             </div>
                                             <div class="card-footer text-muted">
-                                                <a class="btn btn-outline-primary" href="${pageContext.request.contextPath}/Seller/Product/Edit?id=${c.id}" role="button">
-                                                    <i class="fa fa-pencil" aria-hidden="true"></i>
-                                                    Bổ sung thông tin
-                                                </a>
+                                                    <a class="btn btn-outline-primary" href="${pageContext.request.contextPath}/Seller/Product/Edit?id=${c.id}" role="button">
+                                                        <i class="fa fa-pencil" aria-hidden="true"></i>
+                                                        Bổ sung thông tin
+                                                    </a>
                                                 <!-- Button mở modal lịch sử đấu-->
                                                 <a role="button" class="btn btn-success" href="${pageContext.request.contextPath}/Seller/Product/History?id=${c.id}">
                                                     Lịch sử đấu giá

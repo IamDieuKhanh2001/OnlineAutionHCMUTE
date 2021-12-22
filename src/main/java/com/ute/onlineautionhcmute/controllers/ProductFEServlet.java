@@ -7,6 +7,7 @@ import com.ute.onlineautionhcmute.utils.ServletUtils;
 import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
+import javax.sound.midi.Soundbank;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -148,6 +149,9 @@ public class ProductFEServlet extends HttpServlet {
             }
 
             case "/Detail": {
+                HttpSession session = request.getSession();
+                User userLogin = (User) session.getAttribute("authUser");
+
                 int productID = -1;
                 try {
                     productID = Integer.parseInt(request.getParameter("id"));
@@ -175,6 +179,23 @@ public class ProductFEServlet extends HttpServlet {
                 }else{
                     request.setAttribute("time_ended", true);
                 }
+                //Kiểm tra người dùng có đủ 80% lượt like không
+                List<Evaluation> userLoginAllEvaluation = EvaluationModel.findAllEvaluationByUserID(userLogin.getId());
+                List<Evaluation> userLoginLikeEvaluation = EvaluationModel.findLikeEvaluationByUserID(userLogin.getId());
+                AuctionPermission userPermissionAccept = AuctionPermissionModel.findByProductIdAndUserId(productID,userLogin.getId(),"accept");
+                if(userPermissionAccept != null){         //dc CHo phep dau gia
+                    request.setAttribute("allowBidding", true);
+                }
+                else if(userLoginAllEvaluation.size() != 0){
+                    float likeEvaluationRequire = (float) (userLoginAllEvaluation.size() * 80) / 100;
+                    if(userLoginLikeEvaluation.size() >= likeEvaluationRequire){
+                        request.setAttribute("allowBidding", true);
+                    }else{
+                        request.setAttribute("allowBidding", false);
+                    }
+                }else{
+                    request.setAttribute("allowBidding", false);
+                }
                 ServletUtils.forward("/views/vwProduct/Detail.jsp", request, response);
                 break;
             }
@@ -200,11 +221,35 @@ public class ProductFEServlet extends HttpServlet {
                 }
                 break;
             }
+            case "/Request": {
+                auctionRequest(request,response);
+                break;
+            }
             default: {
                 ServletUtils.forward("/views/404.jsp", request, response);
                 break;
             }
         }
+    }
+
+    private void auctionRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        HttpSession session = request.getSession();
+        User userLogin = (User) session.getAttribute("authUser");
+
+        int productID = -1;
+        try {
+            productID = Integer.parseInt(request.getParameter("productID"));
+        } catch (Exception ex) {
+            ServletUtils.forward("/views/404.jsp", request, response);
+        }
+        String setStatus = "request";
+        AuctionPermission isAvailableRequest = AuctionPermissionModel.findByProductIdAndUserId(productID,userLogin.getId(),"request");
+        if(isAvailableRequest == null){
+            AuctionPermission auctionRequest = new AuctionPermission(-1,productID,userLogin.getId(),setStatus);
+            AuctionPermissionModel.add(auctionRequest);
+        }
+        String retUrl = "/Product/Detail?id=" + productID;
+        ServletUtils.redirect(retUrl,request,response);
     }
 
     private void checkAuctionProduct(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

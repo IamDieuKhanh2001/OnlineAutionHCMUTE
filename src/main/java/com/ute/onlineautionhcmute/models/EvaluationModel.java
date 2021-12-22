@@ -1,10 +1,33 @@
 package com.ute.onlineautionhcmute.models;
 
 import com.ute.onlineautionhcmute.beans.Evaluation;
+import com.ute.onlineautionhcmute.beans.Product;
 import com.ute.onlineautionhcmute.utils.DbUtils;
 import org.sql2o.Connection;
 
+import java.util.List;
+
 public class EvaluationModel {
+
+    public static List<Evaluation> findAllEvaluationByUserID(int userID) {
+        final String query = "select * from evaluation where user_id = :userID";
+        try (Connection con = DbUtils.getConnection()) {
+            List<Evaluation> list = con.createQuery(query)
+                    .addParameter("userID", userID)
+                    .executeAndFetch(Evaluation.class);
+            return list;
+        }
+    }
+    public static List<Evaluation> findLikeEvaluationByUserID(int userID) {
+        final String query = "select * from evaluation where user_id = :userID and type = :type";
+        try (Connection con = DbUtils.getConnection()) {
+            List<Evaluation> list = con.createQuery(query)
+                    .addParameter("userID", userID)
+                    .addParameter("type", "like")
+                    .executeAndFetch(Evaluation.class);
+            return list;
+        }
+    }
     public static void add(Evaluation evaluation)
     {
         final String query = "INSERT INTO `evaluation` (`assessor`, `user_id`, `type`, `comment`) VALUES (:assessor, :user_id, :type, :comment)";

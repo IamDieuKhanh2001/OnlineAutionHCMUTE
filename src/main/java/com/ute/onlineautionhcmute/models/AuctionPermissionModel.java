@@ -23,6 +23,18 @@ public class AuctionPermissionModel {
             return list.get(0);
         }
     }
+    public static List<AuctionPermission> findProductPermissionByProductId(int productID,String status)
+    {
+        final String query = "SELECT * FROM auction_permission WHERE product_id = :productID and status = :status";
+        try (Connection connection = DbUtils.getConnection())
+        {
+            List<AuctionPermission> list = connection.createQuery(query)
+                    .addParameter("productID", productID)
+                    .addParameter("status", status)
+                    .executeAndFetch(AuctionPermission.class);
+            return list;
+        }
+    }
     public static void add(AuctionPermission auctionPermission)
     {
         final String query = "INSERT INTO auction_permission (product_id, user_id, status) VALUES (:productId,:userId,:status)";

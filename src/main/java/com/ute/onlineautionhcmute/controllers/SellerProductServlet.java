@@ -95,6 +95,34 @@ public class SellerProductServlet extends HttpServlet {
                 ServletUtils.forward("/views/vwProduct/SellerProductBiddingHistory.jsp",request,response);
                 break;
             }
+            case "/RequestList": {
+                int productID = -1;
+                try {
+                    productID = Integer.parseInt(request.getParameter("id"));
+                } catch (NumberFormatException e) {
+                    ServletUtils.forward("/views/204.jsp", request, response);
+                }
+                List<AuctionPermission> productAuctionRequest = AuctionPermissionModel.findProductPermissionByProductId(productID,"request");
+                List<User> users = UserModel.findAll();
+                Product product = ProductModel.findById(productID);
+                request.setAttribute("productAuctionRequest",productAuctionRequest);
+                request.setAttribute("users",users);
+                request.setAttribute("product",product);
+                ServletUtils.forward("/views/vwProduct/SellerBiddingRequest.jsp",request,response);
+                break;
+            }
+            case "/AcceptRequest":{
+                int productID = Integer.parseInt(request.getParameter("id"));
+                System.out.println("accept");
+                System.out.println(productID);
+                String retUrl = "/Seller/Product/RequestList?id=" + productID;
+                ServletUtils.redirect(retUrl,request,response);
+                break;
+            }
+            case "/DenyRequest":{
+                System.out.println("deny");
+                break;
+            }
             default:{
                 ServletUtils.forward("/views/404.jsp",request,response);
                 break;
