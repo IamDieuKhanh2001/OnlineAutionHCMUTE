@@ -15,6 +15,32 @@
 <jsp:useBean id="message" scope="request" type="java.lang.String" />
 
 <t:profile>
+    <jsp:attribute name="js">
+        <script>
+            $('#form-change-password').on('submit', function (e) {
+                e.preventDefault();
+                const password1 = $('#password_new').val();
+                const password2 = $('#password_new2').val();
+                if(password1 === "" || password2 === "")
+                {
+                    alert('Password is not empty');
+                    return;
+                }
+                if(password1.length <= 5)
+                {
+                    alert('Password is min length 6');
+                    return;
+                }
+                if(password1 !== password2)
+                {
+                    alert('Password Not Match');
+                    return;
+                }
+                $('#form-change-password').off('submit').submit();
+            });
+        </script>
+    </jsp:attribute>
+
     <jsp:body>
         <div class="col-md-9">
             <div class="card">
