@@ -4,12 +4,20 @@ import at.favre.lib.crypto.bcrypt.BCrypt;
 import com.ute.onlineautionhcmute.beans.*;
 import com.ute.onlineautionhcmute.models.*;
 import com.ute.onlineautionhcmute.utils.*;
+import org.apache.commons.codec.digest.DigestUtils;
+import org.json.simple.JSONObject;
+import org.json.simple.JSONValue;
+import org.json.simple.parser.JSONParser;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
+import java.io.Console;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -34,6 +42,42 @@ public class AccountServlet extends HttpServlet {
                 ServletUtils.forward("/views/vwAccount/ProfileOverview.jsp", request, response);
                 break;
 
+            case "/Confirm/ConfirmChangeEmail":
+            {
+                String hash = request.getParameter("hash");
+                int userID = -1;
+                try {
+                    userID = Integer.parseInt(request.getParameter("id"));
+                } catch (Exception ex) {
+                    ServletUtils.forward("/views/404.jsp", request, response);
+                    break;
+                }
+
+                EmailConfirm emailConfirm = EmailConfirmModel.check(userID, "change_email", "pending", hash);
+                if(emailConfirm == null)
+                {
+                    ServletUtils.forward("/views/404.jsp", request, response);
+                    break;
+                }
+                String jsonData = emailConfirm.getJson_data();
+                JSONParser parser = new JSONParser();
+                JSONObject json = null;
+                try {
+                    json = (JSONObject) parser.parse(jsonData);
+                } catch (Exception ex) {
+                    ServletUtils.forward("/views/404.jsp", request, response);
+                    break;
+                }
+                String newEmail = (String)json.get("email");
+                if(ValidateUtils.isValidEmail(newEmail)){
+                    EmailConfirmModel.updateStatus(emailConfirm.getId(), "success");
+                    UserModel.updateEmail(emailConfirm.getUser_id(), newEmail);
+                } else {
+
+                }
+
+                break;
+            }
             case "/Profile/WatchList":
             {
                 User userLogin = (User)session.getAttribute("authUser");
@@ -199,7 +243,6 @@ public class AccountServlet extends HttpServlet {
                 break;
             }
 
-
             default:
             {
                 ServletUtils.forward("/views/404.jsp", request, response);
@@ -272,9 +315,17 @@ public class AccountServlet extends HttpServlet {
         {
             if(ValidateUtils.isValidEmail(newEmail))
             {
-                UserModel.updateEmail(user.getId(), newEmail);
+//                UserModel.updateEmail(user.getId(), newEmail);
+//                request.setAttribute("status", "success");
+//                request.setAttribute("message", "Cập nhật email thành công");
+
+                String emailHash = DigestUtils.sha256Hex(newEmail);
+                JSONObject obj = new JSONObject();
+                obj.put("email", newEmail);
+                EmailConfirmModel.add(user.getId(), "change_email", "pending", obj.toJSONString(), emailHash);
+
                 request.setAttribute("status", "success");
-                request.setAttribute("message", "Cập nhật email thành công");
+                request.setAttribute("message", "Chúng tôi đã gửi email xác nhận đến email " + newEmail);
             }
             else
             {
