@@ -384,6 +384,11 @@ public class AccountServlet extends HttpServlet {
                 String newPasswordCrypt = BCrypt.withDefaults().hashToString(12, passwordNew.toCharArray());
                 UserModel.updatePasswordByID(user.getId(), newPasswordCrypt);
 
+                try
+                {
+                    SendEmail.sendAsHtml(user.getEmail(), "Password Has Been Changed",EmailTemplate.TemplateChangePasswordNotification(user));
+                } catch (Exception ex) {}
+
                 request.setAttribute("message", "Đổi mật khẩu thành công!");
                 ServletUtils.forward("/views/vwAccount/ProfileChangePassword.jsp", request, response);
             }

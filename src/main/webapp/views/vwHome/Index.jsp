@@ -50,7 +50,7 @@
                                 <p class="card-text">Text</p>
                             </div>
                             <div class="card-footer text-muted">
-                                <a class="btn btn-outline-success" href="#" role="button">
+                                <a class="btn btn-outline-success" href="${pageContext.request.contextPath}/Home/Top5ProductPrice" role="button">
                                     <i class="fa fa-eye" aria-hidden="true"></i>
                                     Xem ngay
                                 </a>
