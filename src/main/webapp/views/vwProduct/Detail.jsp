@@ -17,6 +17,11 @@
 <jsp:useBean id="similarProduct" scope="request" type="java.util.List<com.ute.onlineautionhcmute.beans.Product>"/>
 <jsp:useBean id="allowBidding" scope="request" type="java.lang.Boolean"/>
 
+<jsp:useBean id="listProduct_history" scope="request"
+             type="java.util.List<com.ute.onlineautionhcmute.beans.ProductHistory>"/>
+<jsp:useBean id="user" scope="request"
+             type="java.util.List<com.ute.onlineautionhcmute.beans.User>"/>
+
 <t:main>
     <jsp:attribute name="css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css">
@@ -80,7 +85,7 @@
             var countDownDate = new Date("${product.end_time}").getTime();
 
             // Cập nhật đếm ngược sau mỗi 1 giây
-            var x = setInterval(function() {
+            var x = setInterval(function () {
 
                 // Lấy ngày và giờ hôm nay
                 var now = new Date().getTime();
@@ -127,11 +132,11 @@
                 "hideMethod": "fadeOut"
             }
 
-            function addToWatchList(proID, proName){
-                $.getJSON('${pageContext.request.contextPath}/Product/WatchList/IsAvailable?idProductAddingToWatchList=' + proID,function (data){
-                    if(data === true){              //Sp khong ton tai trong watchlist
-                        $.getJSON('${pageContext.request.contextPath}/Product/WatchList/Add?productID=' + proID, function (result){
-                            if(result === true) {
+            function addToWatchList(proID, proName) {
+                $.getJSON('${pageContext.request.contextPath}/Product/WatchList/IsAvailable?idProductAddingToWatchList=' + proID, function (data) {
+                    if (data === true) {              //Sp khong ton tai trong watchlist
+                        $.getJSON('${pageContext.request.contextPath}/Product/WatchList/Add?productID=' + proID, function (result) {
+                            if (result === true) {
                                 toastr["success"]("Đã thêm sản phẩm thành công!", "Action Success");
                                 return true;
                             } else {
@@ -139,7 +144,7 @@
                                 return false;
                             }
                         });
-                    }else{
+                    } else {
                         toastr["error"]("Sản phẩm này đã có trong watch list của bạn!", "Action Failure");
                         return false;
                     }
@@ -152,7 +157,7 @@
         <div class="card">
             <h4 class="card-header bg-dark text-light">
                     ${product.name}
-                ${allowBidding}
+                    ${allowBidding}
             </h4>
             <div class="card-body">
                     <%--                đổ data vào đây--%>
@@ -205,7 +210,7 @@
                             </h4>
                             <h4 class="price">Thời gian còn lại: <span id="countdown"></span></h4>
                             <div class="action">
-<%--                                Ẩn nút đấu giá khi hết giờ --%>
+                                    <%--                                Ẩn nút đấu giá khi hết giờ --%>
                                 <c:if test="${time_ended}">
                                     <button type="button" class="add-to-cart btn btn-default disabled" disabled
                                             data-toggle="modal" data-target="">
@@ -218,8 +223,9 @@
                                         Đặt giá ngay
                                     </button>
                                 </c:if>
-                                <span onclick="addToWatchList('${product.id}', '${product.name}')" class="like btn btn-outline-danger"
-                                    role="button">
+                                <span onclick="addToWatchList('${product.id}', '${product.name}')"
+                                      class="like btn btn-outline-danger"
+                                      role="button">
                                     <i class="fa fa-heart" aria-hidden="true"></i>
                                     Thêm vào watch list
                                 </span>
@@ -259,30 +265,31 @@
                         <table class="table table-hover">
                             <thead>
                             <tr>
-                                <th scope="col">#</th>
-                                <th scope="col">First</th>
-                                <th scope="col">Last</th>
-                                <th scope="col">Handle</th>
+                                <th scope="col">Thời điểm</th>
+                                <th scope="col">Người mua</th>
+                                <th scope="col">Giá</th>
                             </tr>
                             </thead>
                             <tbody>
-                            <tr>
-                                <th scope="row">1</th>
-                                <td>Mark</td>
-                                <td>Otto</td>
-                                <td>@mdo</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">2</th>
-                                <td>Jacob</td>
-                                <td>Thornton</td>
-                                <td>@fat</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">3</th>
-                                <td colspan="2">Larry the Bird</td>
-                                <td>@twitter</td>
-                            </tr>
+                            <c:forEach items="${listProduct_history}" var="c">
+                                <tr>
+                                    <td>${c.create_time}</td>
+                                        <%--Tim va Hien thi ten quyen cua user--%>
+                                    <c:forEach items="${user}" var="t">
+                                        <c:choose>
+                                            <c:when test="${t.id == c.user_id_holding}">
+                                                <td>
+                                                    *****${t.firstname}
+                                                </td>
+                                            </c:when>
+                                        </c:choose>
+                                    </c:forEach>
+                                    <td>
+                                            ${c.price_bidding}
+                                    </td>
+                                </tr>
+                            </c:forEach>
+
                             </tbody>
                         </table>
                     </div>
@@ -366,7 +373,7 @@
         <%--Form post yêu cầu đấu giá chi chưa đạt 80% like--%>
         <form id="frmRequest" method="post"
               action="${pageContext.request.contextPath}/Product/Request">
-                <input class="d-none" type="text" readonly name="productID" value="${product.id}">
+            <input class="d-none" type="text" readonly name="productID" value="${product.id}">
         </form>
         <!-- Modal -->
         <div class="modal fade" id="enterPriceAuction" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
@@ -404,7 +411,8 @@
                                             <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
                                             Lưu ý
                                             <br>
-                                            Bạn không đủ điều kiện để đấu giá sản phẩm này do bạn chưa có lượt đánh giá like trên 80%
+                                            Bạn không đủ điều kiện để đấu giá sản phẩm này do bạn chưa có lượt đánh giá
+                                            like trên 80%
                                             <br>
                                             Để có thể đấu giá sản phẩm này bạn cần gửi yêu cầu đến người bán
                                             <br>

@@ -2,6 +2,7 @@ package com.ute.onlineautionhcmute.models;
 
 import com.ute.onlineautionhcmute.beans.Product;
 import com.ute.onlineautionhcmute.beans.ProductHistory;
+import com.ute.onlineautionhcmute.beans.User;
 import com.ute.onlineautionhcmute.utils.DbUtils;
 import org.sql2o.Connection;
 
@@ -57,5 +58,15 @@ public class ProductHistoryModel {
         }
     }
 
+    public static List<ProductHistory> findAll()
+    {
+        final String query = "SELECT * FROM `product_history`";
+        try (Connection connection = DbUtils.getConnection())
+        {
+            List<ProductHistory> list = connection.createQuery(query)
+                    .executeAndFetch(ProductHistory.class);
+            return list;
+        }
+    }
 
 }

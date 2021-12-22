@@ -196,6 +196,27 @@ public class ProductFEServlet extends HttpServlet {
                 }else{
                     request.setAttribute("allowBidding", false);
                 }
+
+                //Nhận vào product id
+                int id = 0;
+                try {
+                    id = Integer.parseInt(request.getParameter("id"));
+                } catch (NumberFormatException e) {
+                    ServletUtils.forward("/views/204.jsp", request, response);
+                }
+
+                Product p = ProductModel.findById(id);
+
+                if(p != null) {
+                    List<ProductHistory> list = ProductHistoryModel.findByProductID(p.getId());
+                    request.setAttribute("listProduct_history", list);
+                    List<User> user = UserModel.findAll();
+                    request.setAttribute("user", user);
+                }
+                else {
+                    ServletUtils.forward("/views/204.jsp", request, response);
+                }
+
                 ServletUtils.forward("/views/vwProduct/Detail.jsp", request, response);
                 break;
             }
