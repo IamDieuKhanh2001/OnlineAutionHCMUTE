@@ -5,6 +5,7 @@ import com.ute.onlineautionhcmute.beans.Product;
 import com.ute.onlineautionhcmute.utils.DbUtils;
 import org.sql2o.Connection;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class AuctionHistoryModel {
@@ -79,6 +80,22 @@ public class AuctionHistoryModel {
         }
     }
 
+    public static List<Integer> getListProductIDByUserID(int userID)
+    {
+        final String query = "SELECT DISTINCT `product_id` FROM `auction_history` WHERE `user_id` = :userID";
+        try (Connection connection = DbUtils.getConnection())
+        {
+            List<AuctionHistory> list = connection.createQuery(query)
+                    .addParameter("userID", userID)
+                    .executeAndFetch(AuctionHistory.class);
+            if(list.size() == 0)
+                return null;
 
-
+            List<Integer> listProductID = new ArrayList<Integer>();
+            list.forEach((item)->{
+                listProductID.add(item.getProduct_id());
+            });
+            return listProductID;
+        }
+    }
 }
