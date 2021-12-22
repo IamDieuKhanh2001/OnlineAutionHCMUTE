@@ -34,12 +34,23 @@ public class HomeServlet extends HttpServlet {
                 ServletUtils.forward("/views/vwHome/About.jsp",request,response);
                 break;
             }
-            case "/Top5ProductPrice":{
+
+            case
+             "/Top5ProductPrice":{
                 List<Product> c = ProductModel.findTop5ProductPrice();
                 request.setAttribute("products", c);
                 List<User> sellerList = UserModel.findAll();
                 request.setAttribute("sellerList", sellerList);
                 ServletUtils.forward("/views/vwHome/Top5ProductPrice.jsp",request,response);
+                break;
+            }
+
+            case "/Top5ProductExpire":{
+                List<Product> c = ProductModel.findTop5ProductExpire();
+                request.setAttribute("products", c);
+                List<User> sellerList = UserModel.findAll();
+                request.setAttribute("sellerList", sellerList);
+                ServletUtils.forward("/views/vwHome/Top5ProductExpire.jsp",request,response);
                 break;
             }
             default:{

@@ -198,4 +198,15 @@ public class ProductModel {
             return list;
         }
     }
+
+    public static List<Product> findTop5ProductExpire()
+    {
+        final String query = "select * from `products` where datediff(end_time,current_date) > 0 order by end_time asc";
+        try (Connection connection = DbUtils.getConnection())
+        {
+            List<Product> list = connection.createQuery(query)
+                    .executeAndFetch(Product.class);
+            return list;
+        }
+    }
 }
