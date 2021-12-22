@@ -7,14 +7,15 @@ import org.sql2o.Connection;
 import java.util.List;
 
 public class AuctionPermissionModel {
-    public static AuctionPermission findByProductIdAndUserId(int productID,int userID)
+    public static AuctionPermission findByProductIdAndUserId(int productID,int userID,String status)
     {
-        final String query = "SELECT * FROM auction_permission WHERE product_id = :productID and user_id = :userID";
+        final String query = "SELECT * FROM auction_permission WHERE product_id = :productID and user_id = :userID and status = :status";
         try (Connection connection = DbUtils.getConnection())
         {
             List<AuctionPermission> list = connection.createQuery(query)
                     .addParameter("productID", productID)
                     .addParameter("userID", userID)
+                    .addParameter("status", status)
                     .executeAndFetch(AuctionPermission.class);
             if (list.size() == 0) {
                 return null;

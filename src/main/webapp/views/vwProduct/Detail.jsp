@@ -206,7 +206,7 @@
 <%--                                Ẩn nút đấu giá khi hết giờ --%>
                                 <c:if test="${time_ended}">
                                     <button type="button" class="add-to-cart btn btn-default disabled" disabled
-                                            data-toggle="modal" data-target="#enterPriceAuction">
+                                            data-toggle="modal" data-target="">
                                         Đặt giá ngay
                                     </button>
                                 </c:if>

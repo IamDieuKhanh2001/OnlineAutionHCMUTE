@@ -219,12 +219,11 @@ public class ProductFEServlet extends HttpServlet {
         }
             Product product = ProductModel.findById(productId);
         if (product != null && product.getEnd_time().after(new Date())) { //Nếu sp chưa hết hạn
-            AuctionPermission auctionBlocked = AuctionPermissionModel.findByProductIdAndUserId(productId,userLogin.getId());
-            System.out.println(auctionBlocked);
-            if(auctionBlocked != null && auctionBlocked.getStatus().equals("block")){
+            AuctionPermission auctionBlocked = AuctionPermissionModel.findByProductIdAndUserId(productId,userLogin.getId(),"block");
+            if(auctionBlocked != null && auctionBlocked.getStatus().equals("block")){ //Nếu tk đã có trong auction permission có status block (Người bán cấm)
                 request.setAttribute("product",product);
                 request.setAttribute("ResultMessage","Bạn đã bị người bán cấm đấu giá sản phẩm này, bạn không thể đấu sản phẩm này được nữa!!");
-            }else{
+            }else{ //Nếu không bị người bán cấm thì xử lí đấu giá
                 auctionProduct(product,request,response);
             }
         } else {
