@@ -23,11 +23,6 @@
     int nCount = 0;
 %>
 
-
-
-
-
-
     <div class="card">
         <h4 class="card-header bg-dark text-light">Danh mục</h4>
         <div class="list-group">
@@ -52,7 +47,7 @@
                         else
                         {
                 %>
-                        <a type="button" class="btn btn-outline-success w-100 mb-1" href="${pageContext.request.contextPath}/Product/ByProID?id=<%= productType.getId() %>" role="button"><%= productType.getName() %></a>
+                        <a type="button" name="item-menu" class="btn btn-outline-success w-100 mb-1" href="${pageContext.request.contextPath}/Product/ByProID?id=<%= productType.getId() %>" role="button"><%= productType.getName() %></a>
                 <%
                         }
                     }
