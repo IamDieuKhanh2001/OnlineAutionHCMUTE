@@ -51,12 +51,12 @@
                                     <td>${c.status}</td>
                                     <td>${c.create_time}</td>
                                     <td>
-                                        <a class="btn btn-outline-success" href="${pageContext.request.contextPath}//Seller/Product/AcceptRequest?id=${product.id}" role="button">
+                                        <a class="btn btn-outline-success" href="${pageContext.request.contextPath}//Seller/Product/AcceptRequest?ProductId=${c.product_id}&UserId=${c.user_id}" role="button">
                                             <i class="fa fa-check" aria-hidden="true"></i>
                                         </a>
                                     </td>
                                     <td>
-                                        <a class="btn btn-outline-danger" href="#" role="button">
+                                        <a class="btn btn-outline-danger" href="${pageContext.request.contextPath}//Seller/Product/DenyRequest?ProductId=${c.product_id}&UserId=${c.user_id}" role="button">
                                             <i class="fa fa-user-times" aria-hidden="true"></i>
                                         </a>
                                     </td>

@@ -112,15 +112,34 @@ public class SellerProductServlet extends HttpServlet {
                 break;
             }
             case "/AcceptRequest":{
-                int productID = Integer.parseInt(request.getParameter("id"));
-                System.out.println("accept");
-                System.out.println(productID);
+                int productID = -1;
+                int userID = -1;
+                try {
+                    productID = Integer.parseInt(request.getParameter("ProductId"));
+                    userID = Integer.parseInt(request.getParameter("UserId"));
+                } catch (NumberFormatException e) {
+                    ServletUtils.forward("/views/204.jsp", request, response);
+                }
+                AuctionPermission auctionRequest = AuctionPermissionModel.findByProductIdAndUserId(productID,userID,"request");
+                auctionRequest.setStatus("accept");
+                AuctionPermissionModel.update(auctionRequest);
                 String retUrl = "/Seller/Product/RequestList?id=" + productID;
                 ServletUtils.redirect(retUrl,request,response);
                 break;
             }
             case "/DenyRequest":{
-                System.out.println("deny");
+                int productID = -1;
+                int userID = -1;
+                try {
+                    productID = Integer.parseInt(request.getParameter("ProductId"));
+                    userID = Integer.parseInt(request.getParameter("UserId"));
+                } catch (NumberFormatException e) {
+                    ServletUtils.forward("/views/204.jsp", request, response);
+                }
+                AuctionPermission auctionRequest = AuctionPermissionModel.findByProductIdAndUserId(productID,userID,"request");
+                AuctionPermissionModel.delete(auctionRequest);
+                String retUrl = "/Seller/Product/RequestList?id=" + productID;
+                ServletUtils.redirect(retUrl,request,response);
                 break;
             }
             default:{

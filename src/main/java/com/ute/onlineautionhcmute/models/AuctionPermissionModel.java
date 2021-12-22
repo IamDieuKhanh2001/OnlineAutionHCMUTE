@@ -47,4 +47,27 @@ public class AuctionPermissionModel {
                     .executeUpdate();
         }
     }
+    public static void update(AuctionPermission auctionPermission)
+    {
+        final String query = "UPDATE auction_permission SET  product_id = :productId, user_id = :userId, status = :status WHERE id = :id ";
+        try (Connection connection = DbUtils.getConnection())
+        {
+            connection.createQuery(query)
+                    .addParameter("id", auctionPermission.getId())
+                    .addParameter("productId", auctionPermission.getProduct_id())
+                    .addParameter("userId", auctionPermission.getUser_id())
+                    .addParameter("status", auctionPermission.getStatus())
+                    .executeUpdate();
+        }
+    }
+    public static void delete(AuctionPermission auctionPermission)
+    {
+        final String query = "DELETE FROM auction_permission WHERE id = :id";
+        try (Connection connection = DbUtils.getConnection())
+        {
+            connection.createQuery(query)
+                    .addParameter("id", auctionPermission.getId())
+                    .executeUpdate();
+        }
+    }
 }
