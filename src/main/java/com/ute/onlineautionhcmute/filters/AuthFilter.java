@@ -30,21 +30,19 @@ public class AuthFilter implements Filter {
 
         HttpSession session = request.getSession();
         boolean auth = (boolean) session.getAttribute("auth");
-//        User authUser = (User) session.getAttribute("authUser");
+        User authUser = (User) session.getAttribute("authUser");
         if (!auth) {
             session.setAttribute("retUrl", request.getRequestURI());
             ServletUtils.redirect("/Account/Login", request, (HttpServletResponse) res);
             return;
         }
-//        else{
-//            if(authUser.getUser_type_id() == 1){
-//                ServletUtils.forward("/views/404.jsp",request,(HttpServletResponse) res);
-//                return;
-//            }
-        //Xét quyền
+        else {
+            if (authUser.getUser_type_id() == 3) {
+                ServletUtils.forward("/views/404.jsp", request, (HttpServletResponse) res);
+                return;
+            }
+        }
 
-        // đọc thông tin user, xem field permission để check xem user có được phép vào view hay không?
-        // ...
 
         chain.doFilter(req, res); // cho phép request tiếp tục thực hiện
     }

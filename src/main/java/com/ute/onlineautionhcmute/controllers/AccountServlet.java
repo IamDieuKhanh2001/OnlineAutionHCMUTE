@@ -259,6 +259,7 @@ public class AccountServlet extends HttpServlet {
         switch (path) {
 
             case "/Register2":
+
                 registerUser(request, response);
                 break;
 
@@ -462,8 +463,17 @@ public class AccountServlet extends HttpServlet {
     }
 
     private void registerUser(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String username = request.getParameter("username");
 
+        String gRecaptchaResponse = request.getParameter("g-recaptcha-response");
+        System.out.println(gRecaptchaResponse);
+        // Verify CAPTCHA.
+        boolean valid = VerifyUtils.verify(gRecaptchaResponse);
+        if (!valid) {
+            ServletUtils.forward("/views/vwAccount/Register2.jsp", request, response);
+            return;
+        }
+
+        String username = request.getParameter("username");
         String rawpwd = request.getParameter("rawpwd");
         String bcryptHashPassword = BCrypt.withDefaults().hashToString(12, rawpwd.toCharArray());
         String firstname = request.getParameter("firstname");

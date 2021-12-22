@@ -12,7 +12,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 <%--API Recaptcha--%>
-<script src="https://www.google.com/recaptcha/api.js"></script>
+
 
 <t:main>
     <jsp:attribute name="css">
@@ -20,6 +20,8 @@
               href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.css">
     </jsp:attribute>
     <jsp:attribute name="js">
+<%--        Recaptcha api--%>
+        <script src='https://www.google.com/recaptcha/api.js?hl=vi'></script>
 <%--        Sử dụng date time picker cho ô birthdate --%>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js"></script>
         <script src="${pageContext.request.contextPath}/public/js/ValidateUtils.js"></script>
@@ -69,31 +71,32 @@
                 return;
             }
 
-            let flaguser = false;
+
             //Kiem tra tai khoan username tồn tại không
              $.getJSON('${pageContext.request.contextPath}/Account/IsAvailable?user=' + username,function (data){
                 if(data === true){//Tai khoan khong ton tai trong db, post
-                    flaguser =true;
+                    $('#frmAddAccount').off('submit').submit();
                 }else{
                     alert("Username has been used!!")
-                    return;
+                    return ;
                 }
             })
 
-            let flagemail = false;
             //Kiem tra tai khoan email tồn tại không
-            $.getJSON('${pageContext.request.contextPath}/Account/EmailIsAvailable?email=' + email,function (data){
-                if(data === true){//email khong ton tai trong db, post
-                    flagemail = true;
-                }else{
-                    alert("Email has been used!!")
-                    return;
-                }
-            })
+            <%--var flagemail= $.getJSON('${pageContext.request.contextPath}/Account/EmailIsAvailable?email=' + email,function (data){--%>
+            <%--    if(data === true){//email khong ton tai trong db, post--%>
+            <%--        return true;--%>
+            <%--    }else{--%>
+            <%--        alert("Email has been used!!")--%>
+            <%--        return false;--%>
+            <%--    }--%>
+            <%--})--%>
 
-            if (flaguser === true && flagemail === true) {
-                $('#frmAddAccount').off('submit').submit();
-            }
+            <%--if (flaguser.promise().responseText == true && flagemail.responseText == true) {--%>
+            <%--    $('#frmAddAccount').off('submit').submit();--%>
+            <%--}--%>
+            <%--console.log(flaguser.pro)--%>
+            <%--console.log(flagemail)--%>
         });
 
         // cai dat query date time picker
@@ -103,11 +106,12 @@
             mask: true
         });
 
+
     </script>
 
     </jsp:attribute>
     <jsp:body>
-        <form action="" method="post" id="frmAddAccount" onsubmit="return submitUserForm();">
+        <form action="" method="post" id="frmAddAccount">
             <div class="card">
                 <h4 class="card-header">
                     Đăng ký tài khoản
@@ -147,8 +151,13 @@
                         <label for="txtPhone">Phone</label>
                         <input type="text" class="form-control" id="txtPhone" name="phone">
                     </div>
+
                 </div>
 
+                <%--Recaptcha--%>
+
+                    <div class="g-recaptcha"
+                         data-sitekey="6LelZAsTAAAAAAv1ADYDnq8AzbmPmbMvjh-xhfgB"></div>
 
 
                 <div class="card-footer">
