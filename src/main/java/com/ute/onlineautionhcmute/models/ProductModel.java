@@ -220,4 +220,17 @@ public class ProductModel {
             return list;
         }
     }
+
+    public static List<Product> findProductPostExpired(int userID)
+    {
+        final String query = "select * from `products` where datediff(end_time,current_date) > 0 and `user_id` = :userID order by end_time asc";
+        try (Connection connection = DbUtils.getConnection())
+        {
+            List<Product> list = connection.createQuery(query)
+                    .addParameter("userID", userID)
+                    .executeAndFetch(Product.class);
+            return list;
+        }
+    }
 }
+

@@ -55,7 +55,7 @@ public class HomeServlet extends HttpServlet {
             }
 
             case "/Top5ProductPriceBuyNow":{
-                List<Product> c = ProductModel.findTop5ProductPrice();
+                List<Product> c = ProductModel.findTop5ProductBuyNow();
                 request.setAttribute("products", c);
                 List<User> sellerList = UserModel.findAll();
                 request.setAttribute("sellerList", sellerList);

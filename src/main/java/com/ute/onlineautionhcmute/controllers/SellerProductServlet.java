@@ -142,6 +142,17 @@ public class SellerProductServlet extends HttpServlet {
                 ServletUtils.redirect(retUrl,request,response);
                 break;
             }
+
+            case "/ProductPostExpired":{
+                HttpSession session = request.getSession();
+                User userLogin = (User) session.getAttribute("authUser");
+
+                List<Product> c = ProductModel.findProductPostExpired(userLogin.getId());
+                request.setAttribute("products", c);
+                ServletUtils.forward("/views/vwProduct/ProductPostExpired.jsp",request,response);
+                break;
+            }
+
             default:{
                 ServletUtils.forward("/views/404.jsp",request,response);
                 break;

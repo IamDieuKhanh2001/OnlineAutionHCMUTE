@@ -110,7 +110,7 @@
         <form action="" method="post" id="frmAddAccount" onsubmit="return submitUserForm();">
             <div class="card">
                 <h4 class="card-header">
-                    Create new Account
+                    Đăng ký tài khoản
                 </h4>
                 <div class="card-body">
                     <h5>Thông tin tài khoản</h5>

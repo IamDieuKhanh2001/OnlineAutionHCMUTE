@@ -9,15 +9,15 @@
 <%--Nhan view model tu controler tra ve r ta hien thi ra view (JSP EL)--%>
 <jsp:useBean id="products" scope="request"
              type="java.util.List<com.ute.onlineautionhcmute.beans.Product>"/>
+
 <t:main>
     <jsp:body>
         <div class="card">
             <h4 class="card-header bg-dark text-light">
                 <i class="fa fa-product-hunt" aria-hidden="true"></i>
-                Sản phẩm đã đăng
+                Sản phẩm đang đăng và còn hạn
             </h4>
             <div class="card-body">
-                    <%--                đổ data vào đây--%>
                 <c:choose>
                     <c:when test="${products.size() == 0}">
                         <div class="card-body">
@@ -49,10 +49,10 @@
                                                 </a>
                                             </div>
                                             <div class="card-footer text-muted">
-                                                    <a class="btn btn-outline-primary" href="${pageContext.request.contextPath}/Seller/Product/Edit?id=${c.id}" role="button">
-                                                        <i class="fa fa-pencil" aria-hidden="true"></i>
-                                                        Bổ sung thông tin
-                                                    </a>
+                                                <a class="btn btn-outline-primary" href="${pageContext.request.contextPath}/Seller/Product/Edit?id=${c.id}" role="button">
+                                                    <i class="fa fa-pencil" aria-hidden="true"></i>
+                                                    Bổ sung thông tin
+                                                </a>
                                                 <!-- Button mở modal lịch sử đấu-->
                                                 <a role="button" class="btn btn-success" href="${pageContext.request.contextPath}/Seller/Product/History?id=${c.id}">
                                                     Lịch sử đấu giá
