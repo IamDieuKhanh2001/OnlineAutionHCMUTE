@@ -70,8 +70,26 @@ public class AccountServlet extends HttpServlet {
 
             case "/Profile/ProductAuction":
             {
-                ServletUtils.forward("/views/vwAccount/ProfileProductAuction.jsp", request, response);
-                break;
+                User userLogin = (User)session.getAttribute("authUser");
+                List<Integer> listProductID = AuctionHistoryModel.getListProductIDByUserID(userLogin.getId());
+                List<ProductWithCard> listProductCard = new ArrayList<ProductWithCard>();
+                if(listProductID == null)
+                {
+                    request.setAttribute("listProductCard", listProductCard);
+                    ServletUtils.forward("/views/vwAccount/ProfileProductAuction.jsp", request, response);
+                    break;
+                }
+                else
+                {
+                    listProductID.forEach((productID)->{
+                        ProductWithCard pwc = ProductModel.getProductInfoWithCard(productID);
+                        if(pwc != null)
+                            listProductCard.add(pwc);
+                    });
+                    request.setAttribute("listProductCard", listProductCard);
+                    ServletUtils.forward("/views/vwAccount/ProfileProductAuction.jsp", request, response);
+                    break;
+                }
             }
 
             case "/Profile/Upgrade":

@@ -62,6 +62,23 @@
         crossorigin="anonymous"></script>
 
 
+<script>
+<%--  Active Menu  --%>
+let listMenu = document.querySelectorAll('a[name="item-menu"]');
+const urlCurrent = document.location.href
+
+listMenu.forEach((menu)=>{
+    let menuHref = menu.getAttribute('href');
+    if(urlCurrent.includes(menuHref)) {
+        menu.classList.add('active');
+        let parentElement = menu.parentElement;
+        let parentElement2 = parentElement.parentElement;
+        parentElement2.setAttribute('class', 'collapse show');
+        return;
+    }
+})
+</script>
+
 <jsp:invoke fragment="js"/>
 </body>
 </html>
