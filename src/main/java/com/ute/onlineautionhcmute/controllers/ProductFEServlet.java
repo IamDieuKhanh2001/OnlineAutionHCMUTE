@@ -112,6 +112,7 @@ public class ProductFEServlet extends HttpServlet {
 
                 HttpSession session = request.getSession();
                 User userLogin = (User) session.getAttribute("authUser");
+                Boolean auth = (Boolean) session.getAttribute("auth");
 
                 int productID = 0;
                 try {
@@ -122,6 +123,11 @@ public class ProductFEServlet extends HttpServlet {
                     break;
                 }
                 Product c = ProductModel.findById(productID);
+                if(!auth){  //Nếu chưa đăng nhập thì không cho sp vào watchlist
+                    out.print(isAdd);
+                    out.flush();
+                    break;
+                }
                 if (c != null) {                             //neu trong watchlist chuwa có sp
                     if (WatchListModel.findByProIdAndUserId(c.getId(), userLogin.getId()) == null) {
                         WatchListModel.add(c, userLogin);
