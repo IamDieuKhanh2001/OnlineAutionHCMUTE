@@ -175,7 +175,7 @@ public class ProductModel {
 
     public static ProductWithCard getProductInfoWithCard(int productID)
     {
-        final String query = "SELECT `p`.`id`, `p`.`name`, `p`.`price_current`, `u`.`firstname`, `u`.`lastname`, `p`.`price_buy_now`, `p`.`create_time` FROM `products` AS `p`, `users` AS `u` WHERE `u`.`id` = `p`.`user_id` AND `p`.`id` = :productID";
+        final String query = "SELECT `p`.`user_id`, `p`.`id`, `p`.`name`, `p`.`price_current`, `u`.`firstname`, `u`.`lastname`, `p`.`price_buy_now`, `p`.`create_time` FROM `products` AS `p`, `users` AS `u` WHERE `u`.`id` = `p`.`user_id` AND `p`.`id` = :productID";
         try (Connection connection = DbUtils.getConnection())
         {
             List<ProductWithCard> list = connection.createQuery(query)

@@ -16,8 +16,40 @@
 
 <%--Lay Du Lieu Tu Controller--%>
 <jsp:useBean id="listProductCard" scope="request" type="java.util.List<com.ute.onlineautionhcmute.beans.ProductWithCard>" />
+<jsp:useBean id="authUser" scope="session" type="com.ute.onlineautionhcmute.beans.User" />
 
 <t:profile>
+
+    <jsp:attribute name="js">
+
+        <script>
+            function danhGia(bidderID, sellerID, productID){
+                alert(bidderID)
+                alert(sellerID)
+                alert(productID)
+                alert($('textarea#message-text').val())
+            }
+        </script>
+
+        <script>
+            $('#exampleModal').on('show.bs.modal', function (event) {
+                var button = $(event.relatedTarget) // Button that triggered the modal
+                var recipient = button.data('whatever') // Extract info from data-* attributes
+                var sellerID = button.data('seller-id') // Extract info from data-* attributes
+                var productName = button.data('product-name') // Extract info from data-* attributes
+                var productID = button.data('product-id') // Extract info from data-* attributes
+
+                // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+                // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+                var modal = $(this)
+                modal.find('.modal-title').text('Gửi đánh giá đến ' + recipient)
+                modal.find('.modal-body input#recipient-name').val(recipient)
+                modal.find('.modal-body input#product-name').val(productName)
+                modal.find('button#submit').attr('onclick', 'danhGia("'+ ${authUser.id} +'", "' + sellerID + '", "'+productID+'")')
+            })
+        </script>
+    </jsp:attribute>
+
     <jsp:body>
         <div class="card">
             <h4 class="card-header bg-dark text-light">
@@ -59,6 +91,13 @@
                                                     <i class="fa fa-eye" aria-hidden="true"></i>
                                                     Details
                                                 </a>
+                                                <span>
+                                                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal"
+                                                            data-whatever="${c.firstname} ${c.lastname}" data-seller-id="${c.user_id}" data-product-name="${c.name}"
+                                                            data-product-id="${c.id}">
+                                                        Đánh giá
+                                                    </button>
+                                                </span>
                                             </div>
                                         </div>
                                     </div>
@@ -69,5 +108,39 @@
                 </c:choose>
             </div>
         </div>
+
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">New message</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form>
+                            <div class="form-group">
+                                <label for="recipient-name" class="col-form-label">Người được đánh giá:</label>
+                                <input type="text" class="form-control" id="recipient-name" readonly>
+                            </div>
+                            <div class="form-group">
+                                <label for="product-name" class="col-form-label">Sản phẩm:</label>
+                                <input type="text" class="form-control" id="product-name" readonly>
+                            </div>
+                            <div class="form-group">
+                                <label for="message-text" class="col-form-label">Message:</label>
+                                <textarea class="form-control" id="message-text"></textarea>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button id="submit" type="button" class="btn btn-primary">Send message</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </jsp:body>
 </t:profile>
