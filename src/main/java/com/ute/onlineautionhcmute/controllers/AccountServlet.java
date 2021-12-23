@@ -146,7 +146,35 @@ public class AccountServlet extends HttpServlet {
 
             case "/Profile/Upgrade":
             {
+                User userLogin = (User)session.getAttribute("authUser");
+                List<AccountUpgrade> listHistory = AccountUpgradeModel.findAllByUser(userLogin);
+                request.setAttribute("listHistory", listHistory);
                 ServletUtils.forward("/views/vwAccount/ProfileUpgrade.jsp", request, response);
+                break;
+            }
+            case "/Profile/Upgrade/Apply":
+            {
+                User userLogin = (User)session.getAttribute("authUser");
+
+                PrintWriter out = response.getWriter();
+                response.setContentType("application/json");
+                response.setCharacterEncoding("utf-8");
+
+                boolean isAvailable = false;
+
+                // Kiểm tra đang có đơn chờ duyệt hay chưa . Tránh spam
+                AccountUpgrade accountUpgrade = AccountUpgradeModel.findByUserStatus(userLogin, "pending");
+                if(accountUpgrade != null)
+                {
+                    out.print(isAvailable);
+                    out.flush();
+                    break;
+                }
+
+                AccountUpgradeModel.add(userLogin.getId(), "pending");
+                isAvailable = true;
+                out.print(isAvailable);
+                out.flush();
                 break;
             }
 
