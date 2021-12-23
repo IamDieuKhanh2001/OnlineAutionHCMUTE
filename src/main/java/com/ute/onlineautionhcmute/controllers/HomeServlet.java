@@ -121,7 +121,6 @@ public class HomeServlet extends HttpServlet {
             request.setAttribute("products", c);
         }
         else {
-            System.out.println("abc");
             List<Product> c = ProductModel.findAll();
             request.setAttribute("products", c);
         }

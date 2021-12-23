@@ -32,16 +32,16 @@
 <div class="container-fluid mt-2 mb-3">
     <%--search--%>
     <form method="post" action="${pageContext.request.contextPath}/Home/Search">
-    <div class="container-fluid py-2 mt-2 bg-light">
+    <div class="container-fluid py-3 mt-2 bg-light">
         <%--    dropdown buttton sort --%>
         <div class="sort d-flex justify-content-between">
-            <div class="input-group mb-3 mr-3 " style="width: 20% ;height: 54px " >
+            <div class="input-group mr-3 " style="width: 20%  " >
                 <select name ="Time" class="custom-select" id="inputGroupSelect01" >
                     <option value="0" selected>Thời gian đấu giá</option>
                     <option value="1">Lower End Time</option>
                 </select>
             </div>
-            <div class="input-group mb-3 mr-3" style="width: 20%">
+            <div class="input-group mr-3" style="width: 20%">
                 <select name="Price"  class="custom-select" id="inputGroupSelect02">
                     <option value="0"selected>Giá tiền</option>
                     <option value="1">Higher Price</option>
