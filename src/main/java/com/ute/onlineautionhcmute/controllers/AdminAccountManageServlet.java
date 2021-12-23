@@ -1,14 +1,8 @@
 package com.ute.onlineautionhcmute.controllers;
 
 import at.favre.lib.crypto.bcrypt.BCrypt;
-import com.ute.onlineautionhcmute.beans.Category;
-import com.ute.onlineautionhcmute.beans.ProductType;
-import com.ute.onlineautionhcmute.beans.User;
-import com.ute.onlineautionhcmute.beans.UserType;
-import com.ute.onlineautionhcmute.models.CategoryModel;
-import com.ute.onlineautionhcmute.models.ProductTypeModel;
-import com.ute.onlineautionhcmute.models.UserModel;
-import com.ute.onlineautionhcmute.models.UserTypeModel;
+import com.ute.onlineautionhcmute.beans.*;
+import com.ute.onlineautionhcmute.models.*;
 import com.ute.onlineautionhcmute.utils.ServletUtils;
 
 import javax.servlet.*;
@@ -21,6 +15,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 @WebServlet(name = "AccountManageServlet", value = "/Admin/Account/*")
 public class AdminAccountManageServlet extends HttpServlet {
@@ -84,7 +79,40 @@ public class AdminAccountManageServlet extends HttpServlet {
                 break;
             }
             case "/Upgrade": {
+                List<AccountUpgrade.UpgradeApply> listAccountApplyUpgrade = AccountUpgradeModel.getListUpgradeApplyByStatus("pending");
+                request.setAttribute("listAccountApplyUpgrade", listAccountApplyUpgrade);
                 ServletUtils.forward("/views/vwAccount/AccountUpgrade.jsp", request, response);
+                break;
+            }
+            case "/Upgrade/Action": {
+                int applyID = Integer.parseInt(request.getParameter("id"));
+                AccountUpgrade accountUpgrade = AccountUpgradeModel.findByID(applyID);
+                if(accountUpgrade == null)
+                {
+                    ServletUtils.forward("/views/404.jsp", request, response);
+                    break;
+                }
+                String action = request.getParameter("action");
+                if(action.contains("accept"))
+                {
+                    accountUpgrade.setStatus("success");
+                    AccountUpgradeModel.update(accountUpgrade);
+                    User user = new User();
+                    user.setId(accountUpgrade.getUser_id());
+                    UserModel.updateUserTypeID(user, 2);
+                }
+                else if(action.contains("reject"))
+                {
+                    accountUpgrade.setStatus("fail");
+                    AccountUpgradeModel.update(accountUpgrade);
+                }
+                else
+                {
+                    ServletUtils.forward("/views/404.jsp", request, response);
+                    break;
+                }
+
+                ServletUtils.redirect("/Admin/Account/Upgrade", request, response);
                 break;
             }
             case "/Delete": { //Nhan vao id user can xoa
