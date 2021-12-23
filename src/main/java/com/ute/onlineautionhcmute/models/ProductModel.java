@@ -236,7 +236,6 @@ public class ProductModel {
     public static List<Product> fullTextSearch(String txtsearch)
     {
         String searchValue = "\'" + txtsearch + "\'";
-        System.out.println(searchValue);
         final String query = "select * from products where match(name) against (:txtsearch)";
         try (Connection connection = DbUtils.getConnection())
         {
@@ -246,5 +245,51 @@ public class ProductModel {
             return list;
         }
     }
+
+    public static List<Product> fullTextSearchPrice(String txtsearch)
+    {
+        String searchValue = "\'" + txtsearch + "\'";
+        final String query = "select * from products where match(name) against (:txtsearch) order by price_current asc";
+        try (Connection connection = DbUtils.getConnection())
+        {
+            List<Product> list = connection.createQuery(query)
+                    .addParameter("txtsearch", searchValue)
+                    .executeAndFetch(Product.class);
+            return list;
+        }
+    }
+    public static List<Product> fullTextSearchTime(String txtsearch)
+    {
+        String searchValue = "\'" + txtsearch + "\'";
+        final String query = "select * from products where match(name) against (:txtsearch) order by end_time desc";
+        try (Connection connection = DbUtils.getConnection())
+        {
+            List<Product> list = connection.createQuery(query)
+                    .addParameter("txtsearch", searchValue)
+                    .executeAndFetch(Product.class);
+            return list;
+        }
+    }
+    public static List<Product> findAllTime()
+    {
+        final String query = "select * from products order by end_time desc";
+        try (Connection connection = DbUtils.getConnection())
+        {
+            List<Product> list = connection.createQuery(query)
+                    .executeAndFetch(Product.class);
+            return list;
+        }
+    }
+    public static List<Product> findAllPrice()
+    {
+        final String query = "select * from products order by price_current asc";
+        try (Connection connection = DbUtils.getConnection())
+        {
+            List<Product> list = connection.createQuery(query)
+                    .executeAndFetch(Product.class);
+            return list;
+        }
+    }
+
 }
 

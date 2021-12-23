@@ -35,26 +35,21 @@
     <div class="container-fluid py-2 mt-2 bg-light">
         <%--    dropdown buttton sort --%>
         <div class="sort d-flex justify-content-between">
-            <div class="dropdown">
-                <button class="btn btn-outline-secondary dropdown-toggle mr-2" type="button" id="sortTimeEnded"
-                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Sort by time end
-                </button>
-                <div class="dropdown-menu" aria-labelledby="sortTimeEnded">
-                    <a class="dropdown-item" href="#">Lower</a>
-                    <a class="dropdown-item" href="#">Higher</a>
-                </div>
+            <div class="input-group mb-3 mr-3 " style="width: 20% ;height: 54px " >
+                <select name ="Time" class="custom-select" id="inputGroupSelect01" >
+                    <option value="0" selected>Thời gian đấu giá</option>
+                    <option value="1">Lower End Time</option>
+                </select>
             </div>
-            <div class="dropdown">
-                <button class="btn btn-outline-secondary dropdown-toggle mr-2" type="button" id="sortPrice"
-                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Sort by price current
-                </button>
-                <div class="dropdown-menu" aria-labelledby="sortPrice">
-                    <a class="dropdown-item" href="#">Lower</a>
-                    <a class="dropdown-item" href="#">Higher</a>
-                </div>
+            <div class="input-group mb-3 mr-3" style="width: 20%">
+                <select name="Price"  class="custom-select" id="inputGroupSelect02">
+                    <option value="0"selected>Giá tiền</option>
+                    <option value="1">Higher Price</option>
+                </select>
             </div>
+<%--                <button class="btn btn-outline-secondary mr-2" type="button" id="sortPrice" name="sortTime" value="Time" >--%>
+<%--                    Lower End Time--%>
+<%--                </button>--%>
             <%--        search bar --%>
             <input name="txtsearch" class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
             <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
@@ -109,6 +104,7 @@ listMenu.forEach((menu)=>{
         return;
     }
 })
+
 </script>
 
 <jsp:invoke fragment="js"/>

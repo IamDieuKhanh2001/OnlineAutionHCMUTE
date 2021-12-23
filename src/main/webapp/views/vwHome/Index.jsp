@@ -100,6 +100,7 @@
                                                 <fmt:formatNumber value="${c.price_buy_now}" type="number"/>
                                             </p>
                                             <p class="card-text">Ngày đăng: ${c.create_time}</p>
+                                            <p class="card-text">Thời hạn: ${c.end_time}</p>
                                         </div>
                                         <div class="card-footer text-muted">
                                             <a class="btn btn-outline-primary" href="${pageContext.request.contextPath}/Product/Detail?id=${c.id}" role="button">

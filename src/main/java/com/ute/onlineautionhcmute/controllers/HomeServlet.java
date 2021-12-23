@@ -4,6 +4,7 @@ import com.ute.onlineautionhcmute.beans.*;
 import com.ute.onlineautionhcmute.models.*;
 import com.ute.onlineautionhcmute.utils.ServletUtils;
 
+
 import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
@@ -65,10 +66,12 @@ public class HomeServlet extends HttpServlet {
                 ServletUtils.forward("/views/vwHome/TopFive.jsp",request,response);
                 break;
             }
+
             default:{
                 ServletUtils.forward("/views/404.jsp",request,response);
                 break;
             }
+
         }
     }
 
@@ -77,14 +80,7 @@ public class HomeServlet extends HttpServlet {
         String path = request.getPathInfo();
         switch (path) {
             case "/Search": {
-                String search = request.getParameter("txtsearch");
-                List<Product> c = ProductModel.fullTextSearch(search);
-                request.setAttribute("products", c);
-                List<User> sellerList = UserModel.findAll();
-                request.setAttribute("sellerList", sellerList);
-                List<ProductBiddingCount> list = ProductBiddingCountModel.findProductBiddingCount();
-                request.setAttribute("quantity",list);
-                ServletUtils.forward("/views/vwHome/Search.jsp", request, response);
+                CheckStateSearch(request,response);
                 break;
             }
             default: {
@@ -93,7 +89,52 @@ public class HomeServlet extends HttpServlet {
             }
         }
     }
+
+    private void CheckStateSearch(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        int sortprice = Integer.parseInt(request.getParameter("Price"));
+        int sorttime = Integer.parseInt(request.getParameter("Time"));
+
+        String search = request.getParameter("txtsearch");
+
+        if(search == "" && sorttime == 1)
+        {
+            List<Product> c = ProductModel.findAllTime();
+            request.setAttribute("products", c);
+        }
+        else
+        if(search == "" && sortprice == 1)
+        {
+            List<Product> c = ProductModel.findAllPrice();
+            request.setAttribute("products", c);
+        }
+        else
+        if(search != "" && (sortprice == 0 && sorttime == 0) ) {
+            List<Product> c = ProductModel.fullTextSearch(search);
+            request.setAttribute("products", c);
+        }else
+        if(sortprice == 1 && sorttime == 0) {
+            List<Product> c = ProductModel.fullTextSearchPrice(search);
+            request.setAttribute("products", c);
+        }else
+        if(sortprice == 0 && sorttime == 1) {
+            List<Product> c = ProductModel.fullTextSearchTime(search);
+            request.setAttribute("products", c);
+        }
+        else {
+            System.out.println("abc");
+            List<Product> c = ProductModel.findAll();
+            request.setAttribute("products", c);
+        }
+
+        List<User> sellerList = UserModel.findAll();
+        request.setAttribute("sellerList", sellerList);
+        List<ProductBiddingCount> list = ProductBiddingCountModel.findProductBiddingCount();
+        request.setAttribute("quantity",list);
+        ServletUtils.forward("/views/vwHome/Search.jsp", request, response);
+    }
 }
+
+
 
 
 

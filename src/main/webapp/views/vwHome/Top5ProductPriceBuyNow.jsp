@@ -66,7 +66,7 @@
     <jsp:body>
         <div class="card">
             <h4 class="card-header bg-dark text-light">
-                Top 5 Sản Phẩm Có Giá Cao Nhất
+                Top 5 Sản Phẩm Có Giá Mua Ngay Cao Nhất
             </h4>
             <c:choose>
                 <c:when test="${products.size() == 0}">
@@ -100,6 +100,7 @@
                                                 <fmt:formatNumber value="${c.price_buy_now}" type="number"/></b>
                                             </p>
                                             <p class="card-text">Ngày đăng: ${c.create_time}</p>
+                                            <p class="card-text">Thời hạn: ${c.end_time}</p>
                                         </div>
                                         <div class="card-footer text-muted">
                                             <a class="btn btn-outline-primary" href="${pageContext.request.contextPath}/Product/Detail?id=${c.id}" role="button">
