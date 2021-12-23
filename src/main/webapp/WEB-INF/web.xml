@@ -24,11 +24,11 @@
     </filter-mapping>
 
     <filter-mapping>
-        <filter-name>AuthFilter</filter-name>
+        <filter-name>ProfileFilter</filter-name>
         <url-pattern>/Account/Profile</url-pattern>
     </filter-mapping>
     <filter-mapping>
-        <filter-name>AuthFilter</filter-name>
+        <filter-name>ProfileFilter</filter-name>
         <url-pattern>/Account/Profile/*</url-pattern>
     </filter-mapping>
 

@@ -32,14 +32,6 @@ public class AccountServlet extends HttpServlet {
 
         String path = request.getPathInfo();
         switch (path) {
-            case "/Notification":{
-                request.setAttribute("URLRedirect", "http://localhost:8080/OnlineAutionHCMUTE/Home");
-                request.setAttribute("title", "Thong bao");
-                request.setAttribute("message", "Oke Chua");
-                ServletUtils.forward("/views/NotificationRedirect.jsp", request, response);
-                break;
-            }
-
 //            Profile
             case "/Profile":
             case "/Profile/":
