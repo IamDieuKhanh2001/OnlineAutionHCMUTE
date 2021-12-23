@@ -30,10 +30,11 @@ public class EvaluationModel {
     }
     public static void add(Evaluation evaluation)
     {
-        final String query = "INSERT INTO `evaluation` (`assessor`, `user_id`, `type`, `comment`) VALUES (:assessor, :user_id, :type, :comment)";
+        final String query = "INSERT INTO `evaluation` (`product_id` ,`assessor`, `user_id`, `type`, `comment`) VALUES (:productID, :assessor, :user_id, :type, :comment)";
         try (Connection connection = DbUtils.getConnection())
         {
             connection.createQuery(query)
+                    .addParameter("productID", evaluation.getProduct_id())
                     .addParameter("assessor", evaluation.getAssessor())
                     .addParameter("user_id", evaluation.getUser_id())
                     .addParameter("type", evaluation.getType())
@@ -53,4 +54,18 @@ public class EvaluationModel {
         }
     }
 
+    public static Evaluation findByAssessorAndProductID(int assessor, int productID)
+    {
+        final String query = "SELECT * FROM `evaluation` WHERE `assessor` = :assessor AND `product_id` = :productID";
+        try (Connection connection = DbUtils.getConnection())
+        {
+            List<Evaluation> list = connection.createQuery(query)
+                    .addParameter("assessor", assessor)
+                    .addParameter("productID", productID)
+                    .executeAndFetch(Evaluation.class);
+            if(list.size() == 0)
+                return null;
+            return list.get(0);
+        }
+    }
 }

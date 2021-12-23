@@ -144,7 +144,6 @@ public class AccountServlet extends HttpServlet {
                 break;
             }
 
-
             case "/Profile/ChangePassword":
             {
                 request.setAttribute("isError", false);
@@ -270,6 +269,11 @@ public class AccountServlet extends HttpServlet {
                 logout(request, response);
                 break;
 
+            case "/Profile/Evaluation": {
+                evaluation(request, response);
+                break;
+            }
+
             case "/Profile/ChangePassword":
                 changePassword(request, response);
                 break;
@@ -294,6 +298,41 @@ public class AccountServlet extends HttpServlet {
                 ServletUtils.forward("/views/404.jsp", request, response);
                 break;
         }
+    }
+
+    private void evaluation(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
+    {
+        HttpSession session = request.getSession();
+        User user = (User)session.getAttribute("authUser");
+
+        int sellerID = Integer.parseInt(request.getParameter("seller-id"));
+        int productID = Integer.parseInt(request.getParameter("product-id"));
+        String message = request.getParameter("message-text");
+
+        // Kiểm tra xem người này có phải là người thắng sản phẩm không
+        Winner winner = WinnerModel.findByUserIDAndProductID(user.getId(), productID);
+        if(winner == null)
+        {
+            ServletUtils.forward("/views/404.jsp", request, response);
+            return;
+        }
+
+        // Kiểm tra đã đánh giá trước đó chưa
+        Evaluation evaluation = EvaluationModel.findByAssessorAndProductID(user.getId(), productID);
+        if(evaluation != null) // da ton tai
+        {
+            System.out.println("ko null");
+            ServletUtils.forward("/views/404.jsp", request, response);
+            return;
+        }
+
+        evaluation = new Evaluation();
+        evaluation.setAssessor(user.getId());
+        evaluation.setUser_id(sellerID);
+        evaluation.setProduct_id(productID);
+        evaluation.setType("like");
+        evaluation.setComment(message);
+        EvaluationModel.add(evaluation);
     }
 
     private void changeEmail(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException

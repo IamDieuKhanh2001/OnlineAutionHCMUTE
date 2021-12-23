@@ -56,4 +56,19 @@ public class WinnerModel {
                     .executeUpdate();
         }
     }
+
+    public static Winner findByUserIDAndProductID(int userID, int productID)
+    {
+        final String query = "SELECT * FROM `winner` where `product_id` = :proID AND `user_id` = :userID";
+        try (Connection connection = DbUtils.getConnection())
+        {
+            List<Winner> list = connection.createQuery(query)
+                    .addParameter("proID", productID)
+                    .addParameter("userID", userID)
+                    .executeAndFetch(Winner.class);
+            if(list.size() == 0)
+                return null;
+            return list.get(0);
+        }
+    }
 }
