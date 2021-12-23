@@ -22,67 +22,81 @@
     <jsp:attribute name="js">
 <%--        Recaptcha api--%>
         <script src='https://www.google.com/recaptcha/api.js?hl=vi'></script>
-<%--        Sử dụng date time picker cho ô birthdate --%>
+        <%--        Sử dụng date time picker cho ô birthdate --%>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js"></script>
         <script src="${pageContext.request.contextPath}/public/js/ValidateUtils.js"></script>
     <script>
         //Kiem tra form validation
-        $('#frmAddAccount').on('submit', function (e)
-        {
+        $('#frmAddAccount').on('submit', function (e) {
             e.preventDefault();
             const username = $('#txtUsername').val();
-            if(username.length === 0){
+            if (username.length === 0) {
                 alert("Invalid username");
                 return;
             }
             const rawpwd = $('#txtPassword').val();
-            if(rawpwd.length === 0){
+            if (rawpwd.length === 0) {
                 alert("Invalid Password");
                 return;
             }
             const firstname = $('#txtFirstName').val();
-            if(firstname.length === 0){
+            if (firstname.length === 0) {
                 alert("Invalid first name");
                 return;
             }
             const lastname = $('#txtLastName').val();
-            if(lastname.length === 0){
+            if (lastname.length === 0) {
                 alert("Invalid last name");
                 return;
             }
             const birthdate = $('#txtDOB').val();
-            if(birthdate.length === 0){
+            if (birthdate.length === 0) {
                 alert("Invalid birthdate");
                 return;
             }
             const address = $('#txtAddress').val();
-            if(address.length === 0){
+            if (address.length === 0) {
                 alert("Invalid address");
                 return;
             }
             const email = $('#txtEmail').val();
-            if(email.length === 0 || !isEmail(email)){                 //Chua xac minh email
+            if (email.length === 0 || !isEmail(email)) {                 //Chua xac minh email
                 alert("Invalid email");
                 return;
             }
             const phone = $('#txtPhone').val();
-            if(phone.length === 0){
+            if (phone.length === 0) {
                 alert("Invalid phone number");
                 return;
             }
 
 
             //Kiem tra tai khoan username tồn tại không
-             $.getJSON('${pageContext.request.contextPath}/Account/IsAvailable?user=' + username,function (data){
-                if(data === true){//Tai khoan khong ton tai trong db, post
-                    $('#frmAddAccount').off('submit').submit();
-                }else{
+            $.getJSON('${pageContext.request.contextPath}/Account/IsAvailable?user=' + username, function (data) {
+                if (data === true) {//Tai khoan khong ton tai trong db, post
+                    //Kiem tra tai khoan email tồn tại không
+                    $.getJSON('${pageContext.request.contextPath}/Account/EmailIsAvailable?email=' + email, function (data) {
+                        if (data === true) {//email khong ton tai trong db, post
+                            $('#frmAddAccount').off('submit').submit();
+                        } else {
+                            alert("Email has been used!!")
+                            return;
+                        }
+                    })
+                } else {
                     alert("Username has been used!!")
-                    return ;
+                    return;
                 }
             })
 
-            //Kiem tra tai khoan email tồn tại không
+
+            // console.log(usernameUsed);
+            // // console.log(emailUsed);
+            // if(!usernameUsed && !emailUsed){
+            //     $('#frmAddAccount').off('submit').submit();
+            // }
+
+
             <%--var flagemail= $.getJSON('${pageContext.request.contextPath}/Account/EmailIsAvailable?email=' + email,function (data){--%>
             <%--    if(data === true){//email khong ton tai trong db, post--%>
             <%--        return true;--%>
@@ -151,15 +165,10 @@
                         <label for="txtPhone">Phone</label>
                         <input type="text" class="form-control" id="txtPhone" name="phone">
                     </div>
-
-                </div>
-
-                <%--Recaptcha--%>
-
+                        <%--Recaptcha--%>
                     <div class="g-recaptcha"
                          data-sitekey="6LelZAsTAAAAAAv1ADYDnq8AzbmPmbMvjh-xhfgB"></div>
-
-
+                </div>
                 <div class="card-footer">
                     <a class="btn btn-outline-primary" href="${pageContext.request.contextPath}/Home"
                        role="button">

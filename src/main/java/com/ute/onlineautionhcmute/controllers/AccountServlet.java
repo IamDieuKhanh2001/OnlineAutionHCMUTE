@@ -259,7 +259,6 @@ public class AccountServlet extends HttpServlet {
         switch (path) {
 
             case "/Register2":
-
                 registerUser(request, response);
                 break;
 
