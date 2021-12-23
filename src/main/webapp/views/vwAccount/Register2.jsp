@@ -96,7 +96,6 @@
             //     $('#frmAddAccount').off('submit').submit();
             // }
 
-
             <%--var flagemail= $.getJSON('${pageContext.request.contextPath}/Account/EmailIsAvailable?email=' + email,function (data){--%>
             <%--    if(data === true){//email khong ton tai trong db, post--%>
             <%--        return true;--%>

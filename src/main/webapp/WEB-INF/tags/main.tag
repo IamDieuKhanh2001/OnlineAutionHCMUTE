@@ -24,12 +24,44 @@
     <jsp:invoke fragment="css"/>
 </head>
 <body>
-<div style="height: 120px">
+<div style="height: 60px">
     <%--        Vùng trống chứa vị trí nav bar đứng tránh nav chồng lên element khác--%>
 </div>
 <jsp:include page="../../views/partials/nav.jsp"/>
 
 <div class="container-fluid mt-2 mb-3">
+    <%--search--%>
+    <form method="post" action="${pageContext.request.contextPath}/Home/Search">
+    <div class="container-fluid py-2 mt-2 bg-light">
+        <%--    dropdown buttton sort --%>
+        <div class="sort d-flex justify-content-between">
+            <div class="dropdown">
+                <button class="btn btn-outline-secondary dropdown-toggle mr-2" type="button" id="sortTimeEnded"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Sort by time end
+                </button>
+                <div class="dropdown-menu" aria-labelledby="sortTimeEnded">
+                    <a class="dropdown-item" href="#">Lower</a>
+                    <a class="dropdown-item" href="#">Higher</a>
+                </div>
+            </div>
+            <div class="dropdown">
+                <button class="btn btn-outline-secondary dropdown-toggle mr-2" type="button" id="sortPrice"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Sort by price current
+                </button>
+                <div class="dropdown-menu" aria-labelledby="sortPrice">
+                    <a class="dropdown-item" href="#">Lower</a>
+                    <a class="dropdown-item" href="#">Higher</a>
+                </div>
+            </div>
+            <%--        search bar --%>
+            <input name="txtsearch" class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+        </div>
+    </div>
+    </form>
+
     <div class="row">
         <div class="col-2">
             <jsp:invoke fragment="admin_left_navigation"/>

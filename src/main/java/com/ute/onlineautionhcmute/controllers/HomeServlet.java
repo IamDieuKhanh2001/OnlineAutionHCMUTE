@@ -1,13 +1,7 @@
 package com.ute.onlineautionhcmute.controllers;
 
-import com.ute.onlineautionhcmute.beans.Category;
-import com.ute.onlineautionhcmute.beans.Product;
-import com.ute.onlineautionhcmute.beans.ProductType;
-import com.ute.onlineautionhcmute.beans.User;
-import com.ute.onlineautionhcmute.models.CategoryModel;
-import com.ute.onlineautionhcmute.models.ProductModel;
-import com.ute.onlineautionhcmute.models.ProductTypeModel;
-import com.ute.onlineautionhcmute.models.UserModel;
+import com.ute.onlineautionhcmute.beans.*;
+import com.ute.onlineautionhcmute.models.*;
 import com.ute.onlineautionhcmute.utils.ServletUtils;
 
 import javax.servlet.*;
@@ -27,6 +21,10 @@ public class HomeServlet extends HttpServlet {
         }
         switch (path){
             case "/Index":{
+                List<Product> c = ProductModel.findAll();
+                request.setAttribute("products", c);
+                List<User> sellerList = UserModel.findAll();
+                request.setAttribute("sellerList", sellerList);
                 ServletUtils.forward("/views/vwHome/Index.jsp",request,response);
                 break;
             }
@@ -63,6 +61,10 @@ public class HomeServlet extends HttpServlet {
                 break;
             }
 
+            case "/TopFive":{
+                ServletUtils.forward("/views/vwHome/TopFive.jsp",request,response);
+                break;
+            }
             default:{
                 ServletUtils.forward("/views/404.jsp",request,response);
                 break;
@@ -72,7 +74,27 @@ public class HomeServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String path = request.getPathInfo();
+        switch (path) {
+            case "/Search": {
+                String search = request.getParameter("txtsearch");
+                List<Product> c = ProductModel.fullTextSearch(search);
+                request.setAttribute("products", c);
+                List<User> sellerList = UserModel.findAll();
+                request.setAttribute("sellerList", sellerList);
+                List<ProductBiddingCount> list = ProductBiddingCountModel.findProductBiddingCount();
+                request.setAttribute("quantity",list);
+                ServletUtils.forward("/views/vwHome/Search.jsp", request, response);
+                break;
+            }
+            default: {
+                ServletUtils.forward("/views/404.jsp", request, response);
+                break;
+            }
+        }
     }
-
-
 }
+
+
+
+

@@ -27,10 +27,16 @@
         <h4 class="card-header bg-dark text-light">Danh mục</h4>
         <div class="list-group">
 
+            <a type="button" class="btn btn-group text-light bg-secondary rounded-0 border border-dark py-3" href="${pageContext.request.contextPath}/Home/TopFive">
+                Top 5 Sản Phẩm
+            </a>
+
             <c:forEach var="category" items="${categoriesWithDetails}" >
+
                 <a type="button" class="btn btn-group text-light bg-secondary rounded-0 border border-dark py-3" data-toggle="collapse" data-target="#collapse-${category.id}" aria-expanded="true">
                         ${category.name}
                 </a>
+
                 <div id="collapse-${category.id}" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
                     <div class="card-body">
 

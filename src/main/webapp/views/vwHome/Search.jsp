@@ -13,6 +13,8 @@
              type="java.util.List<com.ute.onlineautionhcmute.beans.Product>"/>
 <jsp:useBean id="sellerList" scope="request"
              type="java.util.List<com.ute.onlineautionhcmute.beans.User>"/>
+<jsp:useBean id="quantity" scope="request"
+             type="java.util.List<com.ute.onlineautionhcmute.beans.ProductBiddingCount>"/>
 <t:main>
     <jsp:attribute name="css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css">
@@ -92,13 +94,21 @@
                                             <c:forEach items="${sellerList}" var="s">
                                                 <c:choose>
                                                     <c:when test="${s.id == c.user_id}">
-                                                        <p class="card-text">Người bán: ${s.username} #${s.id}</p>
+                                                        <p class="card-text">Người bán: ${s.username}</p>
                                                     </c:when>
                                                 </c:choose>
                                             </c:forEach>
                                             <p class="card-text">Giá mua ngay:
                                                 <fmt:formatNumber value="${c.price_buy_now}" type="number"/>
                                             </p>
+
+                                            <c:forEach items="${quantity}" var="bd">
+                                                <c:choose>
+                                                    <c:when test="${bd.product_id == c.id}">
+                                                        <p class="card-text">Số lượng đấu giá: ${bd.quantity}</p>
+                                                    </c:when>
+                                                </c:choose>
+                                            </c:forEach>
                                             <p class="card-text">Ngày đăng: ${c.create_time}</p>
                                         </div>
                                         <div class="card-footer text-muted">

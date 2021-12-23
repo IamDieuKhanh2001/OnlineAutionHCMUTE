@@ -42,8 +42,6 @@ public class AuthFilter implements Filter {
                 return;
             }
         }
-
-
         chain.doFilter(req, res); // cho phép request tiếp tục thực hiện
     }
 }

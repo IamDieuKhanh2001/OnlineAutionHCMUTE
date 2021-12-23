@@ -197,6 +197,7 @@ public class ProductFEServlet extends HttpServlet {
                     request.setAttribute("allowBidding", false);
                 }
 
+                //Lich su dau gia
                 //Nhận vào product id
                 int id = 0;
                 try {

@@ -232,5 +232,19 @@ public class ProductModel {
             return list;
         }
     }
+
+    public static List<Product> fullTextSearch(String txtsearch)
+    {
+        String searchValue = "\'" + txtsearch + "\'";
+        System.out.println(searchValue);
+        final String query = "select * from products where match(name) against (:txtsearch)";
+        try (Connection connection = DbUtils.getConnection())
+        {
+            List<Product> list = connection.createQuery(query)
+                    .addParameter("txtsearch", searchValue)
+                    .executeAndFetch(Product.class);
+            return list;
+        }
+    }
 }
 
