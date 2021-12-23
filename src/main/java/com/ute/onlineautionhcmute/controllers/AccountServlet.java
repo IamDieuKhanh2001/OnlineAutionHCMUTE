@@ -32,7 +32,13 @@ public class AccountServlet extends HttpServlet {
 
         String path = request.getPathInfo();
         switch (path) {
-
+            case "/Notification":{
+                request.setAttribute("URLRedirect", "http://localhost:8080/OnlineAutionHCMUTE/Home");
+                request.setAttribute("title", "Thong bao");
+                request.setAttribute("message", "Oke Chua");
+                ServletUtils.forward("/views/NotificationRedirect.jsp", request, response);
+                break;
+            }
 
 //            Profile
             case "/Profile":
@@ -42,7 +48,7 @@ public class AccountServlet extends HttpServlet {
                 ServletUtils.forward("/views/vwAccount/ProfileOverview.jsp", request, response);
                 break;
 
-            case "/Confirm/ConfirmChangeEmail":
+            case "/Profile/ConfirmChangeEmail":
             {
                 String hash = request.getParameter("hash");
                 int userID = -1;
@@ -72,12 +78,20 @@ public class AccountServlet extends HttpServlet {
                 if(ValidateUtils.isValidEmail(newEmail)){
                     EmailConfirmModel.updateStatus(emailConfirm.getId(), "success");
                     UserModel.updateEmail(emailConfirm.getUser_id(), newEmail);
-                    ServletUtils.redirect("/Account/Profile/ChangeEmail", request, response);
+
+                    ServletUtils.updateUserSession(request, response);
+                    request.setAttribute("URLRedirect", "/OnlineAutionHCMUTE/Account/Profile/ChangeEmail");
+                    request.setAttribute("title", "Thông báo");
+                    request.setAttribute("message", "Chúc mừng bạn đã xác nhận email mới thành công!");
+                    ServletUtils.forward("/views/NotificationRedirect.jsp", request, response);
                     break;
                 } else {
-
+                    EmailConfirmModel.updateStatus(emailConfirm.getId(), "success");
+                    request.setAttribute("URLRedirect", "/OnlineAutionHCMUTE/Account/Profile/ChangeEmail");
+                    request.setAttribute("title", "Thông báo");
+                    request.setAttribute("message", "Địa chỉ email này không hợp lệ! Vui lòng kiểm tra lại");
+                    ServletUtils.forward("/views/NotificationRedirect.jsp", request, response);
                 }
-
                 break;
             }
             case "/Profile/WatchList":
@@ -302,6 +316,9 @@ public class AccountServlet extends HttpServlet {
 
     private void evaluation(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
     {
+        String URLCurrent = request.getParameter("URLCurrent");
+        System.out.println("value: " + URLCurrent);
+
         HttpSession session = request.getSession();
         User user = (User)session.getAttribute("authUser");
 
@@ -313,7 +330,10 @@ public class AccountServlet extends HttpServlet {
         Winner winner = WinnerModel.findByUserIDAndProductID(user.getId(), productID);
         if(winner == null)
         {
-            ServletUtils.forward("/views/404.jsp", request, response);
+            request.setAttribute("URLRedirect", URLCurrent);
+            request.setAttribute("title", "Thong báo");
+            request.setAttribute("message", "Bạn không phải là người thắng sản phẩm này!");
+            ServletUtils.forward("/views/NotificationRedirect.jsp", request, response);
             return;
         }
 
@@ -321,8 +341,10 @@ public class AccountServlet extends HttpServlet {
         Evaluation evaluation = EvaluationModel.findByAssessorAndProductID(user.getId(), productID);
         if(evaluation != null) // da ton tai
         {
-            System.out.println("ko null");
-            ServletUtils.forward("/views/404.jsp", request, response);
+            request.setAttribute("URLRedirect", URLCurrent);
+            request.setAttribute("title", "Thong báo");
+            request.setAttribute("message", "Bạn đã đánh giá sản phẩm này trước đó!");
+            ServletUtils.forward("/views/NotificationRedirect.jsp", request, response);
             return;
         }
 
@@ -333,6 +355,11 @@ public class AccountServlet extends HttpServlet {
         evaluation.setType("like");
         evaluation.setComment(message);
         EvaluationModel.add(evaluation);
+
+        request.setAttribute("URLRedirect", URLCurrent);
+        request.setAttribute("title", "Thong báo");
+        request.setAttribute("message", "Bạn đã đánh giá thành công!");
+        ServletUtils.forward("/views/NotificationRedirect.jsp", request, response);
     }
 
     private void changeEmail(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException

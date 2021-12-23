@@ -122,6 +122,7 @@
                             <div class="form-group">
                                 <input type="text" class="d-none" name="seller-id" id="seller-id">
                                 <input type="text" class="d-none" name="product-id" id="product-id">
+                                <input type="text" class="d-none" name="URLCurrent" value="${pageContext.request.contextPath}/Account/Profile/ProductWin">
                             </div>
                             <div class="form-group">
                                 <label for="seller-name" class="col-form-label">Người được đánh giá:</label>

@@ -271,7 +271,7 @@ public class EmailTemplate {
                 "\n" +
                 "</html>";
 
-        message = message.replace("[link]", "http://localhost:8080/OnlineAutionHCMUTE/Account/Confirm/ConfirmChangeEmail?id=" + emailConfirm.getUser_id() + "&hash=" + emailConfirm.getHash());
+        message = message.replace("[link]", "http://localhost:8080/OnlineAutionHCMUTE/Account/Profile/ConfirmChangeEmail?id=" + emailConfirm.getUser_id() + "&hash=" + emailConfirm.getHash());
         return message;
     }
 
