@@ -10,6 +10,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <jsp:useBean id="authUser" scope="session" type="com.ute.onlineautionhcmute.beans.User" />
+<jsp:useBean id="listHistory" scope="request" type="java.util.List<com.ute.onlineautionhcmute.beans.AccountUpgrade>" />
 
 <t:profile>
     <jsp:attribute name="js">
@@ -54,21 +55,33 @@
                             <table class="table">
                                 <thead>
                                 <tr>
-                                    <th scope="col">#</th>
-                                    <th scope="col">First</th>
-                                    <th scope="col">Last</th>
-                                    <th scope="col">Handle</th>
+                                    <th scope="col">ID</th>
+                                    <th scope="col">Ngày nộp đơn</th>
+                                    <th scope="col">Trạng thái</th>
                                 </tr>
                                 </thead>
-                                <tbody>
-                                <tr>
-                                    <th scope="row">1</th>
-                                    <td>Mark</td>
-                                    <td>Otto</td>
-                                    <td>@mdo</td>
-                                </tr>
-
-                                </tbody>
+                                
+                                <c:if test="${listHistory.size() > 0}">
+                                    <c:forEach var="history" items="${listHistory}">
+                                        <tbody>
+                                        <tr>
+                                            <th scope="row">${history.id}</th>
+                                            <td>${history.create_time}</td>
+                                            <c:choose>
+                                                <c:when test="${history.status.toLowerCase() == \"pending\"}">
+                                                    <td>Đang chờ</td>
+                                                </c:when>
+                                                <c:when test="${history.status.toLowerCase() == \"success\"}">
+                                                    <td>Thành công</td>
+                                                </c:when>
+                                                <c:otherwise>
+                                                    <td>Có lỗi</td>
+                                                </c:otherwise>
+                                            </c:choose>
+                                        </tr>
+                                        </tbody>
+                                    </c:forEach>
+                                </c:if>
                             </table>
 
                         </div>

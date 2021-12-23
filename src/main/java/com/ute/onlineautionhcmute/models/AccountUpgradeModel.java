@@ -62,6 +62,18 @@ public class AccountUpgradeModel {
         }
     }
 
+    public static List<AccountUpgrade> findAllByUser(User user)
+    {
+        final String query = "SELECT * FROM `account_upgrade` WHERE `user_id` = :userID";
+        try (Connection connection = DbUtils.getConnection())
+        {
+            List<AccountUpgrade> list = connection.createQuery(query)
+                    .addParameter("userID", user.getId())
+                    .executeAndFetch(AccountUpgrade.class);
+            return list;
+        }
+    }
+
     public static AccountUpgrade findByUserStatus(User user, String status)
     {
         String query = "SELECT * FROM `account_upgrade` WHERE `user_id` = :userID AND `status` = :status";

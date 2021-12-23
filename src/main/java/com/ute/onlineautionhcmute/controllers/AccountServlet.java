@@ -146,6 +146,9 @@ public class AccountServlet extends HttpServlet {
 
             case "/Profile/Upgrade":
             {
+                User userLogin = (User)session.getAttribute("authUser");
+                List<AccountUpgrade> listHistory = AccountUpgradeModel.findAllByUser(userLogin);
+                request.setAttribute("listHistory", listHistory);
                 ServletUtils.forward("/views/vwAccount/ProfileUpgrade.jsp", request, response);
                 break;
             }
