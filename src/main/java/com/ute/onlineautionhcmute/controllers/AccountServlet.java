@@ -39,7 +39,49 @@ public class AccountServlet extends HttpServlet {
             case "/Profile/Overview/":
                 ServletUtils.forward("/views/vwAccount/ProfileOverview.jsp", request, response);
                 break;
-
+            case "/Profile/ConfirmEmail": {
+                String hash = request.getParameter("hash");
+                int userID = -1;
+                try {
+                    userID = Integer.parseInt(request.getParameter("id"));
+                } catch (Exception ex) {
+                    ServletUtils.forward("/views/404.jsp", request, response);
+                    break;
+                }
+                EmailConfirm emailConfirm = EmailConfirmModel.check(userID, "confirm_email", "pending", hash);
+                if(emailConfirm == null)
+                {
+                    ServletUtils.forward("/views/404.jsp", request, response);
+                    break;
+                }
+                String jsonData = emailConfirm.getJson_data();
+                JSONParser parser = new JSONParser();
+                JSONObject json = null;
+                try {
+                    json = (JSONObject) parser.parse(jsonData);
+                } catch (Exception ex) {
+                    ServletUtils.forward("/views/404.jsp", request, response);
+                    break;
+                }
+                String newEmail = (String)json.get("email");
+                if(ValidateUtils.isValidEmail(newEmail)){
+                    EmailConfirmModel.updateStatus(emailConfirm.getId(), "success");
+                    UserModel.updateStatus(userID, "active");
+                    ServletUtils.updateUserSession(request, response);
+                    request.setAttribute("URLRedirect", "/OnlineAutionHCMUTE/Account/Profile/ChangeEmail");
+                    request.setAttribute("title", "Thông báo");
+                    request.setAttribute("message", "Chúc mừng bạn đã xác nhận email thành công!");
+                    ServletUtils.forward("/views/NotificationRedirect.jsp", request, response);
+                    break;
+                } else {
+                    EmailConfirmModel.updateStatus(emailConfirm.getId(), "success");
+                    request.setAttribute("URLRedirect", "/OnlineAutionHCMUTE/Account/Login");
+                    request.setAttribute("title", "Thông báo");
+                    request.setAttribute("message", "Địa chỉ email này không hợp lệ! Vui lòng kiểm tra lại");
+                    ServletUtils.forward("/views/NotificationRedirect.jsp", request, response);
+                }
+                break;
+            }
             case "/Profile/ConfirmChangeEmail":
             {
                 String hash = request.getParameter("hash");
@@ -415,7 +457,7 @@ public class AccountServlet extends HttpServlet {
 
                 EmailConfirmModel.add(emailConfirm);
                 try {
-                    SendEmail.sendAsHtml(newEmail, "Please Confirm Your Email", EmailTemplate.TemplateConfirmNewEmail(emailConfirm));
+                    SendEmail.sendAsHtml(newEmail, "Please Confirm Your Email", EmailTemplate.TemplateConfirmNewEmail(emailConfirm,"http://localhost:8080/OnlineAutionHCMUTE/Account/Profile/ConfirmChangeEmail?id="));
                 } catch (Exception ex) {
 
                 }
@@ -578,7 +620,27 @@ public class AccountServlet extends HttpServlet {
 
         User c = new User(-1, username, bcryptHashPassword, firstname, lastname
                 , birthDateParsed, address, email, phone, user_type_id);
+        c.setStatus("inactive");
         UserModel.add(c);
+
+        try {
+            User newuser =  UserModel.findByEmail(c.getEmail());
+            EmailConfirm emailConfirm = new EmailConfirm();
+            emailConfirm.setUser_id(newuser.getId());
+            emailConfirm.setStatus("pending");
+            emailConfirm.setPurpose("confirm_email");
+            String emailHash = DigestUtils.sha256Hex(c.getEmail());
+            JSONObject obj = new JSONObject();
+            obj.put("email", c.getEmail());
+            emailConfirm.setHash(emailHash);
+            emailConfirm.setJson_data(obj.toJSONString());
+            EmailConfirmModel.add(emailConfirm);
+
+            SendEmail.sendAsHtml(c.getEmail(),"Confirm email",EmailTemplate.TemplateConfirmNewEmail(emailConfirm,"http://localhost:8080/OnlineAutionHCMUTE/Account/Profile/ConfirmEmail?id="));
+        }
+        catch (Exception ex ){
+
+        }
         ServletUtils.forward("/views/vwAccount/Register2.jsp", request, response);
     }
 
@@ -588,6 +650,15 @@ public class AccountServlet extends HttpServlet {
 
         User user = UserModel.findByUsername(username);
         if (user != null) {
+            try {
+                if(user.getStatus().contains("inactive")){
+                    request.setAttribute("hasError", true);
+                    request.setAttribute("errorMessage", "Invalid login.");
+                    ServletUtils.forward("/views/vwAccount/Login.jsp", request, response);
+                }
+            } catch (Exception ex){
+
+            }
             BCrypt.Result result = BCrypt.verifyer().verify(password.toCharArray(), user.getPassword());
             if (result.verified) {
                 HttpSession session = request.getSession();
@@ -598,6 +669,7 @@ public class AccountServlet extends HttpServlet {
                 String url = (String) session.getAttribute("retUrl");
                 if (url == null)
                     url = "/Home";
+
                 ServletUtils.redirect(url, request, response);
             } else {
                 request.setAttribute("hasError", true);

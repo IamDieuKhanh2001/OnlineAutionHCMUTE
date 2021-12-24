@@ -104,7 +104,7 @@ public class UserModel {
         }
     }
     public static void add(User c) {
-        String insertSql = "INSERT INTO users (username, password, firstname, lastname, birthdate, address, email, phone, user_type_id) VALUES (:username,:password,:firstname,:lastname,:birthdate,:address,:email,:phone,:userTypeId)";
+        String insertSql = "INSERT INTO users (username, password, firstname, lastname, birthdate, address, email, phone, user_type_id,status) VALUES (:username,:password,:firstname,:lastname,:birthdate,:address,:email,:phone,:userTypeId,:status)";
         try (Connection con = DbUtils.getConnection()) {
             con.createQuery(insertSql)
                     .addParameter("username", c.getUsername())
@@ -116,6 +116,7 @@ public class UserModel {
                     .addParameter("email", c.getEmail())
                     .addParameter("phone", c.getPhone())
                     .addParameter("userTypeId", c.getUser_type_id())
+                    .addParameter("status",c.getStatus())
                     .executeUpdate();
         }
     }
@@ -152,6 +153,18 @@ public class UserModel {
             connection.createQuery(query)
                     .addParameter("newUserTypeID", newUserTypeID)
                     .addParameter("id", user.getId())
+                    .executeUpdate();
+        }
+    }
+
+    public static void updateStatus(int userID, String status)
+    {
+        final String query = "UPDATE `users` SET `status` = :status WHERE `id` = :id";
+        try (Connection connection = DbUtils.getConnection())
+        {
+            connection.createQuery(query)
+                    .addParameter("status", status)
+                    .addParameter("id", userID)
                     .executeUpdate();
         }
     }

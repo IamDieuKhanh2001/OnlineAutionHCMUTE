@@ -26,6 +26,13 @@ public class HomeServlet extends HttpServlet {
                 request.setAttribute("products", c);
                 List<User> sellerList = UserModel.findAll();
                 request.setAttribute("sellerList", sellerList);
+                int endPage = c.size() / 6;
+                if(c.size() % 6 != 0 ){
+                    endPage++;
+                }
+                request.setAttribute("endP",endPage);
+                System.out.println(endPage);
+                request.setAttribute("sellerList", sellerList);
                 ServletUtils.forward("/views/vwHome/Index.jsp",request,response);
                 break;
             }

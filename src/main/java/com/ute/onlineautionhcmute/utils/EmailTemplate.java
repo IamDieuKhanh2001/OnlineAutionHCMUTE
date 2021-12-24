@@ -192,7 +192,7 @@ public class EmailTemplate {
         return message;
     }
 
-    public static String TemplateConfirmNewEmail(EmailConfirm emailConfirm)
+    public static String TemplateConfirmNewEmail(EmailConfirm emailConfirm,String URL)
     {
         String message = "<!doctype html>\n" +
                 "<html lang=\"en-US\">\n" +
@@ -271,7 +271,7 @@ public class EmailTemplate {
                 "\n" +
                 "</html>";
 
-        message = message.replace("[link]", "http://localhost:8080/OnlineAutionHCMUTE/Account/Profile/ConfirmChangeEmail?id=" + emailConfirm.getUser_id() + "&hash=" + emailConfirm.getHash());
+        message = message.replace("[link]", URL + emailConfirm.getUser_id() + "&hash=" + emailConfirm.getHash());
         return message;
     }
 

@@ -13,6 +13,8 @@
              type="java.util.List<com.ute.onlineautionhcmute.beans.Product>"/>
 <jsp:useBean id="sellerList" scope="request"
              type="java.util.List<com.ute.onlineautionhcmute.beans.User>"/>
+<jsp:useBean id="endP" scope="request"
+             type="java.lang.Integer"/>
 <t:main>
     <jsp:attribute name="css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css">
@@ -121,7 +123,16 @@
                     </div>
                 </c:otherwise>
             </c:choose>
-
+        <div class="card-body">
+            <nav aria-label="Page navigation example">
+                <ul class="pagination">
+                    <li class="page-item"><a class="page-link" href="#">Previous</a></li>
+                    <c:forEach begin="1" end="${endP}" var="i">
+                    <li class="page-item"><a class="page-link" href="#"> ${i}</a></li>
+                    </c:forEach>
+                    <li class="page-item"><a class="page-link" href="#">Next</a></li>
+                </ul>
+            </nav>
         </div>
 
     </jsp:body>
