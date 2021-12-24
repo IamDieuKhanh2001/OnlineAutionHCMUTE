@@ -74,6 +74,9 @@
                                                 <c:when test="${history.status.toLowerCase() == \"success\"}">
                                                     <td>Thành công</td>
                                                 </c:when>
+                                                <c:when test="${history.status.toLowerCase() == \"fail\"}">
+                                                    <td>Từ chối</td>
+                                                </c:when>
                                                 <c:otherwise>
                                                     <td>Có lỗi</td>
                                                 </c:otherwise>

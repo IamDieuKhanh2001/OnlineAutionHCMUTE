@@ -144,4 +144,16 @@ public class UserModel {
         }
     }
 
+    public static void updateUserTypeID(User user, int newUserTypeID)
+    {
+        final String query = "UPDATE `users` SET `user_type_id` = :newUserTypeID WHERE `id` = :id";
+        try (Connection connection = DbUtils.getConnection())
+        {
+            connection.createQuery(query)
+                    .addParameter("newUserTypeID", newUserTypeID)
+                    .addParameter("id", user.getId())
+                    .executeUpdate();
+        }
+    }
+
 }
