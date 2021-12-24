@@ -38,7 +38,7 @@
         <div class="sort d-flex justify-content-between">
             <div class="input-group mr-3 " style="width: 20%  " >
                 <select name ="sortrequest" class="custom-select" id="inputGroupSelect01" >
-                    <option value="0" selected>Thời gian đấu giá</option>
+                    <option value="0" selected>Sắp xếp</option>
                     <option value="1">Lower End Time</option>
                     <option value="2">Higher Price</option>
                 </select>
