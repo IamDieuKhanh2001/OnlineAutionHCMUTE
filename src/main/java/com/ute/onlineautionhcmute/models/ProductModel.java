@@ -291,5 +291,16 @@ public class ProductModel {
         }
     }
 
+    public static List<Product> findProductWinnerOfSeller(int userId)
+    {
+        final String query = "select products.id as id,name,description,product_type_id,products.user_id as user_id,price_start,price_step,price_current,price_buy_now,end_time,user_id_holding_price,products.create_time as create_time,modified_time from products,winner where winner.product_id = products.id and products.user_id = :userId";
+        try (Connection connection = DbUtils.getConnection())
+        {
+            List<Product> list = connection.createQuery(query)
+                    .addParameter("userId", userId)
+                    .executeAndFetch(Product.class);
+            return list;
+        }
+    }
 }
 

@@ -93,8 +93,8 @@
                                             </h5>
                                             <c:forEach items="${sellerList}" var="s">
                                                 <c:choose>
-                                                    <c:when test="${s.id == c.user_id}">
-                                                        <p class="card-text">Người bán: ${s.username}</p>
+                                                    <c:when test="${s.id == c.user_id_holding_price}">
+                                                        <p class="card-text">Bidder đặt giá cao nhất: ${s.firstname}</p>
                                                     </c:when>
                                                 </c:choose>
                                             </c:forEach>

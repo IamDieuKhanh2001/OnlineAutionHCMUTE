@@ -66,7 +66,7 @@
     <jsp:body>
         <div class="card">
             <h4 class="card-header bg-dark text-light">
-                Danh Sách Sản Phẩm Đấu Giá
+                Sản phẩm đã có người thắng
             </h4>
             <c:choose>
                 <c:when test="${products.size() == 0}">
@@ -92,7 +92,7 @@
                                             <c:forEach items="${sellerList}" var="s">
                                                 <c:choose>
                                                     <c:when test="${s.id == c.user_id_holding_price}">
-                                                        <p class="card-text">Bidder đặt giá cao nhất: ${s.firstname}</p>
+                                                        <p class="card-text">Người thắng: ${s.firstname}</p>
                                                     </c:when>
                                                 </c:choose>
                                             </c:forEach>
@@ -108,11 +108,10 @@
                                                 Details
                                             </a>
 
-                                            <span onclick="addToWatchList('${c.id}', '${c.name}')" class="btn btn-outline-danger watchListNoticePopover"
-                                                  role="button">
-                                                <i class="fa fa-heart" aria-hidden="true"></i>
-                                                Add to watch list
-                                            </span>
+                                            <!-- Button mở modal lịch sử đấu-->
+                                            <a role="button" class="btn btn-success" href="${pageContext.request.contextPath}/Seller/Product/History?id=${c.id}">
+                                                Đánh giá
+                                            </a>
                                         </div>
                                     </div>
                                 </div>
@@ -121,8 +120,6 @@
                     </div>
                 </c:otherwise>
             </c:choose>
-
         </div>
-
     </jsp:body>
 </t:main>

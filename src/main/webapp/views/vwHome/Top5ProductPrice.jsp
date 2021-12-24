@@ -66,7 +66,7 @@
     <jsp:body>
         <div class="card">
             <h4 class="card-header bg-dark text-light">
-               Top 5 Sản Phẩm Có Giá Cao Nhất
+               Top 5 Sản Phẩm Có Giá Hiện Tại Cao Nhất
             </h4>
             <c:choose>
                 <c:when test="${products.size() == 0}">
@@ -91,8 +91,8 @@
                                             </h5>
                                             <c:forEach items="${sellerList}" var="s">
                                                 <c:choose>
-                                                    <c:when test="${s.id == c.user_id}">
-                                                        <p class="card-text">Người bán: ${s.username} #${s.id}</p>
+                                                    <c:when test="${s.id == c.user_id_holding_price}">
+                                                        <p class="card-text">Bidder đặt giá cao nhất: ${s.firstname}</p>
                                                     </c:when>
                                                 </c:choose>
                                             </c:forEach>

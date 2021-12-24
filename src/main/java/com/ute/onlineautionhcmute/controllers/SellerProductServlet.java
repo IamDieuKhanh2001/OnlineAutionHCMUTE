@@ -153,6 +153,18 @@ public class SellerProductServlet extends HttpServlet {
                 break;
             }
 
+            case "/ProductWinner":{
+                HttpSession session = request.getSession();
+                User userLogin = (User) session.getAttribute("authUser");
+
+                List<Product> c = ProductModel.findProductWinnerOfSeller(userLogin.getId());
+                request.setAttribute("products", c);
+                List<User> sellerList = UserModel.findAll();
+                request.setAttribute("sellerList", sellerList);
+                ServletUtils.forward("/views/vwProduct/ProductWinner.jsp",request,response);
+                break;
+            }
+
             default:{
                 ServletUtils.forward("/views/404.jsp",request,response);
                 break;

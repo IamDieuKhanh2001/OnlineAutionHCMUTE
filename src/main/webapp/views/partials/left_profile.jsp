@@ -55,6 +55,16 @@
                 <i class="fa fa-product-hunt" aria-hidden="true"></i>
                 Sản phẩm đã đăng
             </a>
+                <%--      Xem sp còn hạn--%>
+            <a href="${pageContext.request.contextPath}/Seller/Product/ProductPostExpired" type="button" class="btn btn-outline-secondary rounded-0 py-3">
+                <i class="fa fa-product-hunt" aria-hidden="true"></i>
+                Sản phẩm còn hạn
+            </a>
+                <%--      Xem sp có người thằng--%>
+            <a href="${pageContext.request.contextPath}/Seller/Product/ProductWinner" type="button" class="btn btn-outline-secondary rounded-0 py-3">
+                <i class="fa fa-product-hunt" aria-hidden="true"></i>
+                Sản phẩm có người thắng
+            </a>
         </div>
     </div>
 </c:if>
