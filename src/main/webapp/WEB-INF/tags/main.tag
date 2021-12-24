@@ -8,6 +8,7 @@
 <%@ attribute name="admin_left_navigation" fragment="true" required="false" %>
 
 <jsp:useBean id="authUser" scope="session" type="com.ute.onlineautionhcmute.beans.User"/>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -36,17 +37,18 @@
         <%--    dropdown buttton sort --%>
         <div class="sort d-flex justify-content-between">
             <div class="input-group mr-3 " style="width: 20%  " >
-                <select name ="Time" class="custom-select" id="inputGroupSelect01" >
+                <select name ="sortrequest" class="custom-select" id="inputGroupSelect01" >
                     <option value="0" selected>Thời gian đấu giá</option>
                     <option value="1">Lower End Time</option>
+                    <option value="2">Higher Price</option>
                 </select>
             </div>
-            <div class="input-group mr-3" style="width: 20%">
-                <select name="Price"  class="custom-select" id="inputGroupSelect02">
-                    <option value="0"selected>Giá tiền</option>
-                    <option value="1">Higher Price</option>
-                </select>
-            </div>
+<%--            <div class="input-group mr-3" style="width: 20%">--%>
+<%--                <select name="Price"  class="custom-select" id="inputGroupSelect02">--%>
+<%--                    <option value="0"selected>Danh Mục</option>--%>
+<%--                    <option value="1">Category</option>--%>
+<%--                </select>--%>
+<%--            </div>--%>
 <%--                <button class="btn btn-outline-secondary mr-2" type="button" id="sortPrice" name="sortTime" value="Time" >--%>
 <%--                    Lower End Time--%>
 <%--                </button>--%>

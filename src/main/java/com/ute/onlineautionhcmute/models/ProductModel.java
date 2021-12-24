@@ -270,7 +270,7 @@ public class ProductModel {
             return list;
         }
     }
-    public static List<Product> findAllTime()
+    public static List<Product> findAllLowerTime()
     {
         final String query = "select * from products order by end_time desc";
         try (Connection connection = DbUtils.getConnection())
@@ -280,7 +280,7 @@ public class ProductModel {
             return list;
         }
     }
-    public static List<Product> findAllPrice()
+    public static List<Product> findAllHigherPrice()
     {
         final String query = "select * from products order by price_current asc";
         try (Connection connection = DbUtils.getConnection())
