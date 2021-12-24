@@ -39,7 +39,6 @@ public class HomeServlet extends HttpServlet {
                 }
                 request.setAttribute("endP",endPage);
                 request.setAttribute("currentPage",pagecurrent);
-                System.out.println(pagecurrent);
 
                 List<Product> c = ProductModel.findProductbyPages(pagecurrent);
                 request.setAttribute("products", c);
