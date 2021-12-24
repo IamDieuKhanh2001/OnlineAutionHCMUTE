@@ -302,5 +302,19 @@ public class ProductModel {
             return list;
         }
     }
+    public static List<Product> findProductbyPages(int pagecurrent)
+    {
+        int pagecur = pagecurrent*6 - 6; //begin
+        int pagecurend = 6;
+        final String query = "select * from products order by id limit :pagecur,:pagecurend";
+        try (Connection connection = DbUtils.getConnection())
+        {
+            List<Product> list = connection.createQuery(query)
+                    .addParameter("pagecur",pagecur)
+                    .addParameter("pagecurend",pagecurend)
+                    .executeAndFetch(Product.class);
+            return list;
+        }
+    }
 }
 

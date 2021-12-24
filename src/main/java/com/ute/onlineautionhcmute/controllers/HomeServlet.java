@@ -22,16 +22,30 @@ public class HomeServlet extends HttpServlet {
         }
         switch (path){
             case "/Index":{
-                List<Product> c = ProductModel.findAll();
-                request.setAttribute("products", c);
-                List<User> sellerList = UserModel.findAll();
-                request.setAttribute("sellerList", sellerList);
-                int endPage = c.size() / 6;
-                if(c.size() % 6 != 0 ){
+                int pagecurrent =1;
+                try {
+                    pagecurrent = Integer.parseInt(request.getParameter("pagecurrent"));
+                    if (pagecurrent <= 0)
+                        pagecurrent =1;
+                }
+                catch (Exception ex){
+
+                }
+                List<Product> list = ProductModel.findAll();
+                request.setAttribute("products", list);
+                int endPage = list.size() / 6;
+                if(list.size() % 6 != 0 ){
                     endPage++;
                 }
                 request.setAttribute("endP",endPage);
-                System.out.println(endPage);
+                request.setAttribute("currentPage",pagecurrent);
+                System.out.println(pagecurrent);
+
+                List<Product> c = ProductModel.findProductbyPages(pagecurrent);
+                request.setAttribute("products", c);
+                List<User> sellerList = UserModel.findAll();
+                request.setAttribute("sellerList", sellerList);
+
                 request.setAttribute("sellerList", sellerList);
                 ServletUtils.forward("/views/vwHome/Index.jsp",request,response);
                 break;

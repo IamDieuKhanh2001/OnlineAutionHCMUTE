@@ -15,6 +15,8 @@
              type="java.util.List<com.ute.onlineautionhcmute.beans.User>"/>
 <jsp:useBean id="endP" scope="request"
              type="java.lang.Integer"/>
+<jsp:useBean id="currentPage" scope="request"
+             type="java.lang.Integer"/>
 <t:main>
     <jsp:attribute name="css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css">
@@ -126,11 +128,18 @@
         <div class="card-body">
             <nav aria-label="Page navigation example">
                 <ul class="pagination">
-                    <li class="page-item"><a class="page-link" href="#">Previous</a></li>
+                    <li class="page-item"><a class="page-link" href="${pageContext.request.contextPath}/Home/Index?pagecurrent=${currentPage-1}">Previous</a></li>
                     <c:forEach begin="1" end="${endP}" var="i">
-                    <li class="page-item"><a class="page-link" href="#"> ${i}</a></li>
+                        <c:choose>
+                            <c:when test="${currentPage == i}">
+                                <li  class="page-item active"><a class="page-link" href="${pageContext.request.contextPath}/Home/Index?pagecurrent=${i}">${i}</a></li>
+                            </c:when>
+                            <c:otherwise>
+                                <li  class="page-item"><a class="page-link" href="${pageContext.request.contextPath}/Home/Index?pagecurrent=${i}">${i}</a></li>
+                            </c:otherwise>
+                        </c:choose>
                     </c:forEach>
-                    <li class="page-item"><a class="page-link" href="#">Next</a></li>
+                    <li class="page-item"><a class="page-link" href="${pageContext.request.contextPath}/Home/Index?pagecurrent=${currentPage+1}">Next</a></li>
                 </ul>
             </nav>
         </div>
