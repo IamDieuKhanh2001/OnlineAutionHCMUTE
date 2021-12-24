@@ -165,6 +165,46 @@ public class SellerProductServlet extends HttpServlet {
                 break;
             }
 
+            case "/ProductWinner/EvaluationOfSeller":{
+                ServletUtils.forward("/views/vwProduct/EvaluationOfSeller.jsp",request,response);
+                break;
+            }
+
+            case "/ProductWinner/EvaluationOfSeller/DoneEvaluation":{
+                ServletUtils.forward("/views/vwProduct/DoneEvaluation.jsp",request,response);
+                break;
+            }
+
+            case "/ProductWinner/EvaluationOfSeller/FailedEvaluation":{
+                ServletUtils.forward("/views/vwProduct/ResultEvaluation.jsp",request,response);
+                break;
+            }
+
+            case "/ProductWinner/DenyDeal":{
+                int bidderid = Integer.parseInt(request.getParameter("bidderid"));
+                int productid = Integer.parseInt(request.getParameter("productid"));
+                HttpSession session = request.getSession();
+                User userLogin = (User) session.getAttribute("authUser");
+                String comment = "Người thắng không thanh toán";
+                String type = "dislike";
+                // Kiểm tra đã đánh giá trước đó chưa
+                Evaluation evalutionValid = EvaluationModel.findByAssessorAndProductID(userLogin.getId(), productid);
+                if(evalutionValid != null) // da ton tai
+                {
+                    request.setAttribute("message","Bạn đã hủy giao dịch đánh giá trước đó");
+                    ServletUtils.forward("/views/vwProduct/ResultEvaluation.jsp",request,response);
+                    return;
+                }
+                Evaluation evaluation = new Evaluation(-1,productid,userLogin.getId(),bidderid,type,comment);
+                EvaluationModel.add(evaluation);
+
+                WinnerModel.delete(productid);
+
+                request.setAttribute("message","Đã hủy giao dịch thảnh công");
+                ServletUtils.forward("/views/vwProduct/ResultEvaluation.jsp",request,response);
+                break;
+            }
+
             default:{
                 ServletUtils.forward("/views/404.jsp",request,response);
                 break;
@@ -186,6 +226,7 @@ public class SellerProductServlet extends HttpServlet {
                 editProduct(request, response);
                 break;
             }
+
             case "/History/Delete": {
                 int productID = -1;
                 int userHighestBiddingID = -1;
@@ -214,6 +255,26 @@ public class SellerProductServlet extends HttpServlet {
                 ServletUtils.redirect("/Seller/Product/History?id=31",request,response);
                 break;
             }
+
+            case "/ProductWinner/EvaluationOfSeller":{
+
+                String productbidder = request.getParameter("productbidder");
+                request.setAttribute("productbidder", productbidder);
+                String productname = request.getParameter("productname");
+                request.setAttribute("productname", productname);
+                String productid = request.getParameter("productid");
+                request.setAttribute("productid", productid);
+                String bidderid = request.getParameter("bidderid");
+                request.setAttribute("bidderid", bidderid);
+                ServletUtils.forward("/views/vwProduct/EvaluationOfSeller.jsp",request,response);
+                break;
+            }
+
+            case "/ProductWinner/EvaluationOfSeller/DoneEvaluation":{
+                addevaluation(request,response);
+                break;
+            }
+
             default: {
                 ServletUtils.forward("/views/404.jsp", request, response);
                 break;
@@ -233,6 +294,7 @@ public class SellerProductServlet extends HttpServlet {
         ProductModel.update(p);
         ServletUtils.redirect("/Seller/Product/All", request, response);
     }
+
 
     private void addProduct(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
@@ -259,6 +321,38 @@ public class SellerProductServlet extends HttpServlet {
 
         ServletUtils.redirect("/Seller/Product/Dashboard",request,response);    //Sua lai duong dan view
     }
+    private void addevaluation(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
+    {
+        HttpSession session = request.getSession();
+        User user = (User)session.getAttribute("authUser");
+
+        String txtnamebidder = request.getParameter("txtnamebidder");
+        String txtnameproduct = request.getParameter("txtnameproduct");
+        String txtcomment = request.getParameter("txtcomment");
+        String type = request.getParameter("fav_language");
+        int bidderid = Integer.parseInt(request.getParameter("bidderid"));
+        int productid = Integer.parseInt(request.getParameter("productid"));
+
+
+        // Kiểm tra đã đánh giá trước đó chưa
+        Evaluation evaluation = EvaluationModel.findByAssessorAndProductID(user.getId(), productid);
+        if(evaluation != null) // da ton tai
+        {
+            request.setAttribute("message","Bạn đã đánh giá trước đó");
+            ServletUtils.forward("/views/vwProduct/ResultEvaluation.jsp",request,response);
+            return;
+        }
+        evaluation = new Evaluation();
+        evaluation.setAssessor(user.getId());
+        evaluation.setUser_id(bidderid);
+        evaluation.setProduct_id(productid);
+        evaluation.setType(type);
+        evaluation.setComment(txtcomment);
+        EvaluationModel.add(evaluation);
+        request.setAttribute("message","Đã gửi đánh giá thành công");
+        ServletUtils.forward("/views/vwProduct/ResultEvaluation.jsp",request,response);
+    }
+
     private void storeImage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
         HttpSession session = request.getSession();
         User userLogin = (User) session.getAttribute("authUser");

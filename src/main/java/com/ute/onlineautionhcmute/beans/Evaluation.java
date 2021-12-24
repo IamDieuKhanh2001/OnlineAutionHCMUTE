@@ -21,6 +21,14 @@ public class Evaluation {
         this.type = type;
         this.comment = comment;
     }
+    public Evaluation(int id, int product_id,int assessor, int user_id, String type, String comment) {
+        this.id = id;
+        this.product_id=product_id;
+        this.assessor = assessor;
+        this.user_id = user_id;
+        this.type = type;
+        this.comment = comment;
+    }
 
     public Evaluation(int id, int product_id, int assessor, int user_id, String type, String comment, Date create_time) {
         this.id = id;

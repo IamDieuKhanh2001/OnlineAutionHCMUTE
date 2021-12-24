@@ -62,7 +62,6 @@
             }
         </script>
     </jsp:attribute>
-
     <jsp:body>
         <div class="card">
             <h4 class="card-header bg-dark text-light">
@@ -83,8 +82,11 @@
                                         <img style="height: 222px" class="card-img-top"
                                              src="${pageContext.request.contextPath}/public/img/product/${c.id}/main.jpg"
                                              alt="${c.name}" title="${c.name}">
+                                        <form method="post" action="${pageContext.request.contextPath}/Seller/Product/ProductWinner/EvaluationOfSeller">
                                         <div class="card-body">
-                                            <h4 class="card-title text-success">${c.name}</h4>
+                                            <h4 class="card-title text-success" >${c.name}</h4>
+                                            <input name="productname" value="${c.name}" type="hidden">
+                                            <input name="productid" value="${c.id}" type="hidden">
                                             <h5 class="card-title text-danger">
                                                 Giá hiện tại:
                                                 <fmt:formatNumber value="${c.price_current}" type="number"/>
@@ -92,7 +94,9 @@
                                             <c:forEach items="${sellerList}" var="s">
                                                 <c:choose>
                                                     <c:when test="${s.id == c.user_id_holding_price}">
-                                                        <p class="card-text">Người thắng: ${s.firstname}</p>
+                                                        <p class="card-text" >Người thắng: ${s.firstname}</p>
+                                                        <input name="productbidder" value="${s.firstname}" type="hidden">
+                                                        <input name="bidderid" value="${s.id}" type="hidden">
                                                     </c:when>
                                                 </c:choose>
                                             </c:forEach>
@@ -107,12 +111,11 @@
                                                 <i class="fa fa-eye" aria-hidden="true"></i>
                                                 Details
                                             </a>
-
-                                            <!-- Button mở modal lịch sử đấu-->
-                                            <a role="button" class="btn btn-success" href="${pageContext.request.contextPath}/Seller/Product/History?id=${c.id}">
+                                            <button type="submit" class="btn btn-success">
                                                 Đánh giá
-                                            </a>
+                                            </button>
                                         </div>
+                                        </form>
                                     </div>
                                 </div>
                             </c:forEach>
@@ -121,5 +124,7 @@
                 </c:otherwise>
             </c:choose>
         </div>
+
+
     </jsp:body>
 </t:main>

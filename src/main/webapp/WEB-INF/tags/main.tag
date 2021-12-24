@@ -43,12 +43,12 @@
                     <option value="2">Higher Price</option>
                 </select>
             </div>
-<%--            <div class="input-group mr-3" style="width: 20%">--%>
-<%--                <select name="Price"  class="custom-select" id="inputGroupSelect02">--%>
-<%--                    <option value="0"selected>Danh Mục</option>--%>
-<%--                    <option value="1">Category</option>--%>
-<%--                </select>--%>
-<%--            </div>--%>
+            <div class="input-group mr-3" style="width: 20%">
+                <select name="Price"  class="custom-select" id="inputGroupSelect02">
+                    <option value="0"selected>Danh Mục</option>
+                    <option value="1">Category</option>
+                </select>
+            </div>
 <%--                <button class="btn btn-outline-secondary mr-2" type="button" id="sortPrice" name="sortTime" value="Time" >--%>
 <%--                    Lower End Time--%>
 <%--                </button>--%>

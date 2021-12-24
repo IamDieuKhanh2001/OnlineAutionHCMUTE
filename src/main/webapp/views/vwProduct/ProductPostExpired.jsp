@@ -14,7 +14,6 @@
     <jsp:body>
         <div class="card">
             <h4 class="card-header bg-dark text-light">
-                <i class="fa fa-product-hunt" aria-hidden="true"></i>
                 Sản phẩm đang đăng và còn hạn
             </h4>
             <div class="card-body">

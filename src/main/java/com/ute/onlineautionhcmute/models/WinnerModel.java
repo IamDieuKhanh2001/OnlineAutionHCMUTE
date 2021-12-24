@@ -71,4 +71,15 @@ public class WinnerModel {
             return list.get(0);
         }
     }
+
+    public static void delete(int productID)
+    {
+        final String query = "DELETE FROM `winner` WHERE `product_id` = :productID";
+        try (Connection connection = DbUtils.getConnection())
+        {
+            connection.createQuery(query)
+                    .addParameter("productID", productID)
+                    .executeUpdate();
+        }
+    }
 }
