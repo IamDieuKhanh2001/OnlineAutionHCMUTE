@@ -252,7 +252,8 @@ public class SellerProductServlet extends HttpServlet {
                 }
                 AuctionPermission auctionPermissionDeletedUser = new AuctionPermission(-1,productID,userHighestBiddingID,"block"); //Chặn người dùng này không cho đấu sp này nữa
                 AuctionPermissionModel.add(auctionPermissionDeletedUser);
-                ServletUtils.redirect("/Seller/Product/History?id=31",request,response);
+                String retUrl = "/Seller/Product/History?id=" + productID;
+                ServletUtils.redirect(retUrl,request,response);
                 break;
             }
 
