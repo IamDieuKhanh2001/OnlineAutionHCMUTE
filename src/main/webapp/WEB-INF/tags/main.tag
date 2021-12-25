@@ -34,7 +34,7 @@
 </div>
 <jsp:include page="../../views/partials/nav.jsp"/>
 
-<div class="container-fluid mt-2 mb-3">
+<div class="container-fluid">
     <%--search--%>
     <form method="post" action="${pageContext.request.contextPath}/Home/Search">
     <div class="container-fluid py-3 mt-2 bg-light">

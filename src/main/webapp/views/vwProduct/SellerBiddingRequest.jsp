@@ -65,6 +65,13 @@
                             </tbody>
                         </table>
             </div>
+            <div class="card-footer">
+                <a class="btn btn-outline-primary" href="${pageContext.request.contextPath}/Seller/Product/All"
+                   role="button">
+                    <i class="fa fa-backward" aria-hidden="true"></i>
+                    Back
+                </a>
+            </div>
         </div>
     </jsp:body>
 </t:main>

@@ -22,10 +22,11 @@ public class ProductHistoryModel {
         }
     }
 
-    public static ProductHistory findHighestPriceBiddingRecord() {
-        final String query = "SELECT * FROM product_history WHERE price_bidding = (SELECT MAX(price_bidding) FROM product_history);";
+    public static ProductHistory findHighestPriceBiddingRecord(int productID) {
+        final String query = "SELECT * FROM product_history WHERE price_bidding = (SELECT MAX(price_bidding) FROM product_history where product_id = :productID) and product_id = :productID;";
         try (Connection con = DbUtils.getConnection()) {
             List<ProductHistory> list = con.createQuery(query)
+                    .addParameter("productID", productID)
                     .executeAndFetch(ProductHistory.class);
             if (list.size() == 0) {
                 return null;

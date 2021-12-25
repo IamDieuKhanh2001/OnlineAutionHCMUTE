@@ -236,9 +236,12 @@ public class SellerProductServlet extends HttpServlet {
                 } catch (NumberFormatException e) {
                     ServletUtils.forward("/views/204.jsp", request, response);
                 }
+                System.out.println("Product id" + productID);
+                System.out.println("User highest" + userHighestBiddingID);
                 ProductHistoryModel.deleteByProductIdAndUserId(productID,userHighestBiddingID);   //Xoa lich su dau gia nguoi id user do
                 AuctionHistoryModel.deleteByProductIdAndUserId(productID,userHighestBiddingID);   //Xoa lich su dat gia cao nhat id user do
-                ProductHistory secondBiddingHistory = ProductHistoryModel.findHighestPriceBiddingRecord(); //Tìm người đấu giá cao thứ 2 và update thành người đấu giá cao nhất
+                ProductHistory secondBiddingHistory = ProductHistoryModel.findHighestPriceBiddingRecord(productID); //Tìm người đấu giá cao thứ 2 và update thành người đấu giá cao nhất
+                System.out.println(secondBiddingHistory);
                 if(secondBiddingHistory != null){
                     Product product = ProductModel.findById(secondBiddingHistory.getProduct_id());
                     product.setPrice_current(secondBiddingHistory.getPrice_bidding());

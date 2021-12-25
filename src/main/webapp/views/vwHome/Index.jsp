@@ -136,18 +136,18 @@
         <div class="card-body">
             <nav aria-label="Page navigation example">
                 <ul class="pagination">
-                    <li class="page-item"><a class="page-link" href="${pageContext.request.contextPath}/Home/Index?pagecurrent=${currentPage-1}">Previous</a></li>
+                    <li class="page-item"><a class="page-link text-dark" href="${pageContext.request.contextPath}/Home/Index?pagecurrent=${currentPage-1}">Previous</a></li>
                     <c:forEach begin="1" end="${endP}" var="i">
                         <c:choose>
                             <c:when test="${currentPage == i}">
-                                <li  class="page-item active"><a class="page-link" href="${pageContext.request.contextPath}/Home/Index?pagecurrent=${i}">${i}</a></li>
+                                <li  class="page-item active"><a class="page-link bg-dark" href="${pageContext.request.contextPath}/Home/Index?pagecurrent=${i}">${i}</a></li>
                             </c:when>
                             <c:otherwise>
-                                <li  class="page-item"><a class="page-link" href="${pageContext.request.contextPath}/Home/Index?pagecurrent=${i}">${i}</a></li>
+                                <li  class="page-item"><a class="page-link text-dark" href="${pageContext.request.contextPath}/Home/Index?pagecurrent=${i}">${i}</a></li>
                             </c:otherwise>
                         </c:choose>
                     </c:forEach>
-                    <li class="page-item"><a class="page-link" href="${pageContext.request.contextPath}/Home/Index?pagecurrent=${currentPage+1}">Next</a></li>
+                    <li class="page-item"><a class="page-link text-dark" href="${pageContext.request.contextPath}/Home/Index?pagecurrent=${currentPage+1}">Next</a></li>
                 </ul>
             </nav>
         </div>
