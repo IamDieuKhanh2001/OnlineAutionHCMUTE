@@ -167,6 +167,7 @@
                         <%--Recaptcha--%>
                     <div class="g-recaptcha"
                          data-sitekey="6LelZAsTAAAAAAv1ADYDnq8AzbmPmbMvjh-xhfgB"></div>
+                    <p class="card-text text-danger">${message}</p>
                 </div>
                 <div class="card-footer">
                     <a class="btn btn-outline-primary" href="${pageContext.request.contextPath}/Home"
