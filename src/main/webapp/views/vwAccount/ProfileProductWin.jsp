@@ -133,7 +133,13 @@
                                 <input type="text" class="form-control" id="product-name" readonly>
                             </div>
                             <div class="form-group">
-                                <label for="message-text" class="col-form-label">Message:</label>
+                                <input type="radio" id="like" name="radio_type" value="like" checked>
+                                <label for="like"><i class="fa fa-thumbs-o-up fa-2x" aria-hidden="true"></i></label>
+                                <input type="radio" id="dislike" name="radio_type" value="dislike" style="margin-left: 50px">
+                                <label for="dislike"><i class="fa fa-thumbs-o-down fa-2x" aria-hidden="true"></i></label>
+                            </div>
+                            <div class="form-group">
+                                <label for="message-text" class="col-form-label">Lời nhận xét:</label>
                                 <textarea class="form-control" id="message-text" name="message-text"></textarea>
                             </div>
                         </div>

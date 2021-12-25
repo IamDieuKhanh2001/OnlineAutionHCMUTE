@@ -37,8 +37,18 @@ public class AccountServlet extends HttpServlet {
             case "/Profile/":
             case "/Profile/Overview":
             case "/Profile/Overview/":
+            {
+                User userLogin = (User)session.getAttribute("authUser");
+                int likeEvaluation = EvaluationModel.countByStatus(userLogin, "like");
+                int dislikeEvaluation = EvaluationModel.countByStatus(userLogin, "dislike");
+                int totalEvaluation = likeEvaluation + dislikeEvaluation;
+                float percentLike = (likeEvaluation / totalEvaluation) * 100;
+                float percentDislike = (dislikeEvaluation / totalEvaluation) * 100;
+                request.setAttribute("percentLike", percentLike);
+                request.setAttribute("percentDislike", percentDislike);
                 ServletUtils.forward("/views/vwAccount/ProfileOverview.jsp", request, response);
                 break;
+            }
             case "/Profile/ConfirmEmail": {
                 String hash = request.getParameter("hash");
                 int userID = -1;
@@ -379,13 +389,13 @@ public class AccountServlet extends HttpServlet {
     private void evaluation(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
     {
         String URLCurrent = request.getParameter("URLCurrent");
-        System.out.println("value: " + URLCurrent);
 
         HttpSession session = request.getSession();
         User user = (User)session.getAttribute("authUser");
 
         int sellerID = Integer.parseInt(request.getParameter("seller-id"));
         int productID = Integer.parseInt(request.getParameter("product-id"));
+        String type = request.getParameter("radio_type");
         String message = request.getParameter("message-text");
 
         // Kiểm tra xem người này có phải là người thắng sản phẩm không
@@ -414,7 +424,7 @@ public class AccountServlet extends HttpServlet {
         evaluation.setAssessor(user.getId());
         evaluation.setUser_id(sellerID);
         evaluation.setProduct_id(productID);
-        evaluation.setType("like");
+        evaluation.setType(type);
         evaluation.setComment(message);
         EvaluationModel.add(evaluation);
 

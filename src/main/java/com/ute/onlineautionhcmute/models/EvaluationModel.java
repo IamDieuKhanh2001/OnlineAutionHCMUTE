@@ -2,8 +2,10 @@ package com.ute.onlineautionhcmute.models;
 
 import com.ute.onlineautionhcmute.beans.Evaluation;
 import com.ute.onlineautionhcmute.beans.Product;
+import com.ute.onlineautionhcmute.beans.User;
 import com.ute.onlineautionhcmute.utils.DbUtils;
 import org.sql2o.Connection;
+import org.sql2o.data.Table;
 
 import java.util.List;
 
@@ -66,6 +68,19 @@ public class EvaluationModel {
             if(list.size() == 0)
                 return null;
             return list.get(0);
+        }
+    }
+
+    public static int countByStatus(User user, String type)
+    {
+        final String query = "SELECT COUNT(`id`) AS `total` FROM `evaluation` WHERE `user_id` = :userID AND `type` = :type";
+        try (Connection connection = DbUtils.getConnection())
+        {
+            Table table = connection.createQuery(query)
+                    .addParameter("userID", user.getId())
+                    .addParameter("type", type)
+                    .executeAndFetchTable();
+            return table.rows().size();
         }
     }
 }
