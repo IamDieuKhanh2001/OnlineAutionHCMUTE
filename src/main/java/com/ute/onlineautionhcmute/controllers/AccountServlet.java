@@ -49,7 +49,7 @@ public class AccountServlet extends HttpServlet {
                 ServletUtils.forward("/views/vwAccount/ProfileOverview.jsp", request, response);
                 break;
             }
-            case "/Profile/ConfirmEmail": {
+            case "/ConfirmEmail": {
                 String hash = request.getParameter("hash");
                 int userID = -1;
                 try {
@@ -78,7 +78,7 @@ public class AccountServlet extends HttpServlet {
                     EmailConfirmModel.updateStatus(emailConfirm.getId(), "success");
                     UserModel.updateStatus(userID, "active");
                     ServletUtils.updateUserSession(request, response);
-                    request.setAttribute("URLRedirect", "/OnlineAutionHCMUTE/Account/Profile/ChangeEmail");
+                    request.setAttribute("URLRedirect", "/OnlineAutionHCMUTE/Account/Login");
                     request.setAttribute("title", "Thông báo");
                     request.setAttribute("message", "Chúc mừng bạn đã xác nhận email thành công!");
                     ServletUtils.forward("/views/NotificationRedirect.jsp", request, response);
@@ -647,7 +647,7 @@ public class AccountServlet extends HttpServlet {
             emailConfirm.setJson_data(obj.toJSONString());
             EmailConfirmModel.add(emailConfirm);
 
-            SendEmail.sendAsHtml(c.getEmail(),"Confirm email",EmailTemplate.TemplateConfirmNewEmail(emailConfirm,"http://localhost:8080/OnlineAutionHCMUTE/Account/Profile/ConfirmEmail?id="));
+            SendEmail.sendAsHtml(c.getEmail(),"Confirm email",EmailTemplate.TemplateConfirmNewEmail(emailConfirm,"http://localhost:8080/OnlineAutionHCMUTE/Account/ConfirmEmail?id="));
         }
         catch (Exception ex ){
 

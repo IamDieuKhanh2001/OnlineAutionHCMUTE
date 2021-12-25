@@ -48,8 +48,8 @@ public class EmailTemplate {
                 "                    </tr>\n" +
                 "                    <tr>\n" +
                 "                        <td style=\"text-align:center;\">\n" +
-                "                          <a href=\"https://rakeshmandal.com\" title=\"logo\" target=\"_blank\">\n" +
-                "                            <img width=\"60\" src=\"https://i.ibb.co/hL4XZp2/android-chrome-192x192.png\" title=\"logo\" alt=\"logo\">\n" +
+                "                          <a href=\"http://localhost:8080/OnlineAutionHCMUTE/Home/Index\" title=\"logo\" target=\"_blank\">\n" +
+                "                            <img width=\"600\" src=\"https://hcmute.edu.vn/Resources/Images/SubDomain/HomePage/Nut/logo-news.png\" title=\"logo\" alt=\"logo\">\n" +
                 "                          </a>\n" +
                 "                        </td>\n" +
                 "                    </tr>\n" +
@@ -137,8 +137,8 @@ public class EmailTemplate {
                 "                    </tr>\n" +
                 "                    <tr>\n" +
                 "                        <td style=\"text-align:center;\">\n" +
-                "                          <a href=\"https://rakeshmandal.com\" title=\"logo\" target=\"_blank\">\n" +
-                "                            <img width=\"60\" src=\"https://i.ibb.co/hL4XZp2/android-chrome-192x192.png\" title=\"logo\" alt=\"logo\">\n" +
+                "                          <a href=\"http://localhost:8080/OnlineAutionHCMUTE/Home/Index\" title=\"logo\" target=\"_blank\">\n" +
+                "                            <img width=\"600\" src=\"https://hcmute.edu.vn/Resources/Images/SubDomain/HomePage/Nut/logo-news.png\" title=\"logo\" alt=\"logo\">\n" +
                 "                          </a>\n" +
                 "                        </td>\n" +
                 "                    </tr>\n" +
@@ -219,8 +219,8 @@ public class EmailTemplate {
                 "                    </tr>\n" +
                 "                    <tr>\n" +
                 "                        <td style=\"text-align:center;\">\n" +
-                "                          <a href=\"https://rakeshmandal.com\" title=\"logo\" target=\"_blank\">\n" +
-                "                            <img width=\"60\" src=\"https://i.ibb.co/hL4XZp2/android-chrome-192x192.png\" title=\"logo\" alt=\"logo\">\n" +
+                "                          <a href=\"http://localhost:8080/OnlineAutionHCMUTE/Home/Index\" title=\"logo\" target=\"_blank\">\n" +
+                "                            <img width=\"600\" src=\"https://hcmute.edu.vn/Resources/Images/SubDomain/HomePage/Nut/logo-news.png\" title=\"logo\" alt=\"logo\">\n" +
                 "                          </a>\n" +
                 "                        </td>\n" +
                 "                    </tr>\n" +
