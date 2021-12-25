@@ -2,6 +2,8 @@ package com.ute.onlineautionhcmute.controllers;
 
 import com.ute.onlineautionhcmute.beans.*;
 import com.ute.onlineautionhcmute.models.*;
+import com.ute.onlineautionhcmute.utils.EmailTemplate;
+import com.ute.onlineautionhcmute.utils.SendEmail;
 import com.ute.onlineautionhcmute.utils.ServletUtils;
 
 import javax.servlet.*;
@@ -269,6 +271,33 @@ public class ProductFEServlet extends HttpServlet {
         if(isAvailableRequest == null){
             AuctionPermission auctionRequest = new AuctionPermission(-1,productID,userLogin.getId(),setStatus);
             AuctionPermissionModel.add(auctionRequest);
+
+            // Gửi mail thông báo đến người bán là có người yêu cầu đấu giá
+            Product product = ProductModel.findProductByID(productID); // Lấy thông tin sản phẩm đang yêu cầu đấu giá
+            Thread threadSendEmail = new Thread(()->{
+                try
+                {
+                    String productName = "";
+                    User userSeller = null;
+                    if(product != null)
+                    {
+                        productName = product.getName();
+                        userSeller = UserModel.findById(product.getUser_id()); // Lấy mail của người bán để nhận mail
+                    }
+                    if(userSeller == null)
+                        return;
+                    String emailSeller = userSeller.getEmail();
+
+                    String title = "Someone has requested to bid on your product";
+                    String contentMain = "You have received a request to bid for a product name: <h1><b>[name]</b></h1>";
+                    contentMain = contentMain.replace("[name]", productName);
+                    String content = EmailTemplate.TemplateNotification("Request a product auction", contentMain);
+                    SendEmail.sendAsHtml(emailSeller, title, content);
+                }
+                catch (Exception ex) { }
+            });
+            threadSendEmail.start();
+            //End Send Email
         }
         String retUrl = "/Product/Detail?id=" + productID;
         ServletUtils.redirect(retUrl,request,response);
@@ -327,6 +356,22 @@ public class ProductFEServlet extends HttpServlet {
             ProductHistory productHistory = new ProductHistory(-1,product.getId(),product.getPrice_current(),product.getUser_id_holding_price());
             ProductHistoryModel.add(productHistory);
             request.setAttribute("ResultMessage","Bạn đã đặt giá thành công cho sản phẩm!! vui lòng kiểm tra lịch sử đấu giá tại sản phẩm");
+
+            // Send Email đến người bán
+            User userSeller = UserModel.findById(product.getUser_id()); // Lấy thông tin người bán
+            Thread threadSendEmail = new Thread(()->{
+                try {
+                    String emailTo = userSeller.getEmail();
+                    String title = "Someone has placed a bid on your product";
+                    String contentMain = "Someone has placed a bid on your product: <h1><b>[name]</b></h1>";
+                    contentMain = contentMain.replace("[name]", product.getName());
+                    String content = EmailTemplate.TemplateNotification("Someone has bid", contentMain);
+                    SendEmail.sendAsHtml(emailTo, title, content);
+                } catch (Exception ex) {
+                }
+            });
+            threadSendEmail.start();
+            // End Send Email
         }
         else{                                                           // Nguoi thu 2 tro di dat
             AuctionHistory previousAuctionBidder = AuctionHistoryModel.findMaxDepositPrice(product);
@@ -355,6 +400,24 @@ public class ProductFEServlet extends HttpServlet {
                 ProductHistory HightestProductHistory = new ProductHistory(-1,product.getId(),product.getPrice_current(),product.getUser_id_holding_price());
                 ProductHistoryModel.add(HightestProductHistory);
                 request.setAttribute("ResultMessage","Bạn đã đặt giá thành công cho sản phẩm!! vui lòng kiểm tra lịch sử đấu giá tại sản phẩm");
+
+                // Send Email đến người giữa giá trước đó đã bị đặt giá cao hơn
+                User userHoldPricePrevious = UserModel.findById(previousAuctionBidder.getUser_id()); // Lấy thông tin người giữ giá trước đó
+                if(userHoldPricePrevious == null)
+                    return;
+                Thread threadSendEmail = new Thread(()->{
+                    try {
+                        String emailTo = userHoldPricePrevious.getEmail();
+                        String title = "Someone has outbid you";
+                        String contentMain = "Someone has outbid you for product: <h1><b>[name]</b></h1>";
+                        contentMain = contentMain.replace("[name]", product.getName());
+                        String content = EmailTemplate.TemplateNotification("Someone has outbid you", contentMain);
+                        SendEmail.sendAsHtml(emailTo, title, content);
+                    } catch (Exception ex) {
+                    }
+                });
+                threadSendEmail.start();
+                // End Send Email
             }
             else if(previousAuctionBidder.getDeposit_price() == currentAuctionPrice){
                 AuctionHistory productDeposit = new AuctionHistory(-1,product.getId(),userLogin.getId(),currentAuctionPrice);

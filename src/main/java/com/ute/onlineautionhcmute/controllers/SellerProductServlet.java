@@ -2,6 +2,8 @@ package com.ute.onlineautionhcmute.controllers;
 
 import com.ute.onlineautionhcmute.beans.*;
 import com.ute.onlineautionhcmute.models.*;
+import com.ute.onlineautionhcmute.utils.EmailTemplate;
+import com.ute.onlineautionhcmute.utils.SendEmail;
 import com.ute.onlineautionhcmute.utils.ServletUtils;
 
 import javax.servlet.*;
@@ -255,6 +257,25 @@ public class SellerProductServlet extends HttpServlet {
                 }
                 AuctionPermission auctionPermissionDeletedUser = new AuctionPermission(-1,productID,userHighestBiddingID,"block"); //Chặn người dùng này không cho đấu sp này nữa
                 AuctionPermissionModel.add(auctionPermissionDeletedUser);
+
+                //Gửi mail thông báo đến người bị từ chối
+                User userTop = UserModel.findById(userHighestBiddingID);
+                Product product = ProductModel.findProductByID(productID);
+                Thread threadSendEmail = new Thread(()->{
+                    try {
+                        String nameProduct = "Product";
+                        if(product != null)
+                            nameProduct = product.getName();
+                        String emailTitle = "You Have Been Banned From Bidding";
+                        String emailContent = EmailTemplate.TemplateNotification("You Have Been Banned From Bidding ", "You have been banned from bidding on the product <h1><b>"+ nameProduct +"</b></h1>");
+                        SendEmail.sendAsHtml(userTop.getEmail(), emailTitle, emailContent);
+                    } catch (Exception ex) {
+
+                    }
+                });
+                threadSendEmail.start();
+                // End SendEmail
+
                 String retUrl = "/Seller/Product/History?id=" + productID;
                 ServletUtils.redirect(retUrl,request,response);
                 break;
