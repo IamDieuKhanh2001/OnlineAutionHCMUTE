@@ -606,6 +606,7 @@ public class AccountServlet extends HttpServlet {
         // Verify CAPTCHA.
         boolean valid = VerifyUtils.verify(gRecaptchaResponse);
         if (!valid) {
+            request.setAttribute("message", "You haven't  checked ReCaptcha yet!");
             ServletUtils.forward("/views/vwAccount/Register2.jsp", request, response);
             return;
         }
@@ -651,7 +652,7 @@ public class AccountServlet extends HttpServlet {
         catch (Exception ex ){
 
         }
-        ServletUtils.forward("/views/vwAccount/Register2.jsp", request, response);
+        ServletUtils.redirect("/Account/Login",request,response);
     }
 
     private void login(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -663,7 +664,7 @@ public class AccountServlet extends HttpServlet {
             try {
                 if(user.getStatus().contains("inactive")){
                     request.setAttribute("hasError", true);
-                    request.setAttribute("errorMessage", "Invalid login.");
+                    request.setAttribute("errorMessage", "You haven't confirmed email yet!.");
                     ServletUtils.forward("/views/vwAccount/Login.jsp", request, response);
                 }
             } catch (Exception ex){
