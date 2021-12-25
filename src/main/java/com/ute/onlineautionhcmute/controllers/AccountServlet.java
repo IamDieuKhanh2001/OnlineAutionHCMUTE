@@ -466,11 +466,16 @@ public class AccountServlet extends HttpServlet {
                 emailConfirm.setHash(emailHash);
 
                 EmailConfirmModel.add(emailConfirm);
-                try {
-                    SendEmail.sendAsHtml(newEmail, "Please Confirm Your Email", EmailTemplate.TemplateConfirmNewEmail(emailConfirm,"http://localhost:8080/OnlineAutionHCMUTE/Account/Profile/ConfirmChangeEmail?id="));
-                } catch (Exception ex) {
 
-                }
+                // Gửi email xác nhận đến mail mới
+                Thread threadSendEmail = new Thread(()->{
+                    try {
+                        SendEmail.sendAsHtml(newEmail, "Please Confirm Your Email", EmailTemplate.TemplateConfirmNewEmail(emailConfirm,"http://localhost:8080/OnlineAutionHCMUTE/Account/Profile/ConfirmChangeEmail?id="));
+                    } catch (Exception ex) {
+                    }
+                });
+                threadSendEmail.start();
+
                 request.setAttribute("status", "success");
                 request.setAttribute("message", "Chúng tôi đã gửi email xác nhận đến email " + newEmail);
             }
@@ -524,10 +529,17 @@ public class AccountServlet extends HttpServlet {
             request.setAttribute("isExist", false);
         } else {
             request.setAttribute("isExist", true);
+
+            // Gửi mail reset password
             try {
                 String code = Common.getRandomNumberString();
                 AccountRecoveryModel.add(user, code);
-                SendEmail.sendAsHtml(email, "Reset Password Online Aution HCMUTE", EmailTemplate.TemplateRecoverAccount2(user, code));
+                Thread threadSendEmail = new Thread(()->{
+                    try {
+                        SendEmail.sendAsHtml(email, "Reset Password Online Aution HCMUTE", EmailTemplate.TemplateRecoverAccount2(user, code));
+                    } catch (Exception ex) {}
+                });
+                threadSendEmail.start();
             } catch (Exception ex) {
                 System.out.println(ex.getMessage());
             }
@@ -582,10 +594,13 @@ public class AccountServlet extends HttpServlet {
                 String newPasswordCrypt = BCrypt.withDefaults().hashToString(12, passwordNew.toCharArray());
                 UserModel.updatePasswordByID(user.getId(), newPasswordCrypt);
 
-                try
-                {
-                    SendEmail.sendAsHtml(user.getEmail(), "Password Has Been Changed",EmailTemplate.TemplateChangePasswordNotification(user));
-                } catch (Exception ex) {}
+                // Gửi email thông báo mật khẩu đã bị thay đổi
+                Thread threadSendEmail = new Thread(()->{
+                    try {
+                        SendEmail.sendAsHtml(user.getEmail(), "Password Has Been Changed",EmailTemplate.TemplateChangePasswordNotification(user));
+                    } catch (Exception ex) {}
+                });
+                threadSendEmail.start();
 
                 request.setAttribute("message", "Đổi mật khẩu thành công!");
                 ServletUtils.forward("/views/vwAccount/ProfileChangePassword.jsp", request, response);
@@ -647,7 +662,13 @@ public class AccountServlet extends HttpServlet {
             emailConfirm.setJson_data(obj.toJSONString());
             EmailConfirmModel.add(emailConfirm);
 
-            SendEmail.sendAsHtml(c.getEmail(),"Confirm email",EmailTemplate.TemplateConfirmNewEmail(emailConfirm,"http://localhost:8080/OnlineAutionHCMUTE/Account/ConfirmEmail?id="));
+            // Gửi email xác nhận đăng ký
+            Thread threadSendEmail = new Thread(()->{
+                try {
+                    SendEmail.sendAsHtml(c.getEmail(),"Confirm email",EmailTemplate.TemplateConfirmNewEmail(emailConfirm,"http://localhost:8080/OnlineAutionHCMUTE/Account/ConfirmEmail?id="));
+                } catch (Exception ex) {}
+            });
+            threadSendEmail.start();
         }
         catch (Exception ex ){
 
