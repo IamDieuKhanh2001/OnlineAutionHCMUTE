@@ -44,6 +44,7 @@
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownR" role="button"
                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <img src="${pageContext.request.contextPath}/public/img/Avatar/${authUser.id}/userAvatar.jpg" onerror="this.src='${pageContext.request.contextPath}/public/img/Avatar/user.jpg'" alt="userImg" class="rounded-circle" width="23" height="23">
                                 Hi, <b>${authUser.username}!</b>
                             </a>
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">

@@ -99,7 +99,7 @@
                             <div class="card-body">
                                 <div class="d-flex flex-column align-items-center text-center">
 <%--                                    https://bootdey.com/img/Content/avatar/avatar7.png--%>
-                                    <img src="${pageContext.request.contextPath}/public/img/Avatar/${authUser.id}/userAvatar.jpg" onerror="this.src='https://bootdey.com/img/Content/avatar/avatar7.png'" alt="${authUser.username}" class="rounded-circle" width="150" height="150">
+                                    <img src="${pageContext.request.contextPath}/public/img/Avatar/${authUser.id}/userAvatar.jpg" onerror="this.src='${pageContext.request.contextPath}/public/img/Avatar/user.jpg'" alt="${authUser.username}" class="rounded-circle" width="150" height="150">
                                     <div class="mt-3">
                                         <h4>${authUser.firstname} ${authUser.lastname}</h4>
                                         <p class="text-secondary mb-1">Dep trai Pro</p>
