@@ -157,7 +157,6 @@
         <div class="card">
             <h4 class="card-header bg-dark text-light">
                     ${product.name}
-                    ${allowBidding}
             </h4>
             <div class="card-body">
                     <%--                đổ data vào đây--%>

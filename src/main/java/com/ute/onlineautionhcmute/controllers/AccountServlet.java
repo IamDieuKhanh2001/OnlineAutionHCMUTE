@@ -13,17 +13,20 @@ import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.Console;
+import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.nio.charset.StandardCharsets;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
 
 @WebServlet(name = "AccountServlet", value = "/Account/*")
+@MultipartConfig(
+        fileSizeThreshold = 2 * 1024 * 1024,
+        maxFileSize = 50 * 1024 * 1024,
+        maxRequestSize = 50 * 1024 * 1024
+)
 public class AccountServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -379,7 +382,24 @@ public class AccountServlet extends HttpServlet {
             case "/ResetPassword":
                 resetPassword(request, response);
                 break;
-
+            case "/StoreAvatar":{
+                HttpSession session = request.getSession();
+                User userLogin = (User) session.getAttribute("authUser");
+                for (Part part : request.getParts()) { //Nhan hinh anh tu browse và lưu vào server
+                    if (part.getName().equals("avatar")) {
+                        String filename = "userAvatar.jpg";
+                        String targetDir = this.getServletContext().getRealPath("public/img/Avatar" + "/" + userLogin.getId());
+                        File dir = new File(targetDir);
+                        if (!dir.exists()) {
+                            dir.mkdir();
+                        }
+                        String destination = targetDir + "/" + filename;
+                        part.write(destination);
+                    }
+                }
+                ServletUtils.redirect("/Account/Profile/Overview",request,response);
+                break;
+            }
             default:
                 ServletUtils.forward("/views/404.jsp", request, response);
                 break;
