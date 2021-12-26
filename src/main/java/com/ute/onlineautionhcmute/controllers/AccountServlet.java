@@ -42,13 +42,34 @@ public class AccountServlet extends HttpServlet {
             case "/Profile/Overview/":
             {
                 User userLogin = (User)session.getAttribute("authUser");
-                int likeEvaluation = EvaluationModel.countByStatus(userLogin, "like");
-                int dislikeEvaluation = EvaluationModel.countByStatus(userLogin, "dislike");
-                int totalEvaluation = likeEvaluation + dislikeEvaluation;
-                float percentLike = (likeEvaluation / totalEvaluation) * 100;
-                float percentDislike = (dislikeEvaluation / totalEvaluation) * 100;
+
+                List<Evaluation.HistoryEvaluation> listEvaluationHistory = EvaluationModel.findAllEvaluationHistoryByUserID(userLogin.getId());
+
+                int totalEvaluation = listEvaluationHistory.size();
+                int likeEvaluation = 0;
+                int dislikeEvaluation = 0;
+
+                for(Evaluation.HistoryEvaluation history : listEvaluationHistory)
+                {
+                    if(history.getType().equals("like"))
+                        likeEvaluation++;
+                    else if(history.getType().equals("dislike"))
+                        dislikeEvaluation++;
+                }
+
+                float percentLike = 0;
+                float percentDislike = 0;
+                if(totalEvaluation != 0)
+                {
+                    percentLike = ((float) likeEvaluation / totalEvaluation) * 100;
+                    percentDislike = 100 - percentLike;
+                }
+
+                request.setAttribute("likeEvaluation", likeEvaluation);
+                request.setAttribute("dislikeEvaluation", dislikeEvaluation);
                 request.setAttribute("percentLike", percentLike);
                 request.setAttribute("percentDislike", percentDislike);
+                request.setAttribute("listEvaluationHistory", listEvaluationHistory);
                 ServletUtils.forward("/views/vwAccount/ProfileOverview.jsp", request, response);
                 break;
             }

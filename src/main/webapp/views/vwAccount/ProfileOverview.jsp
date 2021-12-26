@@ -12,6 +12,9 @@
 <jsp:useBean id="authUser" scope="session" type="com.ute.onlineautionhcmute.beans.User" />
 <jsp:useBean id="percentLike" scope="request" type="java.lang.Float" />
 <jsp:useBean id="percentDislike" scope="request" type="java.lang.Float" />
+<jsp:useBean id="likeEvaluation" scope="request" type="java.lang.Integer" />
+<jsp:useBean id="dislikeEvaluation" scope="request" type="java.lang.Integer" />
+<jsp:useBean id="listEvaluationHistory" scope="request" type="java.util.List<com.ute.onlineautionhcmute.beans.Evaluation.HistoryEvaluation>" />
 
 <t:profile>
     <jsp:attribute name="css">
@@ -102,8 +105,6 @@
                                     <img src="${pageContext.request.contextPath}/public/img/Avatar/${authUser.id}/userAvatar.jpg" onerror="this.src='${pageContext.request.contextPath}/public/img/Avatar/user.jpg'" alt="${authUser.username}" class="rounded-circle" width="150" height="150">
                                     <div class="mt-3">
                                         <h4>${authUser.firstname} ${authUser.lastname}</h4>
-                                        <p class="text-secondary mb-1">Dep trai Pro</p>
-                                        <p class="text-muted font-size-sm">${authUser.address}</p>
                                         <button class="btn btn-secondary" data-toggle="modal" data-target="#exampleModalCenter">
                                             <i class="fa fa-user-circle-o" aria-hidden="true"></i>
                                             Thay đổi ảnh đại diện
@@ -197,10 +198,35 @@
                             <div class="col-sm-6 mb-3">
                                 <div class="card h-100">
                                     <div class="card-body">
-                                        <h6 class="d-flex align-items-center mb-3"><i class="material-icons text-info mr-2">Thông số ${percentLike}</i></h6>
-                                        <small>Tỷ lệ Like</small>
+                                        <h6 class="d-flex align-items-center mb-3"><i class="material-icons text-info mr-2">Có ${likeEvaluation} lượt like</i></h6>
+                                        <small>Tỷ lệ Like <span class="text-danger">${percentLike}%</span></small>
                                         <div class="progress mb-3" style="height: 5px">
                                             <div class="progress-bar bg-primary" role="progressbar" style="width: ${percentLike}%" aria-valuenow="${percentLike}" aria-valuemin="0" aria-valuemax="100"></div>
+                                        </div>
+                                    </div>
+                                    <div class="card-body">
+                                        <p>
+                                            <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapse-like-history" aria-expanded="false" aria-controls="collapseExample">
+                                                View Like History
+                                            </button>
+                                        </p>
+                                        <div class="collapse" id="collapse-like-history">
+                                            <c:choose>
+                                                <c:when test="${listEvaluationHistory.size() == 0}">
+                                                    <div class="card card-body">
+                                                        Không có dữ liệu
+                                                    </div>
+                                                </c:when>
+                                                <c:otherwise>
+                                                    <c:forEach var="EvaluationHistory" items="${listEvaluationHistory}">
+                                                        <c:if test="${EvaluationHistory.type == \"like\"}">
+                                                            <div class="card card-body">
+                                                                <span class="text-danger">${EvaluationHistory.firstname_assessor} ${EvaluationHistory.lastname_assessor}: </span>${EvaluationHistory.comment}
+                                                            </div>
+                                                        </c:if>
+                                                    </c:forEach>
+                                                </c:otherwise>
+                                            </c:choose>
                                         </div>
                                     </div>
                                 </div>
@@ -208,10 +234,35 @@
                             <div class="col-sm-6 mb-3">
                                 <div class="card h-100">
                                     <div class="card-body">
-                                        <h6 class="d-flex align-items-center mb-3"><i class="material-icons text-info mr-2">Thông số</i></h6>
-                                        <small>Tỷ lệ Dislike</small>
+                                        <h6 class="d-flex align-items-center mb-3"><i class="material-icons text-info mr-2">Có ${dislikeEvaluation} lượt dislike</i></h6>
+                                        <small>Tỷ lệ Dislike <span class="text-danger">${percentDislike}%</span></small>
                                         <div class="progress mb-3" style="height: 5px">
                                             <div class="progress-bar bg-primary" role="progressbar" style="width: ${percentDislike}%" aria-valuenow="${percentDislike}" aria-valuemin="0" aria-valuemax="100"></div>
+                                        </div>
+                                    </div>
+                                    <div class="card-body">
+                                        <p>
+                                            <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapse-dislike-history" aria-expanded="false" aria-controls="collapseExample">
+                                                View Dislike History
+                                            </button>
+                                        </p>
+                                        <div class="collapse" id="collapse-dislike-history">
+                                            <c:choose>
+                                                <c:when test="${listEvaluationHistory.size() == 0}">
+                                                    <div class="card card-body">
+                                                        Không có dữ liệu
+                                                    </div>
+                                                </c:when>
+                                                <c:otherwise>
+                                                    <c:forEach var="EvaluationHistory" items="${listEvaluationHistory}">
+                                                        <c:if test="${EvaluationHistory.type == \"dislike\"}">
+                                                            <div class="card card-body">
+                                                                <span class="text-danger">${EvaluationHistory.firstname_assessor} ${EvaluationHistory.lastname_assessor}: </span>${EvaluationHistory.comment}
+                                                            </div>
+                                                        </c:if>
+                                                    </c:forEach>
+                                                </c:otherwise>
+                                            </c:choose>
                                         </div>
                                     </div>
                                 </div>

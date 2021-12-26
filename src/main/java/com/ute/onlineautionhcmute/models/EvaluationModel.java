@@ -20,6 +20,7 @@ public class EvaluationModel {
             return list;
         }
     }
+
     public static List<Evaluation> findLikeEvaluationByUserID(int userID) {
         final String query = "select * from evaluation where user_id = :userID and type = :type";
         try (Connection con = DbUtils.getConnection()) {
@@ -30,6 +31,18 @@ public class EvaluationModel {
             return list;
         }
     }
+
+    public static List<Evaluation> findDislikeEvaluationByUserID(int userID) {
+        final String query = "select * from evaluation where user_id = :userID and type = :type";
+        try (Connection con = DbUtils.getConnection()) {
+            List<Evaluation> list = con.createQuery(query)
+                    .addParameter("userID", userID)
+                    .addParameter("type", "dislike")
+                    .executeAndFetch(Evaluation.class);
+            return list;
+        }
+    }
+
     public static void add(Evaluation evaluation)
     {
         final String query = "INSERT INTO `evaluation` (`product_id` ,`assessor`, `user_id`, `type`, `comment`) VALUES (:productID, :assessor, :user_id, :type, :comment)";
@@ -71,16 +84,18 @@ public class EvaluationModel {
         }
     }
 
-    public static int countByStatus(User user, String type)
+    public static List<Evaluation.HistoryEvaluation> findAllEvaluationHistoryByUserID(int userID)
     {
-        final String query = "SELECT COUNT(`id`) AS `total` FROM `evaluation` WHERE `user_id` = :userID AND `type` = :type";
+        final String query = "SELECT `e`.`id`, `e`.`user_id`, `e`.`product_id`, `e`.`assessor`, `u`.`firstname` AS `firstname_assessor`, `u`.`lastname` AS `lastname_assessor`, `e`.`type`, `e`.`comment`, `e`.`create_time`\n" +
+                "FROM `evaluation` AS `e`, `users` AS `u`\n" +
+                "WHERE `e`.`assessor` = `u`.`id`\n" +
+                "AND `e`.`user_id` = :userID";
         try (Connection connection = DbUtils.getConnection())
         {
-            Table table = connection.createQuery(query)
-                    .addParameter("userID", user.getId())
-                    .addParameter("type", type)
-                    .executeAndFetchTable();
-            return table.rows().size();
+            List<Evaluation.HistoryEvaluation> list = connection.createQuery(query)
+                    .addParameter("userID", userID)
+                    .executeAndFetch(Evaluation.HistoryEvaluation.class);
+            return list;
         }
     }
 }

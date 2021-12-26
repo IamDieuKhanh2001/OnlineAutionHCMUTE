@@ -13,6 +13,8 @@
              type="java.util.List<com.ute.onlineautionhcmute.beans.Product>"/>
 <jsp:useBean id="sellerList" scope="request"
              type="java.util.List<com.ute.onlineautionhcmute.beans.User>"/>
+<jsp:useBean id="timeNow" class="java.util.Date" />
+
 <t:main>
     <jsp:attribute name="css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css">
@@ -84,7 +86,14 @@
                                              src="${pageContext.request.contextPath}/public/img/product/${c.id}/main.jpg"
                                              alt="${c.name}" title="${c.name}">
                                         <div class="card-body">
-                                            <h4 class="card-title text-success">${c.name}</h4>
+                                            <c:choose>
+                                                <c:when test="${(timeNow.time / 1000) - (c.create_time.time / 1000) <= 86400}">
+                                                    <h4 class="card-title text-success">${c.name} <span class="animate__animated animate__bounce bg-warning badge badge-secondary">New</span></h4>
+                                                </c:when>
+                                                <c:otherwise>
+                                                    <h4 class="card-title text-success">${c.name}</h4>
+                                                </c:otherwise>
+                                            </c:choose>
                                             <h5 class="card-title text-danger">
                                                 Giá hiện tại:
                                                 <fmt:formatNumber value="${c.price_current}" type="number"/>
