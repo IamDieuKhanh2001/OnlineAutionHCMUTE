@@ -94,6 +94,11 @@ public class HomeServlet extends HttpServlet {
                 break;
             }
 
+            case "/Search": {
+                CheckStateSearchGet(request,response);
+                break;
+            }
+
             default:{
                 ServletUtils.forward("/views/404.jsp",request,response);
                 break;
@@ -107,7 +112,7 @@ public class HomeServlet extends HttpServlet {
         String path = request.getPathInfo();
         switch (path) {
             case "/Search": {
-                CheckStateSearch(request,response);
+                CheckStateSearchPost(request,response);
                 break;
             }
             default: {
@@ -117,41 +122,190 @@ public class HomeServlet extends HttpServlet {
         }
     }
 
-    private void CheckStateSearch(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    private void CheckStateSearchPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         int sortrequest = Integer.parseInt(request.getParameter("sortrequest"));
-//        int sortcategory = Integer.parseInt(request.getParameter("category"));
         String search = request.getParameter("txtsearch");
+        int endPage;
+        int pagecurrent =1;
+        try {
+            pagecurrent = Integer.parseInt(request.getParameter("pagecurrent"));
+            if (pagecurrent <= 0)
+                pagecurrent =1;
+        }
+        catch (Exception ex){
+
+        }
+
+
         if(sortrequest == 1 && search != "" )
         {
             List<Product> c = ProductModel.fullTextSearchTime(search);
             request.setAttribute("products", c);
+            endPage = c.size() / 6;
+            if(c.size() % 6 != 0 ){
+                endPage++;
+            }
+            List<Product> list = ProductModel.findProductbyPagesFTSTime(search,pagecurrent);
+            request.setAttribute("products", list);
         }
         else if (sortrequest == 2 && search != "") {
             List<Product> c = ProductModel.fullTextSearchPrice(search);
             request.setAttribute("products", c);
+            endPage = c.size() / 6;
+            if(c.size() % 6 != 0 ){
+                endPage++;
+            }
+            List<Product> list = ProductModel.findProductbyPagesFTSPrice(search,pagecurrent);
+            request.setAttribute("products", list);
         }
         else if(sortrequest == 1 )
         {
             List<Product> c = ProductModel.findAllLowerTime();
             request.setAttribute("products", c);
+            endPage = c.size() / 6;
+            if(c.size() % 6 != 0 ){
+                endPage++;
+            }
+            List<Product> list = ProductModel.findProductbyPagesLowerTime(pagecurrent);
+            request.setAttribute("products", list);
         }
         else if(sortrequest == 2 )
         {
             List<Product> c = ProductModel.findAllHigherPrice();
             request.setAttribute("products", c);
+            endPage = c.size() / 6;
+            if(c.size() % 6 != 0 ){
+                endPage++;
+            }
+            List<Product> list = ProductModel.findProductbyPagesHigherPrice(pagecurrent);
+            request.setAttribute("products", list);
         }
         else if (search != "")
         {
             List<Product> c = ProductModel.fullTextSearch(search);
             request.setAttribute("products", c);
+            endPage = c.size() / 6;
+            if(c.size() % 6 != 0 ){
+                endPage++;
+            }
+            List<Product> list = ProductModel.findProductbyPagesFTS(pagecurrent);
+            request.setAttribute("products", list);
         }
         else{
             List<Product> c = ProductModel.findAll();
             request.setAttribute("products", c);
+            endPage = c.size() / 6;
+            if(c.size() % 6 != 0 ){
+                endPage++;
+            }
+            List<Product> list = ProductModel.findProductbyPages(pagecurrent);
+            request.setAttribute("products", list);
         }
 
-//        List<Category> categories = CategoryModel.findAll();
-//        request.setAttribute("category", categories);
+        request.setAttribute("endP",endPage);
+        List<User> sellerList = UserModel.findAll();
+        request.setAttribute("sellerList", sellerList);
+        List<ProductBiddingCount> list = ProductBiddingCountModel.findProductBiddingCount();
+        request.setAttribute("quantity",list);
+        request.setAttribute("txtsearch",search);
+        request.setAttribute("sortrequest",sortrequest);
+        request.setAttribute("currentPage",pagecurrent);
+        ServletUtils.forward("/views/vwHome/Search.jsp", request, response);
+    }
+    private void CheckStateSearchGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        int sortrequest = Integer.parseInt(request.getParameter("sortrequest"));
+        String search = request.getParameter("txtsearch");
+        int endPage;
+        int pagecurrent =1;
+        try {
+            pagecurrent = Integer.parseInt(request.getParameter("pagecurrent"));
+            if (pagecurrent <= 0)
+                pagecurrent =1;
+        }
+        catch (Exception ex){
+
+        }
+
+        if(sortrequest == 1 && search != "" )
+        {
+            List<Product> c = ProductModel.fullTextSearchTime(search);
+            request.setAttribute("products", c);
+            endPage = c.size() / 6;
+            if(c.size() % 6 != 0 ){
+                endPage++;
+            }
+            request.setAttribute("endP",endPage);
+            request.setAttribute("currentPage",pagecurrent);
+            List<Product> list = ProductModel.findProductbyPagesFTSTime(search,pagecurrent);
+            request.setAttribute("products", list);
+        }
+        else if (sortrequest == 2 && search != "") {
+            List<Product> c = ProductModel.fullTextSearchPrice(search);
+            request.setAttribute("products", c);
+            endPage = c.size() / 6;
+            if(c.size() % 6 != 0 ){
+                endPage++;
+            }
+            request.setAttribute("endP",endPage);
+            request.setAttribute("currentPage",pagecurrent);
+            List<Product> list = ProductModel.findProductbyPagesFTSPrice(search,pagecurrent);
+            request.setAttribute("products", list);
+        }
+        else if(sortrequest == 1 )
+        {
+            List<Product> c = ProductModel.findAllLowerTime();
+            request.setAttribute("products", c);
+            endPage = c.size() / 6;
+            if(c.size() % 6 != 0 ){
+                endPage++;
+            }
+            request.setAttribute("endP",endPage);
+            request.setAttribute("currentPage",pagecurrent);
+            List<Product> list = ProductModel.findProductbyPagesLowerTime(pagecurrent);
+            request.setAttribute("products", list);
+        }
+        else if(sortrequest == 2 )
+        {
+            List<Product> c = ProductModel.findAllHigherPrice();
+            request.setAttribute("products", c);
+            endPage = c.size() / 6;
+            if(c.size() % 6 != 0 ){
+                endPage++;
+            }
+            request.setAttribute("endP",endPage);
+            request.setAttribute("currentPage",pagecurrent);
+            List<Product> list = ProductModel.findProductbyPagesHigherPrice(pagecurrent);
+            request.setAttribute("products", list);
+        }
+        else if (search != "")
+        {
+            List<Product> c = ProductModel.fullTextSearch(search);
+            request.setAttribute("products", c);
+            endPage = c.size() / 6;
+            if(c.size() % 6 != 0 ){
+                endPage++;
+            }
+            request.setAttribute("endP",endPage);
+            request.setAttribute("currentPage",pagecurrent);
+            List<Product> list = ProductModel.findProductbyPagesFTS(pagecurrent);
+            request.setAttribute("products", list);
+        }
+        else{
+            List<Product> c = ProductModel.findAll();
+            request.setAttribute("products", c);
+            endPage = c.size() / 6;
+            if(c.size() % 6 != 0 ){
+                endPage++;
+            }
+            request.setAttribute("endP",endPage);
+            request.setAttribute("currentPage",pagecurrent);
+            List<Product> list = ProductModel.findProductbyPages(pagecurrent);
+            request.setAttribute("products", list);
+        }
+
+        request.setAttribute("txtsearch",search);
+        request.setAttribute("sortrequest",sortrequest);
+        request.setAttribute("currentPage",pagecurrent);
         List<User> sellerList = UserModel.findAll();
         request.setAttribute("sellerList", sellerList);
         List<ProductBiddingCount> list = ProductBiddingCountModel.findProductBiddingCount();

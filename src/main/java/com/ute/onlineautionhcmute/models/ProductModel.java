@@ -305,5 +305,81 @@ public class ProductModel {
             return list;
         }
     }
+
+    public static List<Product> findProductbyPagesFTSTime(String txtsearch,int pagecurrent)
+    {
+        int pagecur = pagecurrent*6 - 6; //begin
+        int pagecurend = 6;
+        final String query = "select * from products where name like :txtsearch order by end_time desc limit :pagecur,:pagecurend ";
+        try (Connection connection = DbUtils.getConnection())
+        {
+            List<Product> list = connection.createQuery(query)
+                    .addParameter("pagecur",pagecur)
+                    .addParameter("pagecurend",pagecurend)
+                    .addParameter("txtsearch", "%"+ txtsearch + "%")
+                    .executeAndFetch(Product.class);
+            return list;
+        }
+    }
+
+    public static List<Product> findProductbyPagesFTSPrice(String txtsearch,int pagecurrent)
+    {
+        int pagecur = pagecurrent*6 - 6; //begin
+        int pagecurend = 6;
+        final String query = "select * from products where name like :txtsearch order by price_current asc limit :pagecur,:pagecurend";
+        try (Connection connection = DbUtils.getConnection())
+        {
+            List<Product> list = connection.createQuery(query)
+                    .addParameter("pagecur",pagecur)
+                    .addParameter("pagecurend",pagecurend)
+                    .addParameter("txtsearch", "%"+ txtsearch + "%")
+                    .executeAndFetch(Product.class);
+            return list;
+        }
+    }
+
+    public static List<Product> findProductbyPagesLowerTime(int pagecurrent)
+    {
+        int pagecur = pagecurrent*6 - 6; //begin
+        int pagecurend = 6;
+        final String query = "select * from products order by end_time desc limit :pagecur,:pagecurend";
+        try (Connection connection = DbUtils.getConnection())
+        {
+            List<Product> list = connection.createQuery(query)
+                    .addParameter("pagecur",pagecur)
+                    .addParameter("pagecurend",pagecurend)
+                    .executeAndFetch(Product.class);
+            return list;
+        }
+    }
+    public static List<Product> findProductbyPagesHigherPrice(int pagecurrent)
+    {
+        int pagecur = pagecurrent*6 - 6; //begin
+        int pagecurend = 6;
+        final String query = "select * from products order by price_current asc limit :pagecur,:pagecurend";
+        try (Connection connection = DbUtils.getConnection())
+        {
+            List<Product> list = connection.createQuery(query)
+                    .addParameter("pagecur",pagecur)
+                    .addParameter("pagecurend",pagecurend)
+                    .executeAndFetch(Product.class);
+            return list;
+        }
+    }
+
+    public static List<Product> findProductbyPagesFTS(int pagecurrent)
+    {
+        int pagecur = pagecurrent*6 - 6; //begin
+        int pagecurend = 6;
+        final String query = "select * from products where name like :txtsearch limit :pagecur,:pagecurend";
+        try (Connection connection = DbUtils.getConnection())
+        {
+            List<Product> list = connection.createQuery(query)
+                    .addParameter("pagecur",pagecur)
+                    .addParameter("pagecurend",pagecurend)
+                    .executeAndFetch(Product.class);
+            return list;
+        }
+    }
 }
 
