@@ -14,6 +14,8 @@
 <jsp:useBean id="sellerList" scope="request"
              type="java.util.List<com.ute.onlineautionhcmute.beans.User>"/>
 <jsp:useBean id="timeNow" class="java.util.Date" />
+<jsp:useBean id="quantity" scope="request"
+             type="java.util.List<com.ute.onlineautionhcmute.beans.ProductBiddingCount>"/>
 
 <t:main>
     <jsp:attribute name="css">
@@ -108,6 +110,13 @@
                                             <p class="card-text">Giá mua ngay:
                                                 <fmt:formatNumber value="${c.price_buy_now}" type="number"/>
                                             </p>
+                                            <c:forEach items="${quantity}" var="bd">
+                                                <c:choose>
+                                                    <c:when test="${bd.product_id == c.id}">
+                                                        <p class="card-text">Số lượt đấu giá: ${bd.quantity}</p>
+                                                    </c:when>
+                                                </c:choose>
+                                            </c:forEach>
                                             <p class="card-text">Ngày đăng: ${c.create_time}</p>
                                             <p class="card-text">Thời hạn: ${c.end_time}</p>
                                         </div>

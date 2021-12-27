@@ -45,7 +45,8 @@ public class HomeServlet extends HttpServlet {
                 List<User> sellerList = UserModel.findAll();
                 request.setAttribute("sellerList", sellerList);
 
-                request.setAttribute("sellerList", sellerList);
+                List<ProductBiddingCount> list2 = ProductBiddingCountModel.findProductBiddingCount();
+                request.setAttribute("quantity",list2);
                 ServletUtils.forward("/views/vwHome/Index.jsp",request,response);
                 break;
             }

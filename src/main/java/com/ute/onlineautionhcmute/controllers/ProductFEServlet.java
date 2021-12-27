@@ -35,6 +35,8 @@ public class ProductFEServlet extends HttpServlet {
                 request.setAttribute("products", list);
                 List<User> sellerList = UserModel.findAll();
                 request.setAttribute("sellerList", sellerList);
+                List<ProductBiddingCount> list2 = ProductBiddingCountModel.findProductBiddingCount();
+                request.setAttribute("quantity",list2);
                 ServletUtils.forward("/views/vwProduct/ByProID.jsp", request, response);
                 break;
             }
