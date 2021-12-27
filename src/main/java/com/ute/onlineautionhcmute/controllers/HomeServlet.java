@@ -188,7 +188,7 @@ public class HomeServlet extends HttpServlet {
             if(c.size() % 6 != 0 ){
                 endPage++;
             }
-            List<Product> list = ProductModel.findProductbyPagesFTS(pagecurrent);
+            List<Product> list = ProductModel.findProductbyPagesFTS(search,pagecurrent);
             request.setAttribute("products", list);
         }
         else{
@@ -287,7 +287,7 @@ public class HomeServlet extends HttpServlet {
             }
             request.setAttribute("endP",endPage);
             request.setAttribute("currentPage",pagecurrent);
-            List<Product> list = ProductModel.findProductbyPagesFTS(pagecurrent);
+            List<Product> list = ProductModel.findProductbyPagesFTS(search,pagecurrent);
             request.setAttribute("products", list);
         }
         else{

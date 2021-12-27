@@ -367,7 +367,7 @@ public class ProductModel {
         }
     }
 
-    public static List<Product> findProductbyPagesFTS(int pagecurrent)
+    public static List<Product> findProductbyPagesFTS(String txtsearch,int pagecurrent)
     {
         int pagecur = pagecurrent*6 - 6; //begin
         int pagecurend = 6;
@@ -377,6 +377,7 @@ public class ProductModel {
             List<Product> list = connection.createQuery(query)
                     .addParameter("pagecur",pagecur)
                     .addParameter("pagecurend",pagecurend)
+                    .addParameter("txtsearch", "%"+ txtsearch + "%")
                     .executeAndFetch(Product.class);
             return list;
         }
