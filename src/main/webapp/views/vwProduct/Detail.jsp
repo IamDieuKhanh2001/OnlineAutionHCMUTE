@@ -425,6 +425,10 @@
                                             <br>
                                             Đặt cho bạn một giá trị cao nhất thích hợp mà bạn có thể chi trả
                                             <br>
+                                            Giá Khuyến nghị:
+                                            <fmt:formatNumber value="${product.price_current + product.price_step}" type="number"/>
+
+                                            <br>
                                             Cảm ơn bạn đã tham gia!!
                                         </p>
                                     </c:if>

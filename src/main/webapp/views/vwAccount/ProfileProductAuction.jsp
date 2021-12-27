@@ -39,7 +39,7 @@
                                 <c:forEach items="${listProductCard}" var="c">
                                     <div class="col-sm-4 mb-3">
                                         <div class="card h-100">
-                                            <img class="card-img-top" src="${pageContext.request.contextPath}/public/img/product/${c.id}/main.jpg" alt="${c.name}" title="${c.name}">
+                                            <img class="card-img-top" style="height: 222px" src="${pageContext.request.contextPath}/public/img/product/${c.id}/main.jpg" alt="${c.name}" title="${c.name}">
                                             <div class="card-body">
                                                 <h4 class="card-title text-success">${c.name}</h4>
                                                 <h5 class="card-title text-danger">
