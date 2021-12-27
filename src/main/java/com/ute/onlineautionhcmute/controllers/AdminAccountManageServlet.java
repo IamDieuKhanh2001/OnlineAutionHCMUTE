@@ -4,6 +4,8 @@ import at.favre.lib.crypto.bcrypt.BCrypt;
 import com.ute.onlineautionhcmute.beans.*;
 import com.ute.onlineautionhcmute.models.*;
 import com.ute.onlineautionhcmute.utils.ServletUtils;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
@@ -27,6 +29,72 @@ public class AdminAccountManageServlet extends HttpServlet {
         }
 
         switch (path) {
+            case "/ManageSeller":{
+                List<User> listUserSeller = UserModel.findAllByUserTypeID(2); // ID 2 la seller
+                request.setAttribute("listUserSeller", listUserSeller);
+                ServletUtils.forward("/views/vwAccount/ManageSeller.jsp", request, response);
+                break;
+            }
+            case "/ManageSeller/CheckProduct":{ // API kiểm tra xem người bán có những sản phẩm nào còn hạn , xem xét trước khi hạ cấp
+                PrintWriter out = response.getWriter();
+                response.setContentType("application/json");
+                response.setCharacterEncoding("utf-8");
+                JSONObject jsonObject = new JSONObject();
+
+                int sellerID = -1;
+                try{
+                    sellerID = Integer.parseInt(request.getParameter("sellerID"));
+                } catch (NumberFormatException ex) {
+                    jsonObject.put("status", "error");
+                    jsonObject.put("data", new JSONArray());
+                    out.print(jsonObject.toJSONString());
+                    break;
+                }
+
+                List<Product> listProductExpried = ProductModel.findProductPostExpired(sellerID);
+                if(listProductExpried.size() == 0)
+                {
+                    jsonObject.put("status", "success");
+                    jsonObject.put("data", new JSONArray());
+                    out.print(jsonObject.toJSONString());
+                    break;
+                }
+                jsonObject.put("status", "error");
+                JSONArray jsonArray = new JSONArray();
+                for(Product product : listProductExpried)
+                {
+                    JSONObject productJson = new JSONObject();
+                    productJson.put("name", product.getName());
+                    jsonArray.add(productJson);
+                }
+                jsonObject.put("data", jsonArray);
+                out.print(jsonObject.toJSONString());
+
+                break;
+            }
+
+            case "/ManageSeller/DownGrade": {
+                PrintWriter out = response.getWriter();
+                response.setContentType("application/json");
+                response.setCharacterEncoding("utf-8");
+                JSONObject jsonObject = new JSONObject();
+
+                int sellerID = -1;
+                try{
+                    sellerID = Integer.parseInt(request.getParameter("sellerID"));
+                } catch (NumberFormatException ex) {
+                    jsonObject.put("status", "error");
+                    out.print(jsonObject.toJSONString());
+                    break;
+                }
+                User userSeller = new User();
+                userSeller.setId(sellerID);
+                UserModel.updateUserTypeID(userSeller,3);
+                jsonObject.put("status", "success");
+                out.print(jsonObject.toJSONString());
+                break;
+            }
+
             case "/Manage": {
                 List<User> list = UserModel.findAll();          //Cach day viewModel ra view su dung set attribute
                 request.setAttribute("listUser", list);
@@ -93,7 +161,7 @@ public class AdminAccountManageServlet extends HttpServlet {
                     break;
                 }
                 String action = request.getParameter("action");
-                if(action.contains("accept"))
+                if(action.equals("accept"))
                 {
                     accountUpgrade.setStatus("success");
                     AccountUpgradeModel.update(accountUpgrade);
@@ -101,7 +169,7 @@ public class AdminAccountManageServlet extends HttpServlet {
                     user.setId(accountUpgrade.getUser_id());
                     UserModel.updateUserTypeID(user, 2);
                 }
-                else if(action.contains("reject"))
+                else if(action.equals("reject"))
                 {
                     accountUpgrade.setStatus("fail");
                     AccountUpgradeModel.update(accountUpgrade);

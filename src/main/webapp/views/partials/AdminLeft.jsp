@@ -9,27 +9,32 @@
         <%--        category adjust--%>
         <a href="${pageContext.request.contextPath}/Admin/Category/Index" type="button" class="btn btn-outline-secondary rounded-0 py-3">
             <i class="fa fa-pencil" aria-hidden="true"></i>
-            Category
+            Danh mục
         </a>
         <%--       produc type adjust--%>
         <a href="${pageContext.request.contextPath}/Admin/Product/Type/Index" type="button" class="btn btn-outline-secondary rounded-0 py-3">
             <i class="fa fa-pencil" aria-hidden="true"></i>
-            Product type
+            Loại sản phẩm
         </a>
-            <%--       account user adjust--%>
-            <a href="${pageContext.request.contextPath}/Admin/Account/Manage" type="button" class="btn btn-outline-secondary rounded-0 py-3">
-                <i class="fa fa-pencil" aria-hidden="true"></i>
-                User Account
-            </a>
-            <%--       account user upgrade adjust--%>
-            <a href="${pageContext.request.contextPath}/Admin/Account/Upgrade" type="button" class="text-danger btn btn-outline-secondary rounded-0 py-3">
-                <i class="fa fa-pencil" aria-hidden="true"></i>
-                Account Upgrade Request
-            </a>
-            <%--       product adjust--%>
-            <a href="${pageContext.request.contextPath}/Admin/Product/Index" type="button" class="btn btn-outline-secondary rounded-0 py-3">
-                <i class="fa fa-pencil" aria-hidden="true"></i>
-                Product remove
-            </a>
+        <%--       account user adjust--%>
+        <a href="${pageContext.request.contextPath}/Admin/Account/Manage" type="button" class="btn btn-outline-secondary rounded-0 py-3">
+            <i class="fa fa-pencil" aria-hidden="true"></i>
+            Người dùng
+        </a>
+        <%--       account user upgrade adjust--%>
+        <a href="${pageContext.request.contextPath}/Admin/Account/Upgrade" type="button" class="text-danger btn btn-outline-secondary rounded-0 py-3">
+            <i class="fa fa-pencil" aria-hidden="true"></i>
+            Danh sách yêu cầu Upgrade Seller
+        </a>
+        <%--       account user downgrade adjust--%>
+        <a href="${pageContext.request.contextPath}/Admin/Account/ManageSeller" type="button" class="text-danger btn btn-outline-secondary rounded-0 py-3">
+            <i class="fa fa-pencil" aria-hidden="true"></i>
+            Danh sách Seller
+        </a>
+        <%--       product adjust--%>
+        <a href="${pageContext.request.contextPath}/Admin/Product/Index" type="button" class="btn btn-outline-secondary rounded-0 py-3">
+            <i class="fa fa-pencil" aria-hidden="true"></i>
+            Xóa sản phẩm
+        </a>
     </div>
 </div>

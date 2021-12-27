@@ -145,14 +145,27 @@ public class UserModel {
         }
     }
 
+    public static List<User> findAllByUserTypeID(int userTypeID)
+    {
+        final String query = "SELECT * FROM `users` WHERE `user_type_id` = :userTypeID";
+        try (Connection connection = DbUtils.getConnection())
+        {
+            List<User> list =connection.createQuery(query)
+                    .addParameter("userTypeID", userTypeID)
+                    .executeAndFetch(User.class);
+            return list;
+        }
+    }
+
     public static void updateUserTypeID(User user, int newUserTypeID)
     {
-        final String query = "UPDATE `users` SET `user_type_id` = :newUserTypeID WHERE `id` = :id";
+        final String query = "UPDATE `users` SET `user_type_id` = :newUserTypeID, `modified_time` = :modifiedTime WHERE `id` = :id";
         try (Connection connection = DbUtils.getConnection())
         {
             connection.createQuery(query)
                     .addParameter("newUserTypeID", newUserTypeID)
                     .addParameter("id", user.getId())
+                    .addParameter("modifiedTime", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()))
                     .executeUpdate();
         }
     }
@@ -168,5 +181,4 @@ public class UserModel {
                     .executeUpdate();
         }
     }
-
 }
