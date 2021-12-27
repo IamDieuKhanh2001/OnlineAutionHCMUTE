@@ -11,6 +11,15 @@ public class ProductWithCard {
     private String lastname;
     private double price_buy_now;
     private Date create_time;
+    private int user_id_holding_price;
+
+    public int getUser_id_holding_price() {
+        return user_id_holding_price;
+    }
+
+    public void setUser_id_holding_price(int user_id_holding_price) {
+        this.user_id_holding_price = user_id_holding_price;
+    }
 
     public ProductWithCard(int id, String name, double price_current, String firstname, String lastname, double price_buy_now, Date create_time) {
         this.id = id;

@@ -185,7 +185,7 @@
                             <h3 class="product-title">${product.name}</h3>
                             <p class="product-description">
                                 <i class="fa fa-user" aria-hidden="true"></i>
-                                Người bán: ${seller.username}
+                                Người bán: <a href="${pageContext.request.contextPath}/Account/Profile/User?userid=${seller.id}">${seller.username}</a>
                             </p>
                             <c:choose>
                                 <c:when test="${userHighestBid.id == product.user_id_holding_price}">

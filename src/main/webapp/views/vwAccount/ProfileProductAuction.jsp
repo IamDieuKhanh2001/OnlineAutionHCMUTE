@@ -15,7 +15,7 @@
 
 <%--Lay Du Lieu Tu Controller--%>
 <jsp:useBean id="listProductCard" scope="request" type="java.util.List<com.ute.onlineautionhcmute.beans.ProductWithCard>" />
-
+<jsp:useBean id="authUser" scope="session" type="com.ute.onlineautionhcmute.beans.User" />
 <t:profile>
     <jsp:body>
         <div class="card">
@@ -41,7 +41,13 @@
                                         <div class="card h-100">
                                             <img class="card-img-top" style="height: 222px" src="${pageContext.request.contextPath}/public/img/product/${c.id}/main.jpg" alt="${c.name}" title="${c.name}">
                                             <div class="card-body">
-                                                <h4 class="card-title text-success">${c.name}</h4>
+
+                                                <h4 class="card-title text-success">${c.name}
+                                                    <c:if test="${c.user_id_holding_price == authUser.id }">
+                                                    <span class="badge badge-danger">Top Bidding</span>
+                                                    </c:if>
+                                                </h4>
+
                                                 <h5 class="card-title text-danger">
                                                     Giá hiện tại:
                                                     <fmt:formatNumber value="${c.price_current}" type="number"/>

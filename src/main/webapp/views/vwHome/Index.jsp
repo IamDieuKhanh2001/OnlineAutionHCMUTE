@@ -142,6 +142,7 @@
                     </div>
                 </c:otherwise>
             </c:choose>
+        </div>
         <div class="card-body">
             <nav aria-label="Page navigation example">
                 <ul class="pagination">

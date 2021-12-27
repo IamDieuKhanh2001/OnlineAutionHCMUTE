@@ -214,6 +214,7 @@ public class AccountServlet extends HttpServlet {
                         if(pwc != null)
                             listProductCard.add(pwc);
                     });
+
                     request.setAttribute("listProductCard", listProductCard);
                     ServletUtils.forward("/views/vwAccount/ProfileProductAuction.jsp", request, response);
                     break;
@@ -353,7 +354,47 @@ public class AccountServlet extends HttpServlet {
                 out2.flush();
                 break;
             }
+            case "/Profile/User":
+            {
+                int userId =1;
+                try {
+                    userId = Integer.parseInt(request.getParameter("userid"));
+                }
+                catch (Exception ex){
+                    ServletUtils.forward("/views/404.jsp", request, response);
+                }
+                List<Evaluation.HistoryEvaluation> listEvaluationHistory = EvaluationModel.findAllEvaluationHistoryByUserID(userId);
 
+                int totalEvaluation = listEvaluationHistory.size();
+                int likeEvaluation = 0;
+                int dislikeEvaluation = 0;
+
+                for(Evaluation.HistoryEvaluation history : listEvaluationHistory)
+                {
+                    if(history.getType().equals("like"))
+                        likeEvaluation++;
+                    else if(history.getType().equals("dislike"))
+                        dislikeEvaluation++;
+                }
+
+                float percentLike = 0;
+                float percentDislike = 0;
+                if(totalEvaluation != 0)
+                {
+                    percentLike = ((float) likeEvaluation / totalEvaluation) * 100;
+                    percentDislike = 100 - percentLike;
+                }
+
+                User user = UserModel.findById(userId);
+                request.setAttribute("likeEvaluation", likeEvaluation);
+                request.setAttribute("dislikeEvaluation", dislikeEvaluation);
+                request.setAttribute("percentLike", percentLike);
+                request.setAttribute("percentDislike", percentDislike);
+                request.setAttribute("listEvaluationHistory", listEvaluationHistory);
+                request.setAttribute("User",user);
+                ServletUtils.forward("/views/vwAccount/ProfileUser.jsp", request, response);
+                break;
+            }
             default:
             {
                 ServletUtils.forward("/views/404.jsp", request, response);

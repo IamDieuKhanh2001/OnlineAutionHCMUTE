@@ -35,6 +35,7 @@
                                 <th scope="col">Thời điểm</th>
                                 <th scope="col">Người đặt</th>
                                 <th scope="col">Giá</th>
+                                <th scope="col">Xem thông tin</th>
                                 <th scope="col">Cấm đấu giá</th>
                             </tr>
                             </thead>
@@ -64,6 +65,11 @@
                                     </c:forEach>
                                     <td>
                                         <fmt:formatNumber value="${c.price_bidding}" type="number"/>
+                                    </td>
+                                    <td>
+                                        <a  class="btn btn-primary" href="${pageContext.request.contextPath}/Account/Profile/User?userid=${c.user_id_holding}" role="button">
+                                            <i class="fa fa-eye" aria-hidden="true"></i>
+                                        </a>
                                     </td>
 <%--                                    Hiển thị nút xóa người đặt cao nhất trong bảng--%>
                                     <c:if test="${loop.index == 0}">
