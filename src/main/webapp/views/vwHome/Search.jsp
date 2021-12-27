@@ -115,7 +115,7 @@
                                             <c:forEach items="${quantity}" var="bd">
                                                 <c:choose>
                                                     <c:when test="${bd.product_id == c.id}">
-                                                        <p class="card-text">Số lượng đấu giá: ${bd.quantity}</p>
+                                                        <p class="card-text">Số lượt đấu giá: ${bd.quantity}</p>
                                                     </c:when>
                                                 </c:choose>
                                             </c:forEach>

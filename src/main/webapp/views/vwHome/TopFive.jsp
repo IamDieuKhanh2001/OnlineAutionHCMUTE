@@ -31,11 +31,11 @@
                         <div class="card h-100">
                             <img class="card-img" src="${pageContext.request.contextPath}/public/img/Home/TopFiveImg.png" />
                             <div class="card-body">
-                                <h4 class="card-title">Top 5 sản phẩm có giá mua ngay cao nhất</h4>
+                                <h4 class="card-title">Top 5 sản phẩm chưa kết thúc có giá cao nhất</h4>
 
                             </div>
                             <div class="card-footer text-muted">
-                                <a class="btn btn-outline-success" href="${pageContext.request.contextPath}/Home/Top5ProductPriceBuyNow" role="button">
+                                <a class="btn btn-outline-success" href="${pageContext.request.contextPath}/Home/Top5ProductPriceExpire" role="button">
                                     <i class="fa fa-eye" aria-hidden="true"></i>
                                     Xem ngay
                                 </a>
@@ -46,11 +46,11 @@
                         <div class="card h-100">
                             <img class="card-img" src="${pageContext.request.contextPath}/public/img/Home/TopFiveImg.png" />
                             <div class="card-body">
-                                <h4 class="card-title">Top 5 sản phẩm có giá hiện tại cao nhất</h4>
+                                <h4 class="card-title">Top 5 sản phẩm có nhiều lượt ra giá nhất</h4>
 
                             </div>
                             <div class="card-footer text-muted">
-                                <a class="btn btn-outline-success" href="${pageContext.request.contextPath}/Home/Top5ProductPrice" role="button">
+                                <a class="btn btn-outline-success" href="${pageContext.request.contextPath}/Home/Top5ProductPriceBidding" role="button">
                                     <i class="fa fa-eye" aria-hidden="true"></i>
                                     Xem ngay
                                 </a>

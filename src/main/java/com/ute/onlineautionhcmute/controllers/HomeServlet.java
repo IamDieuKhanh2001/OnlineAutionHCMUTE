@@ -55,12 +55,14 @@ public class HomeServlet extends HttpServlet {
             }
 
             case
-             "/Top5ProductPrice":{
-                List<Product> c = ProductModel.findTop5ProductPrice();
+             "/Top5ProductPriceExpire":{
+                List<Product> c = ProductModel.findTop5ProductPriceExpire();
                 request.setAttribute("products", c);
                 List<User> sellerList = UserModel.findAll();
                 request.setAttribute("sellerList", sellerList);
-                ServletUtils.forward("/views/vwHome/Top5ProductPrice.jsp",request,response);
+                List<ProductBiddingCount> list = ProductBiddingCountModel.findProductBiddingCount();
+                request.setAttribute("quantity",list);
+                ServletUtils.forward("/views/vwHome/Top5ProductPriceExpire.jsp",request,response);
                 break;
             }
 
@@ -69,16 +71,20 @@ public class HomeServlet extends HttpServlet {
                 request.setAttribute("products", c);
                 List<User> sellerList = UserModel.findAll();
                 request.setAttribute("sellerList", sellerList);
+                List<ProductBiddingCount> list = ProductBiddingCountModel.findProductBiddingCount();
+                request.setAttribute("quantity",list);
                 ServletUtils.forward("/views/vwHome/Top5ProductExpire.jsp",request,response);
                 break;
             }
 
-            case "/Top5ProductPriceBuyNow":{
-                List<Product> c = ProductModel.findTop5ProductBuyNow();
+            case "/Top5ProductPriceBidding":{
+                List<ProductBiddingCount2> c = ProductBiddingCount2Model.findTop5ProductBidding();
                 request.setAttribute("products", c);
                 List<User> sellerList = UserModel.findAll();
                 request.setAttribute("sellerList", sellerList);
-                ServletUtils.forward("/views/vwHome/Top5ProductPriceBuyNow.jsp",request,response);
+                List<ProductBiddingCount> list = ProductBiddingCountModel.findProductBiddingCount();
+                request.setAttribute("quantity",list);
+                ServletUtils.forward("/views/vwHome/Top5ProductBidding.jsp",request,response);
                 break;
             }
 

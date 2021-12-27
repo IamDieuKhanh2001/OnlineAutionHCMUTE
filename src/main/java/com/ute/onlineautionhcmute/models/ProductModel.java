@@ -188,9 +188,9 @@ public class ProductModel {
         }
     }
 
-    public static List<Product> findTop5ProductPrice()
+    public static List<Product> findTop5ProductPriceExpire()
     {
-        final String query = "SELECT  * FROM `products` order by `price_current` desc limit 0,5 ";
+        final String query = "select * from `products` where datediff(end_time,current_date) > 0 order by price_current desc limit 0,5 ";
         try (Connection connection = DbUtils.getConnection())
         {
             List<Product> list = connection.createQuery(query)
@@ -202,17 +202,6 @@ public class ProductModel {
     public static List<Product> findTop5ProductExpire()
     {
         final String query = "select * from `products` where datediff(end_time,current_date) > 0 order by end_time asc limit 0,5";
-        try (Connection connection = DbUtils.getConnection())
-        {
-            List<Product> list = connection.createQuery(query)
-                    .executeAndFetch(Product.class);
-            return list;
-        }
-    }
-
-    public static List<Product> findTop5ProductBuyNow()
-    {
-        final String query = "SELECT  * FROM `products` order by `price_buy_now` desc limit 0,5";
         try (Connection connection = DbUtils.getConnection())
         {
             List<Product> list = connection.createQuery(query)

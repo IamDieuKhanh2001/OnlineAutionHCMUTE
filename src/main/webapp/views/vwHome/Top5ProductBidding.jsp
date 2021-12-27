@@ -13,6 +13,8 @@
              type="java.util.List<com.ute.onlineautionhcmute.beans.Product>"/>
 <jsp:useBean id="sellerList" scope="request"
              type="java.util.List<com.ute.onlineautionhcmute.beans.User>"/>
+<jsp:useBean id="quantity" scope="request"
+             type="java.util.List<com.ute.onlineautionhcmute.beans.ProductBiddingCount>"/>
 <t:main>
     <jsp:attribute name="css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css">
@@ -66,7 +68,7 @@
     <jsp:body>
         <div class="card">
             <h4 class="card-header bg-dark text-light">
-                Top 5 Sản Phẩm Có Giá Mua Ngay Cao Nhất
+                Top 5 Sản Phẩm Có Nhiều Lượt Ra Giá Nhất
             </h4>
             <c:choose>
                 <c:when test="${products.size() == 0}">
@@ -96,9 +98,16 @@
                                                     </c:when>
                                                 </c:choose>
                                             </c:forEach>
-                                            <p class="card-text"><b>Giá mua ngay:
-                                                <fmt:formatNumber value="${c.price_buy_now}" type="number"/></b>
+                                            <p class="card-text">Giá mua ngay:
+                                                <fmt:formatNumber value="${c.price_buy_now}" type="number"/>
                                             </p>
+                                            <c:forEach items="${quantity}" var="bd">
+                                                <c:choose>
+                                                    <c:when test="${bd.product_id == c.id}">
+                                                        <p class="card-text"><b>Số lượt đấu giá: ${bd.quantity}</b></p>
+                                                    </c:when>
+                                                </c:choose>
+                                            </c:forEach>
                                             <p class="card-text">Ngày đăng: ${c.create_time}</p>
                                             <p class="card-text">Thời hạn: ${c.end_time}</p>
                                         </div>
