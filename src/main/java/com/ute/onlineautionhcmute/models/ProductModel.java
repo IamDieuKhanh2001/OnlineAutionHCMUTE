@@ -212,11 +212,22 @@ public class ProductModel {
 
     public static List<Product> findProductPostExpired(int userID)
     {
-        final String query = "select * from `products` where datediff(end_time,current_date) > 0 and `user_id` = :userID order by end_time asc";
+        final String query = "select * from `products` where end_time > NOW() and `user_id` = :userID order by end_time asc";
         try (Connection connection = DbUtils.getConnection())
         {
             List<Product> list = connection.createQuery(query)
                     .addParameter("userID", userID)
+                    .executeAndFetch(Product.class);
+            return list;
+        }
+    }
+
+    public static List<Product> findAllExpired()
+    {
+        final String query = "select * from `products` where end_time > NOW() order by end_time asc";
+        try (Connection connection = DbUtils.getConnection())
+        {
+            List<Product> list = connection.createQuery(query)
                     .executeAndFetch(Product.class);
             return list;
         }

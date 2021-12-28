@@ -61,6 +61,7 @@
                                 <th>Tên đăng nhập</th>
                                 <th>Loại người dùng</th>
                                 <th>Email</th>
+                                <th>Reset mật khẩu</th>
                                 <th>Xem thông tin</th>
                                 <th>Xóa</th>
                             </tr>
@@ -82,6 +83,13 @@
                                         </c:choose>
                                     </c:forEach>
                                     <td>${c.email}</td>
+                                    <td>
+                                        <a class="btn btn-primary"
+                                           href="${pageContext.request.contextPath}/Admin/Account/ResetPassword?id=${c.id}"
+                                           role="button">
+                                            <i class="fa fa-retweet" aria-hidden="true"></i>
+                                        </a>
+                                    </td>
                                     <td>
                                         <a class="btn btn-outline-secondary"
                                            href="${pageContext.request.contextPath}/Admin/Account/Profile?id=${c.id}"

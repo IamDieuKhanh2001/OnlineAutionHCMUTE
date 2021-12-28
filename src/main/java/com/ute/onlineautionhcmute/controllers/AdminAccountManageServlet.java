@@ -3,6 +3,8 @@ package com.ute.onlineautionhcmute.controllers;
 import at.favre.lib.crypto.bcrypt.BCrypt;
 import com.ute.onlineautionhcmute.beans.*;
 import com.ute.onlineautionhcmute.models.*;
+import com.ute.onlineautionhcmute.utils.EmailTemplate;
+import com.ute.onlineautionhcmute.utils.SendEmail;
 import com.ute.onlineautionhcmute.utils.ServletUtils;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -135,6 +137,8 @@ public class AdminAccountManageServlet extends HttpServlet {
                 try {
                     id = Integer.parseInt(request.getParameter("id"));
                 } catch (NumberFormatException e) {
+                    ServletUtils.forward("/views/204.jsp", request, response);
+                    break;
                 }
                 User c = UserModel.findById(id);
                 if (c != null) {
@@ -146,6 +150,26 @@ public class AdminAccountManageServlet extends HttpServlet {
                 }
                 break;
             }
+
+            case "/ResetPassword":{
+                int id = 0;
+                try {
+                    id = Integer.parseInt(request.getParameter("id"));
+                } catch (NumberFormatException e) {
+                    ServletUtils.forward("/views/204.jsp", request, response);
+                    break;
+                }
+                User c = UserModel.findById(id);
+                if (c != null) {
+                    User userFinded = UserModel.findById(id);
+                    request.setAttribute("user", userFinded);
+                    ServletUtils.forward("/views/vwAccount/AdminAccountResetPassword.jsp", request, response);
+                } else {
+                    ServletUtils.forward("/views/204.jsp", request, response);
+                }
+                break;
+            }
+
             case "/Upgrade": {
                 List<AccountUpgrade.UpgradeApply> listAccountApplyUpgrade = AccountUpgradeModel.getListUpgradeApplyByStatus("pending");
                 request.setAttribute("listAccountApplyUpgrade", listAccountApplyUpgrade);
@@ -231,11 +255,44 @@ public class AdminAccountManageServlet extends HttpServlet {
                 addUser(request, response);
                 break;
             }
+            case "/ResetPassword":
+            {
+                resetPassword(request, response);
+                break;
+            }
             default: {
                 ServletUtils.forward("/views/404.jsp", request, response);
                 break;
             }
         }
+    }
+
+    private void resetPassword(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
+    {
+        int userID = -1;
+        try
+        {
+            userID = Integer.parseInt(request.getParameter("userID"));
+        } catch (Exception ex)
+        {
+            ServletUtils.forward("/views/404.jsp", request, response);
+        }
+        String newPassword = request.getParameter("password_new");
+        String emailSent = request.getParameter("email_send");
+        String passwordHash = BCrypt.withDefaults().hashToString(12, newPassword.toCharArray());
+        UserModel.updatePasswordByID(userID, passwordHash);
+        Thread threadSendEmail = new Thread(()->{
+            try
+            {
+                String title = "Your password has been changed";
+                String mainContent = "Admin reset your password. Password is: <h1><b>" + newPassword + "</b></h1>";
+                SendEmail.sendAsHtml(emailSent, title, EmailTemplate.TemplateNotification("Password has been changed", mainContent));
+            }
+            catch (Exception ex) {}
+        });
+        threadSendEmail.start();
+
+        ServletUtils.redirect("/Admin/Account/Manage", request, response);
     }
 
     private void addUser(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
