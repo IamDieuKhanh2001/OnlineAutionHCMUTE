@@ -17,7 +17,7 @@
     <jsp:body>
         <div class="card">
             <h4 class="card-header d-flex justify-content-between bg-dark text-light">
-                User Account
+                Người dùng
                 <a class="btn btn-success" href="${pageContext.request.contextPath}/Admin/Account/Add" role="button">
                     Add account
                     <i class="fa fa-plus" aria-hidden="true"></i>

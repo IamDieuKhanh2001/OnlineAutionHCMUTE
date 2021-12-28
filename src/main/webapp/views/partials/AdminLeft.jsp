@@ -22,12 +22,12 @@
             Người dùng
         </a>
         <%--       account user upgrade adjust--%>
-        <a href="${pageContext.request.contextPath}/Admin/Account/Upgrade" type="button" class="text-danger btn btn-outline-secondary rounded-0 py-3">
+        <a href="${pageContext.request.contextPath}/Admin/Account/Upgrade" type="button" class="btn btn-outline-secondary rounded-0 py-3 text-truncate">
             <i class="fa fa-pencil" aria-hidden="true"></i>
             Danh sách yêu cầu Upgrade Seller
         </a>
         <%--       account user downgrade adjust--%>
-        <a href="${pageContext.request.contextPath}/Admin/Account/ManageSeller" type="button" class="text-danger btn btn-outline-secondary rounded-0 py-3">
+        <a href="${pageContext.request.contextPath}/Admin/Account/ManageSeller" type="button" class="btn btn-outline-secondary rounded-0 py-3">
             <i class="fa fa-pencil" aria-hidden="true"></i>
             Danh sách Seller
         </a>

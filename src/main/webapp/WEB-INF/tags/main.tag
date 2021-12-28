@@ -65,7 +65,9 @@
                     <jsp:include page="../../views/partials/SellerLeft.jsp"/>
                 </c:when>
             </c:choose>
-            <jsp:include page="../../views/partials/left.jsp"/>
+            <c:if test="${authUser.user_type_id != 1}">
+                <jsp:include page="../../views/partials/left.jsp"/>
+            </c:if>
         </div>
         <div class="col-10">
             <jsp:doBody/>

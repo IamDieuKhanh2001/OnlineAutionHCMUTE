@@ -15,7 +15,7 @@
     <jsp:body>
         <div class="card">
             <h4 class="card-header bg-dark text-light">
-                Account Upgrade
+                Danh sách yêu cầu Upgrade Seller
             </h4>
             <div class="card-body">
                 <h4 class="card-title">Danh sách tài khoản xin upgrade lên seller</h4>

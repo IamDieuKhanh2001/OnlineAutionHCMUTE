@@ -15,7 +15,7 @@
     <jsp:body>
         <div class="card">
             <h4 class="card-header d-flex justify-content-between bg-dark text-light">
-                Product remove
+                Xóa sản phẩm
             </h4>
             <div class="card-body">
                 <c:choose>

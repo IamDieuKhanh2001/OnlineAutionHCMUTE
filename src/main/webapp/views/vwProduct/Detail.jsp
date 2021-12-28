@@ -284,7 +284,7 @@
                                         </c:choose>
                                     </c:forEach>
                                     <td>
-                                            ${c.price_bidding}
+                                        <fmt:formatNumber value="${c.price_bidding}" type="number"/>
                                     </td>
                                 </tr>
                             </c:forEach>

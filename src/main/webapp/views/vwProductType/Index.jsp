@@ -17,7 +17,7 @@
     <jsp:body>
         <div class="card">
             <h4 class="card-header bg-dark text-light d-flex justify-content-between">
-                Product type
+                Loại sản phẩm
                 <a class="btn btn-success" href="${pageContext.request.contextPath}/Admin/Product/Type/Add"
                    role="button">
                     Add Product Type

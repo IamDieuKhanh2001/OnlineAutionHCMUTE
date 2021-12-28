@@ -19,7 +19,7 @@
     <jsp:body>
         <div class="card">
             <h4 class="card-header bg-dark text-light d-flex justify-content-between">
-                Category
+                Danh mục
                 <a class="btn btn-success" href="${pageContext.request.contextPath}/Admin/Category/Add" role="button">
                     Add Category
                     <i class="fa fa-plus" aria-hidden="true"></i>
