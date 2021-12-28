@@ -16,7 +16,12 @@
 <jsp:useBean id="timeNow" class="java.util.Date" />
 <jsp:useBean id="quantity" scope="request"
              type="java.util.List<com.ute.onlineautionhcmute.beans.ProductBiddingCount>"/>
-
+<jsp:useBean id="endP" scope="request"
+             type="java.lang.Integer"/>
+<jsp:useBean id="currentPage" scope="request"
+             type="java.lang.Integer"/>
+<jsp:useBean id="proID" scope="request"
+             type="java.lang.Integer"/>
 <t:main>
     <jsp:attribute name="css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css">
@@ -139,7 +144,24 @@
                     </div>
                 </c:otherwise>
             </c:choose>
-
+            <div class="card-body">
+                <nav aria-label="Page navigation example">
+                    <ul class="pagination">
+                        <li class="page-item"><a class="page-link text-dark" href="${pageContext.request.contextPath}/Home/Index?pagecurrent=${currentPage-1}">Previous</a></li>
+                        <c:forEach begin="1" end="${endP}" var="i">
+                            <c:choose>
+                                <c:when test="${currentPage == i}">
+                                    <li  class="page-item active"><a class="page-link bg-dark" href="${pageContext.request.contextPath}/Product/ByProID?id=${proID}&pagecurrent=${i}">${i}</a></li>
+                                </c:when>
+                                <c:otherwise>
+                                    <li  class="page-item"><a class="page-link text-dark" href="${pageContext.request.contextPath}/Product/ByProID?id=${proID}&pagecurrent=${i}">${i}</a></li>
+                                </c:otherwise>
+                            </c:choose>
+                        </c:forEach>
+                        <li class="page-item"><a class="page-link text-dark" href="${pageContext.request.contextPath}/Product/ByProID?id=${proID}&pagecurrent=${currentPage+1}">Next</a></li>
+                    </ul>
+                </nav>
+            </div>
         </div>
 
     </jsp:body>

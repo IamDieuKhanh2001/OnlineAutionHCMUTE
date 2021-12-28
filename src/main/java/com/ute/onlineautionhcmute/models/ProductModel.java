@@ -394,5 +394,20 @@ public class ProductModel {
         }
     }
 
+    public static List<Product> findProducTypeIdByPages(int productTypeID,int pagecurrent)
+    {
+        int pagecur = pagecurrent*6 - 6; //begin
+        int pagecurend = 6;
+        final String query = "SELECT * FROM `products` WHERE `product_type_id` = :productTypeID limit :pagecur,:pagecurend";
+        try (Connection connection = DbUtils.getConnection())
+        {
+            List<Product> list = connection.createQuery(query)
+                    .addParameter("pagecur",pagecur)
+                    .addParameter("pagecurend",pagecurend)
+                    .addParameter("productTypeID", productTypeID)
+                    .executeAndFetch(Product.class);
+            return list;
+        }
+    }
 }
 

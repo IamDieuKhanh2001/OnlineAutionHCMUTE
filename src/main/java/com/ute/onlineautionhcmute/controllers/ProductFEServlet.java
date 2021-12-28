@@ -31,10 +31,29 @@ public class ProductFEServlet extends HttpServlet {
                 } catch (NumberFormatException e) {
                     ServletUtils.forward("/views/204.jsp", request, response);
                 }
+                int pagecurrent =1;
+                try {
+                    pagecurrent = Integer.parseInt(request.getParameter("pagecurrent"));
+                    if (pagecurrent <= 0)
+                        pagecurrent =1;
+                }
+                catch (Exception ex){
+
+                }
+
                 List<Product> list = ProductModel.findAllProductByProductTypeID(proID);
                 request.setAttribute("products", list);
+                int endPage = list.size() / 6;
+                if(list.size() % 6 != 0 ){
+                    endPage++;
+                }
+                request.setAttribute("endP",endPage);
+                request.setAttribute("currentPage",pagecurrent);
+                List<Product> c = ProductModel.findProducTypeIdByPages(proID,pagecurrent);
+                request.setAttribute("products", c);
                 List<User> sellerList = UserModel.findAll();
                 request.setAttribute("sellerList", sellerList);
+                request.setAttribute("proID",proID);
                 List<ProductBiddingCount> list2 = ProductBiddingCountModel.findProductBiddingCount();
                 request.setAttribute("quantity",list2);
                 ServletUtils.forward("/views/vwProduct/ByProID.jsp", request, response);
