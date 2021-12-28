@@ -146,7 +146,9 @@
         <div class="card-body">
             <nav aria-label="Page navigation example">
                 <ul class="pagination">
+                    <c:if test="${currentPage > 1}">
                     <li class="page-item"><a class="page-link text-dark" href="${pageContext.request.contextPath}/Home/Index?pagecurrent=${currentPage-1}">Previous</a></li>
+                    </c:if>
                     <c:forEach begin="1" end="${endP}" var="i">
                         <c:choose>
                             <c:when test="${currentPage == i}">
@@ -157,7 +159,9 @@
                             </c:otherwise>
                         </c:choose>
                     </c:forEach>
+                    <c:if test="${currentPage < endP}">
                     <li class="page-item"><a class="page-link text-dark" href="${pageContext.request.contextPath}/Home/Index?pagecurrent=${currentPage+1}">Next</a></li>
+                    </c:if>
                 </ul>
             </nav>
         </div>
