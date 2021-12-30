@@ -11,8 +11,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
-@WebFilter(filterName = "AuthFilter")
-public class AuthFilter implements Filter {
+@WebFilter(filterName = "AuthFilterSeller")
+public class AuthFilterSeller implements Filter {
     public void init(FilterConfig config) throws ServletException {
     }
 
@@ -32,7 +32,7 @@ public class AuthFilter implements Filter {
             return;
         }
         else {
-            if (authUser.getUser_type_id() != 1) {
+            if (authUser.getUser_type_id() != 2) {
                 ServletUtils.forward("/views/404.jsp", request, (HttpServletResponse) res);
                 return;
             }

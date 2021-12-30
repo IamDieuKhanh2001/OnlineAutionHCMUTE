@@ -256,7 +256,7 @@ public class ProductFEServlet extends HttpServlet {
         String path = request.getPathInfo();
         HttpSession session = request.getSession();
         User userLogin = (User) session.getAttribute("authUser");
-
+        request.setCharacterEncoding("UTF-8");
         switch (path) {
             case "/Auction": {
                 if (!(boolean) session.getAttribute("auth")) {

@@ -6,11 +6,6 @@
         Seller
     </h4>
     <div class="list-group">
-        <%--            Dashboard--%>
-        <a href="${pageContext.request.contextPath}/Seller/Product/Dashboard" type="button" class="btn btn-outline-secondary rounded-0 py-3">
-            <i class="fa fa-dashboard" aria-hidden="true"></i>
-            Dashboard
-        </a>
         <%--        Đăng--%>
         <a href="${pageContext.request.contextPath}/Seller/Product/Add" type="button" class="btn btn-outline-secondary rounded-0 py-3">
             <i class="fa fa-plus" aria-hidden="true"></i>

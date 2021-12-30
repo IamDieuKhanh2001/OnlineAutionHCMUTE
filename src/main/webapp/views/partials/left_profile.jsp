@@ -27,7 +27,7 @@
         <a href="${pageContext.request.contextPath}/Account/Profile/WatchList" class="list-group-item list-group-item-action">Danh sách sản phẩm yêu thích</a>
         <a href="${pageContext.request.contextPath}/Account/Profile/ProductAuction" class="list-group-item list-group-item-action">Sản phẩm đang đấu giá</a>
         <a href="${pageContext.request.contextPath}/Account/Profile/ProductWin" class="list-group-item list-group-item-action">Sản phẩm đã thắng</a>
-    <c:if test="${authUser.user_type_id != 1}">
+    <c:if test="${authUser.user_type_id == 3}">
         <a href="${pageContext.request.contextPath}/Account/Profile/Upgrade" class="list-group-item list-group-item-action">Xin lên Seller</a>
     </c:if>
     </div>

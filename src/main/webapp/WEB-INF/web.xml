@@ -37,7 +37,7 @@
         <url-pattern>/Admin/*</url-pattern>
     </filter-mapping>
     <filter-mapping>
-        <filter-name>AuthFilter</filter-name>
+        <filter-name>AuthFilterSeller</filter-name>
         <url-pattern>/Seller/*</url-pattern>
     </filter-mapping>
 

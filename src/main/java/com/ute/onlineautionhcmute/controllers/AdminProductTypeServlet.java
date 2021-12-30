@@ -1,15 +1,20 @@
 package com.ute.onlineautionhcmute.controllers;
 
 import com.ute.onlineautionhcmute.beans.Category;
+import com.ute.onlineautionhcmute.beans.Product;
 import com.ute.onlineautionhcmute.beans.ProductType;
 import com.ute.onlineautionhcmute.models.CategoryModel;
+import com.ute.onlineautionhcmute.models.ProductModel;
 import com.ute.onlineautionhcmute.models.ProductTypeModel;
 import com.ute.onlineautionhcmute.utils.ServletUtils;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -43,8 +48,6 @@ public class AdminProductTypeServlet extends HttpServlet {
                 break;
             }
             case "/Edit": {
-
-
                 int id = 0;
                 try {
                     id = Integer.parseInt(request.getParameter("id"));
@@ -65,6 +68,42 @@ public class AdminProductTypeServlet extends HttpServlet {
                 }
                 break;
             }
+            case "/CheckProductTypeContainProduct": { // Kiểm loại sản phẩm này còn chứa những sản phẩm nào
+                PrintWriter out = response.getWriter();
+                response.setContentType("application/json");
+                response.setCharacterEncoding("utf-8");
+                JSONObject jsonObject = new JSONObject();
+
+                int productTypeID = -1;
+                try {
+                    productTypeID = Integer.parseInt(request.getParameter("productTypeID"));
+                } catch (Exception ex) {
+                    jsonObject.put("status", "error");
+                    jsonObject.put("data", new JSONArray());
+                    out.print(jsonObject.toJSONString());
+                    break;
+                }
+
+                List<Product> listProduct = ProductModel.findAllProductByProductTypeID(productTypeID);
+                if(listProduct.size() == 0)
+                {
+                    jsonObject.put("status", "success");
+                    jsonObject.put("data", new JSONArray());
+                    out.print(jsonObject.toJSONString());
+                    break;
+                }
+                jsonObject.put("status", "error");
+                JSONArray jsonArray = new JSONArray();
+                for(Product product : listProduct)
+                {
+                    JSONObject productJson = new JSONObject();
+                    productJson.put("name", product.getName());
+                    jsonArray.add(productJson);
+                }
+                jsonObject.put("data", jsonArray);
+                out.print(jsonObject.toJSONString());
+                break;
+            }
             default: {
                 ServletUtils.forward("/views/404.jsp", request, response);
                 break;
@@ -75,7 +114,7 @@ public class AdminProductTypeServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String path = request.getPathInfo();
-
+        request.setCharacterEncoding("UTF-8");
         switch (path) {
             case "/Add": {
                 addProductType(request, response);

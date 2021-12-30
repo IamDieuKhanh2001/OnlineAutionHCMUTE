@@ -1,16 +1,21 @@
 package com.ute.onlineautionhcmute.controllers;
 
 import com.ute.onlineautionhcmute.beans.Category;
+import com.ute.onlineautionhcmute.beans.Product;
 import com.ute.onlineautionhcmute.beans.ProductType;
 import com.ute.onlineautionhcmute.models.CategoryModel;
+import com.ute.onlineautionhcmute.models.ProductModel;
 import com.ute.onlineautionhcmute.models.ProductTypeModel;
 import com.ute.onlineautionhcmute.utils.ServletUtils;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
 
+import java.io.PrintWriter;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -58,6 +63,42 @@ public class AdminCategoryServlet extends HttpServlet {
                 }
                 break;
             }
+            case "/CheckCategoryContainProductType": { // Kiểm tra danh mục này còn chứa những loại sản phẩm nào
+                PrintWriter out = response.getWriter();
+                response.setContentType("application/json");
+                response.setCharacterEncoding("utf-8");
+                JSONObject jsonObject = new JSONObject();
+
+                int categoryID = -1;
+                try {
+                    categoryID = Integer.parseInt(request.getParameter("categoryID"));
+                } catch (Exception ex) {
+                    jsonObject.put("status", "error");
+                    jsonObject.put("data", new JSONArray());
+                    out.print(jsonObject.toJSONString());
+                    break;
+                }
+
+                List<ProductType> listProductType = ProductTypeModel.findProductTypeWithCategoryID(categoryID);
+                if(listProductType.size() == 0)
+                {
+                    jsonObject.put("status", "success");
+                    jsonObject.put("data", new JSONArray());
+                    out.print(jsonObject.toJSONString());
+                    break;
+                }
+                jsonObject.put("status", "error");
+                JSONArray jsonArray = new JSONArray();
+                for(ProductType productType : listProductType)
+                {
+                    JSONObject productJson = new JSONObject();
+                    productJson.put("name", productType.getName());
+                    jsonArray.add(productJson);
+                }
+                jsonObject.put("data", jsonArray);
+                out.print(jsonObject.toJSONString());
+                break;
+            }
             default: {
                 ServletUtils.forward("/views/404.jsp", request, response);
                 break;
@@ -68,7 +109,7 @@ public class AdminCategoryServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String path = request.getPathInfo();
-
+        request.setCharacterEncoding("UTF-8");
 
         switch (path) {
             case "/Add": {

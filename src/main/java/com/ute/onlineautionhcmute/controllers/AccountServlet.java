@@ -224,6 +224,12 @@ public class AccountServlet extends HttpServlet {
             case "/Profile/Upgrade":
             {
                 User userLogin = (User)session.getAttribute("authUser");
+                if(userLogin.getUser_type_id() != 3) // Không phải bidder thì out khỏi trang này
+                {
+                    ServletUtils.redirect("/Account/Profile/Overview", request, response);
+                    break;
+                }
+
                 List<AccountUpgrade> listHistory = AccountUpgradeModel.findAllByUser(userLogin);
                 request.setAttribute("listHistory", listHistory);
                 ServletUtils.forward("/views/vwAccount/ProfileUpgrade.jsp", request, response);
@@ -406,6 +412,7 @@ public class AccountServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String path = request.getPathInfo();
+        request.setCharacterEncoding("UTF-8");
         switch (path) {
 
             case "/Register2":
@@ -582,9 +589,10 @@ public class AccountServlet extends HttpServlet {
         String newPhone = request.getParameter("phone");
         String newAddress = request.getParameter("address");
         String newBirthdate = request.getParameter("birthdate");
+        System.out.println(newBirthdate);
 
         Date birthDateParsed;
-        SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
+        SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
         try {
             birthDateParsed = df.parse(newBirthdate);
         } catch (ParseException ex) {
@@ -699,7 +707,6 @@ public class AccountServlet extends HttpServlet {
     private void registerUser(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         String gRecaptchaResponse = request.getParameter("g-recaptcha-response");
-        System.out.println(gRecaptchaResponse);
         // Verify CAPTCHA.
         boolean valid = VerifyUtils.verify(gRecaptchaResponse);
         if (!valid) {
@@ -707,7 +714,6 @@ public class AccountServlet extends HttpServlet {
             ServletUtils.forward("/views/vwAccount/Register2.jsp", request, response);
             return;
         }
-
         String username = request.getParameter("username");
         String rawpwd = request.getParameter("rawpwd");
         String bcryptHashPassword = BCrypt.withDefaults().hashToString(12, rawpwd.toCharArray());
@@ -719,7 +725,7 @@ public class AccountServlet extends HttpServlet {
         String phone = request.getParameter("phone");
         int user_type_id = 3;
         Date birthDateParsed;
-        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
         try {
             birthDateParsed = df.parse(birthDate);
         } catch (ParseException ex) {
@@ -769,6 +775,7 @@ public class AccountServlet extends HttpServlet {
                     request.setAttribute("hasError", true);
                     request.setAttribute("errorMessage", "You haven't confirmed email yet!.");
                     ServletUtils.forward("/views/vwAccount/Login.jsp", request, response);
+                    return;
                 }
             } catch (Exception ex){
 

@@ -16,6 +16,7 @@
 
 <t:profile>
     <jsp:attribute name="js">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/5.5.2/bootbox.min.js"></script>
         <script>
             $('#form-change-password').on('submit', function (e) {
                 e.preventDefault();
@@ -23,17 +24,26 @@
                 const password2 = $('#password_new2').val();
                 if(password1 === "" || password2 === "")
                 {
-                    alert('Password is not empty');
+                    bootbox.alert({
+                        message: 'Password is not empty',
+                        size: 'large'
+                    });
                     return;
                 }
                 if(password1.length <= 5)
                 {
-                    alert('Password is min length 6');
+                    bootbox.alert({
+                        message: 'Password is min length 6',
+                        size: 'large'
+                    });
                     return;
                 }
                 if(password1 !== password2)
                 {
-                    alert('Password Not Match');
+                    bootbox.alert({
+                        message: 'Password Not Match',
+                        size: 'large'
+                    });
                     return;
                 }
                 $('#form-change-password').off('submit').submit();

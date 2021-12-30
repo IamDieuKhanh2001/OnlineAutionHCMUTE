@@ -21,6 +21,7 @@
               href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.css">
     </jsp:attribute>
     <jsp:attribute name="js">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/5.5.2/bootbox.min.js"></script>
 <%--        Sử dụng date time picker cho ô birthdate --%>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js"></script>
         <script src="../../public/js/ValidateUtils.js"></script>
@@ -30,42 +31,66 @@
             e.preventDefault();
             const username = $('#txtUsername').val();
             if(username.length === 0){
-                alert("Invalid username");
+                bootbox.alert({
+                    message: 'Invalid username',
+                    size: 'large'
+                });
                 return;
             }
             const rawpwd = $('#txtPassword').val();
             if(rawpwd.length === 0){
-                alert("Invalid Password");
+                bootbox.alert({
+                    message: 'Invalid Password',
+                    size: 'large'
+                });
                 return;
             }
             const firstname = $('#txtFirstName').val();
             if(firstname.length === 0){
-                alert("Invalid first name");
+                bootbox.alert({
+                    message: 'Invalid first name',
+                    size: 'large'
+                });
                 return;
             }
             const lastname = $('#txtLastName').val();
             if(lastname.length === 0){
-                alert("Invalid last name");
+                bootbox.alert({
+                    message: 'Invalid last name',
+                    size: 'large'
+                });
                 return;
             }
             const birthdate = $('#txtDOB').val();
             if(birthdate.length === 0){
-                alert("Invalid birthdate");
+                bootbox.alert({
+                    message: 'Invalid birthdate',
+                    size: 'large'
+                });
                 return;
             }
             const address = $('#txtAddress').val();
             if(address.length === 0){
-                alert("Invalid address");
+                bootbox.alert({
+                    message: 'Invalid address',
+                    size: 'large'
+                });
                 return;
             }
             const email = $('#txtEmail').val();
             if(email.length === 0 || !isEmail(email)){
-                alert("Invalid email");
+                bootbox.alert({
+                    message: 'Invalid email',
+                    size: 'large'
+                });
                 return;
             }
             const phone = $('#txtPhone').val();
             if(phone.length === 0){
-                alert("Invalid phone number");
+                bootbox.alert({
+                    message: 'Invalid phone number',
+                    size: 'large'
+                });
                 return;
             }
             //Kiem tra tai khoan username tồn tại không
@@ -73,7 +98,10 @@
                 if(data === true){//Tai khoan khong ton tai trong db, post
                     $('#frmAddAccount').off('submit').submit();
                 }else{
-                    alert("Username has been used!!")
+                    bootbox.alert({
+                        message: 'Username has been used!!!',
+                        size: 'large'
+                    });
                 }
             })
         });

@@ -142,7 +142,7 @@
                             Tên sản phẩm
                         </label>
                         <input name="productName" type="text" class="form-control" id="txtProductName"
-                               value="${product.name}" type="number"/>
+                               value="${product.name}" type="number" readonly/>
                     </div>
                     <div class="form-group">
                         <label for="txtPriceBuyNow">

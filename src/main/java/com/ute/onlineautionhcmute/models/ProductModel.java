@@ -224,7 +224,7 @@ public class ProductModel {
 
     public static List<Product> findAllExpired()
     {
-        final String query = "select * from `products` where end_time > NOW() order by end_time asc";
+        final String query = "select * from `products` where end_time < NOW() order by end_time asc";
         try (Connection connection = DbUtils.getConnection())
         {
             List<Product> list = connection.createQuery(query)

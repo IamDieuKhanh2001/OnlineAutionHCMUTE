@@ -60,7 +60,7 @@
                                 toastr["success"]("Đã thêm sản phẩm thành công!", "Action Success");
                                 return true;
                             } else {
-                                toastr["error"]("Thêm thất bại!", "Action Failure");
+                                toastr["error"]("Vui lòng đăng nhập để sử dụng chức năng này!", "Action Failure");
                                 return false;
                             }
                         });

@@ -56,6 +56,7 @@
     </div><!--/row-->
   </div>
 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/5.5.2/bootbox.min.js"></script>
   <script>
     $('#passwordForm').on('submit', function (e) {
       e.preventDefault();
@@ -65,12 +66,18 @@
 
       if(password1 === "" || password2 === "")
       {
-        alert('Password is not empty');
+        bootbox.alert({
+          message: 'Password is not empty',
+          size: 'large'
+        });
         return;
       }
       if(password1 != password2)
       {
-        alert('Password Not Match');
+        bootbox.alert({
+          message: 'Password Not Match',
+          size: 'large'
+        });
         return;
       }
 
@@ -80,7 +87,10 @@
               || $('#lcase').hasClass("glyphicon-remove")
               || $('#pwmatch').hasClass("glyphicon-remove"))
       {
-        alert('Password Validate Error');
+        bootbox.alert({
+          message: 'Password Validate Error',
+          size: 'large'
+        });
         return;
       }
 
